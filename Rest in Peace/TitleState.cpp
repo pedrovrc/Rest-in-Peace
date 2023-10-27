@@ -2,7 +2,7 @@
 #include "Sprite.h"
 #include "InputManager.h"
 #include "Game.h"
-#include "StageState.h"
+#include "CombatState.h"
 #include "Camera.h"
 #include "Text.h"
 
@@ -21,7 +21,7 @@ void TitleState::Update(float dt) {
 
 	if (input->KeyPress(SPACE_KEY)) {
 		Game& game = game.GetInstance();
-		State* state = (State*) new StageState();
+		State* state = (State*) new CombatState();
 		game.Push(state);
 	}
 }

@@ -10,10 +10,11 @@ using namespace std;
 #include "State.h"
 #include "InputManager.h"
 #include "GameData.h"
+#include "Player.h"
 
-#define GAME_TITLE "Pedro Victor Rodrigues de Carvalho 170113043"
-#define WINDOW_WIDTH 1024
-#define WINDOW_HEIGHT 600
+#define GAME_TITLE "Rest in Peace"
+#define WINDOW_WIDTH 1600
+#define WINDOW_HEIGHT 900
 
 /*
  * Classe Game
@@ -39,5 +40,6 @@ public:
 	static Game& GetInstance();
 	float GetDeltaTime();
 	GameData gameData;
+	Player& player;
 };
 #endif

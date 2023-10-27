@@ -1,11 +1,7 @@
 #include "StageState.h"
 #include "Vec2.h"
-#include "TileMap.h"
-#include "TileSet.h"
 #include "Camera.h"
 #include "CameraFollower.h"
-#include "Alien.h"
-#include "PenguinBody.h"
 #include "Collision.cpp"
 #include "GeneralFunctions.h"
 #include "Collider.h"
@@ -13,7 +9,6 @@
 #include "EndState.h"
 
 StageState::StageState() {
-	tileSet = nullptr;
 	quitRequested = false;
 	started = false;
 }
@@ -43,39 +38,15 @@ void StageState::LoadAssets() {
 	// abre musica
 	backgroundMusic.Open("audio/stageState.ogg");
 
-	// criação do mapa
-	GameObject* tileMapGO = new GameObject;
-	TileSet* tileSet = new TileSet(TILE_WIDTH, TILE_HEIGHT, "img/tileset.png", *tileMapGO);
-	Component* map = new TileMap(*tileMapGO, "map/tileMap.txt", tileSet);
-	tileMapGO->AddComponent(map);
-	tileMapGO->box.MoveThis(*new Vec2(0,0));
-	AddObject(tileMapGO);
-
 	// Adiciona Alien
-	AddAlien(*new Vec2(512,300));
-	AddAlien(*new Vec2(900,50));
-	AddAlien(*new Vec2(512,800));
-	AddAlien(*new Vec2(700,1000));
+	//AddAlien(*new Vec2(512,300));
+	//AddAlien(*new Vec2(900,50));
+//	AddAlien(*new Vec2(512,800));
+//	AddAlien(*new Vec2(700,1000));
 
 	// Adiciona Pinguim
-	AddPlayer(*new Vec2(704,640));
+//	AddPlayer(*new Vec2(704,640));
 
-}
-
-void StageState::AddAlien(Vec2 pos) {
-	GameObject* AlienGO = new GameObject;
-	Component* AlienCpt = new Alien(*AlienGO, 0, 0, RandomFloat(-5, 5));
-	AlienGO->AddComponent(AlienCpt);
-	AlienGO->box.MoveThis(pos);
-	AddObject(AlienGO);
-}
-
-void StageState::AddPlayer(Vec2 pos) {
-	GameObject* penguinGO = new GameObject;
-	AddObject(penguinGO);
-	PenguinBody* penguin = new PenguinBody(*penguinGO);
-	penguinGO->AddComponent((Component*)penguin);
-	penguinGO->box.MoveThis(pos);
 }
 
 /*

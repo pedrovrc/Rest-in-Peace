@@ -1,7 +1,6 @@
 #include "Sprite.h"
 #include "Game.h"
 #include "Resources.h"
-#include "Camera.h"
 
 /*
  * Sprite::Sprite()
@@ -98,8 +97,8 @@ void Sprite::SetScale(float scaleX, float scaleY) {
  * Chama o método de renderização com os parâmetros padrão de posição e tamanho (leva posição da câmera em consideração).
  */
 void Sprite::Render() {
-	Render( associated.box.x - Camera::pos.x,
-			associated.box.y - Camera::pos.y,
+	Render( associated.box.x,
+			associated.box.y,
 			associated.box.w,
 			associated.box.h );
 }

@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "Resources.h"
-#include "Camera.h"
 
 Game* Game::instance;
 
@@ -65,10 +64,10 @@ Game::Game(string title, int width, int height) {
 		cout << SDL_GetError() << endl;
 		return;
 	}
-
 	storedState = nullptr;
 	frameStart = 0;
 	dt = 0;
+	player = Player::GetInstance();
 }
 
 Game::~Game() {
