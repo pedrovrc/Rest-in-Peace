@@ -85,6 +85,11 @@ void Rect::RotateThis(float angle) {
 	this->angle = angle;
 }
 
+void Rect::ResizeThis(float ratio) {
+	this->w = this->w * ratio;
+	this->h = this->h * ratio;
+}
+
 /*
  * void Rect::SetCenterPosition(Vec2 vector)
  *

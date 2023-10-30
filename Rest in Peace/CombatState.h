@@ -4,6 +4,10 @@
 #include "State.h"
 #include "Music.h"
 
+#define AVATAR_POS_X 1273
+#define AVATAR_POS_Y 29
+#define AVATAR_SIZE 96
+
 class CombatState : public State {
 	Music combatMusic;
 

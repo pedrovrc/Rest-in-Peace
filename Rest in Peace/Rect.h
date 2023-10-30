@@ -28,6 +28,7 @@ public:
 	Vec2& GetDimensions();
 	void MoveThis(Vec2 vector);
 	void RotateThis(float angle);
+	void ResizeThis(float ratio);
 	void SetCenterPosition(Vec2 vector);
 	void SetPosition(Vec2 point);
 	void SetDimensions(float w, float h);

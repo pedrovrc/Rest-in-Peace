@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "TitleState.h"
+#include "CombatState.h"
 
 /*
  * 	main()
@@ -7,7 +8,7 @@
  */
 int main(int argc, char** argv) {
 	Game& game = game.GetInstance();
-	State* state = (State*) new TitleState();
+	State* state = (State*) new CombatState();
 	game.Push(state);
 	game.Run();
 	return 0;
