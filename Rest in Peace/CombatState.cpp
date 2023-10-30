@@ -36,6 +36,26 @@ void CombatState::LoadAssets() {
 	combatMusic.Open("audio/stageState.ogg");
 }
 
+void CombatState::LoadScreen() {
+
+}
+
+void CombatState::LoadAmbient(string type) {
+
+}
+
+void CombatState::LoadOpponent(string type) {
+
+}
+
+void CombatState::LoadPlayerProfile() {
+
+}
+
+void CombatState::LoadCombatAssets() {
+
+}
+
 void CombatState::Update(float dt) {
 
 }

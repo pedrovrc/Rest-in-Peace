@@ -40,6 +40,6 @@ public:
 	static Game& GetInstance();
 	float GetDeltaTime();
 	GameData gameData;
-	Player& player;
+	Player* player;
 };
 #endif

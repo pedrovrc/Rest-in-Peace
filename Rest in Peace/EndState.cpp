@@ -4,7 +4,6 @@
 #include "Music.h"
 #include "Text.h"
 #include "GameData.h"
-#include "Camera.h"
 
 EndState::EndState() {
 	quitRequested = false;
@@ -104,8 +103,7 @@ void EndState::Pause() {
 }
 
 void EndState::Resume() {
-	Camera::pos.x = 0;
-	Camera::pos.y = 0;
+
 }
 
 /*

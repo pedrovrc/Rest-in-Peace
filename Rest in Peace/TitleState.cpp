@@ -3,7 +3,6 @@
 #include "InputManager.h"
 #include "Game.h"
 #include "CombatState.h"
-#include "Camera.h"
 #include "Text.h"
 
 TitleState::TitleState() {
@@ -64,7 +63,7 @@ void TitleState::Pause() {
 }
 
 void TitleState::Resume() {
-	Camera::pos = *new Vec2(0,0);
+
 }
 
 weak_ptr<GameObject> TitleState::GetPlayerGO() {

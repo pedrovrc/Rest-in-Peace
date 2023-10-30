@@ -1,7 +1,7 @@
 #include "Collider.h"
 #include "GeneralFunctions.h"
-#include "Camera.h"
 #include "InputManager.h"
+#include "Game.h"
 
 Collider::Collider( GameObject& associated,
 			  	  	Vec2 scale,
@@ -36,17 +36,17 @@ void Collider::Render() {
 		SDL_Point points[5];
 
 		Vec2 point;
-		point = (Vec2(box.x, box.y) - center).GetRotated( associated.angleDeg/(180/M_PI) ) + center - Camera::pos;
+		point = (Vec2(box.x, box.y) - center).GetRotated( associated.angleDeg/(180/M_PI) ) + center;
 		points[0] = {(int)point.x, (int)point.y};
 		points[4] = {(int)point.x, (int)point.y};
 
-		point = (Vec2(box.x + box.w, box.y) - center).GetRotated( associated.angleDeg/(180/M_PI) ) + center - Camera::pos;
+		point = (Vec2(box.x + box.w, box.y) - center).GetRotated( associated.angleDeg/(180/M_PI) ) + center;
 		points[1] = {(int)point.x, (int)point.y};
 
-		point = (Vec2(box.x + box.w, box.y + box.h) - center).GetRotated( associated.angleDeg/(180/M_PI) ) + center - Camera::pos;
+		point = (Vec2(box.x + box.w, box.y + box.h) - center).GetRotated( associated.angleDeg/(180/M_PI) ) + center;
 		points[2] = {(int)point.x, (int)point.y};
 
-		point = (Vec2(box.x, box.y + box.h) - center).GetRotated( associated.angleDeg/(180/M_PI) ) + center - Camera::pos;
+		point = (Vec2(box.x, box.y + box.h) - center).GetRotated( associated.angleDeg/(180/M_PI) ) + center;
 		points[3] = {(int)point.x, (int)point.y};
 
 		SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);

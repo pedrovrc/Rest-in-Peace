@@ -1,6 +1,5 @@
 #include "Text.h"
 #include "Resources.h"
-#include "Camera.h"
 #include "Game.h"
 
 Text::Text( GameObject& associated,
@@ -46,8 +45,8 @@ void Text::Update(float dt) {
 void Text::Render() {
 	if (texture != nullptr) {
 		SDL_Rect dstRect;
-		dstRect.x = associated.box.x - Camera::pos.x;
-		dstRect.y = associated.box.y - Camera::pos.y;
+		dstRect.x = associated.box.x;
+		dstRect.y = associated.box.y;
 		dstRect.w = associated.box.w;
 		dstRect.h = associated.box.h;
 

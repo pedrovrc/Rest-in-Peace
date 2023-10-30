@@ -17,11 +17,11 @@ Player::~Player() {
 
 }
 
-Player& Player::GetInstance() {
+Player* Player::GetInstance() {
 	if (instance == nullptr) {
 		instance = new Player();
 	}
-		return *instance;
+		return instance;
 }
 
 int Player::GetHP() {

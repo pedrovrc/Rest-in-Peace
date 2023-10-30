@@ -26,7 +26,7 @@ class Player {
 public:
 	Player();
 	~Player();
-	static Player& GetInstance();
+	static Player* GetInstance();
 
 	int GetHP();
 	void TakeDamage(int dmg_amount);

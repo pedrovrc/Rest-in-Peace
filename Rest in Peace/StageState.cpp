@@ -1,12 +1,11 @@
 #include "StageState.h"
 #include "Vec2.h"
-#include "Camera.h"
-#include "CameraFollower.h"
 #include "Collision.cpp"
 #include "GeneralFunctions.h"
 #include "Collider.h"
 #include "Sprite.h"
 #include "EndState.h"
+#include "Game.h"
 
 StageState::StageState() {
 	quitRequested = false;
@@ -29,9 +28,7 @@ void StageState::LoadAssets() {
 	// cria GO ambient, atribui ele a Sprite do BG e ao CameraFollower
 	GameObject* ambient = new GameObject;
 	Component* bg = new Sprite(*ambient, "img/ocean.jpg", 1, 0);
-	Component* follower = new CameraFollower(*ambient);
 	ambient->AddComponent(bg);
-	ambient->AddComponent(follower);
 	ambient->box.MoveThis(*new Vec2(0,0));
 	AddObject(ambient);
 
@@ -78,7 +75,7 @@ void StageState::Start() {
 
 	// faz camera seguir player caso encontre-o
 	if (penguin != nullptr) {
-		Camera::Follow(penguin);
+	//	Camera::Follow(penguin);
 	} else {
 		cout << "Erro ao encontrar GameObject do Player" << endl;
 	}
@@ -118,11 +115,11 @@ void StageState::Update(float dt) {
 
 	// atualiza camera
 	if (input->KeyPress(Y_KEY)) {
-		if (Camera::following) Camera::Unfollow();
-		else Camera::Follow(penguin);
+		//if (Camera::following) Camera::Unfollow();
+		//else Camera::Follow(penguin);
 	}
 
-	Camera::Update(dt);
+	//Camera::Update(dt);
 
 	// atualiza GameObjects
 	UpdateArray(dt);
@@ -170,7 +167,7 @@ void StageState::Update(float dt) {
 	while (i < size) {
 		go = (GameObject*)objectArray[i].get();
 		if (go->IsDead()) {
-			if (go->GetComponent("PenguinBody") != nullptr) Camera::Unfollow();
+			//if (go->GetComponent("PenguinBody") != nullptr) Camera::Unfollow();
 			DeleteObject(go);
 			size--;
 		}
