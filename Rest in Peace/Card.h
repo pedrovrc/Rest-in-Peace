@@ -1,8 +1,25 @@
-#ifndef CARD_H_
-#define CARD_H_
+#ifndef CARD_H
+#define CARD_H
 
-class Card {
+#include "Component.h"
 
+enum classification {DAMAGE, HEALING, ARMOR};
+
+class Card : public Component {
+public:
+	Card(GameObject& associated, string str);
+	~Card();
+	int cost;
+	string name;
+	string flavor;
+	classification t;
+	int quantity;
+
+	void Update(float dt);
+	void Render();
+	void Start();
+	bool Is(string type);
+	void NotifyCollision(GameObject& other);
 };
 
 

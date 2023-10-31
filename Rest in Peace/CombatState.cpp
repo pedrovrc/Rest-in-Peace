@@ -33,19 +33,57 @@ void CombatState::LoadAssets() {
 
 void CombatState::LoadScreen() {
 	// Carrega imagem do fundo da tela
+	GameObject* screen = new GameObject;
+	Component* bg = new Sprite(*screen, "img/screens/combatscreen.png", 1, 0);
+	screen->AddComponent(bg);
+	screen->box.MoveThis(*new Vec2(0,0));
+	AddObject(screen);
+}
+
+void CombatState::LoadAmbient(string type) {
+	// Carrega ilustração do fundo da tela
 	GameObject* ambient = new GameObject;
-	Component* bg = new Sprite(*ambient, "img/screens/combatscreen.png", 1, 0);
+	Component* bg = new Sprite(*ambient, "img/living_room_crop.png", 1, 0);
 	ambient->AddComponent(bg);
 	ambient->box.MoveThis(*new Vec2(0,0));
 	AddObject(ambient);
 }
 
-void CombatState::LoadAmbient(string type) {
-
-}
-
 void CombatState::LoadOpponent(string type) {
+	// carrega sprite
+	GameObject* opponent = new GameObject;
+	Component* sprite = new Sprite(*opponent, "img/ghost.png", 1, 0);
+	opponent->AddComponent(sprite);
+	opponent->box.ResizeThis(0.4);
+	opponent->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,ILLUST_CENTER_Y));
+	AddObject(opponent);
 
+	// carrega texto
+	SDL_Color white;
+	white.r = 255;
+	white.g = 255;
+	white.b = 255;
+	white.a = 255;
+
+	GameObject* go_name = new GameObject();
+	Text* name = new Text(*go_name,
+						  "font/nk57-monospace-no-rg.otf", 30,
+						  Text::TextStyle::BLENDED,
+						  "Fantasma",
+						  white, 0);
+	go_name->AddComponent((Component*) name);
+	go_name->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,40));
+	AddObject(go_name);
+
+	GameObject* go_hpdata = new GameObject();
+	Text* hpdata = new Text(*go_hpdata,
+						  "font/nk57-monospace-no-rg.otf", 30,
+						  Text::TextStyle::BLENDED,
+						  "HP 20/20",
+						  white, 0);
+	go_hpdata->AddComponent((Component*) hpdata);
+	go_hpdata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,80));
+	AddObject(go_hpdata);
 }
 
 void CombatState::LoadPlayerProfile() {

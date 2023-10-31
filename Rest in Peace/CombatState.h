@@ -7,6 +7,10 @@
 #define AVATAR_POS_X 1273
 #define AVATAR_POS_Y 29
 #define AVATAR_SIZE 96
+#define ILLUST_CENTER_X 275
+#define ILLUST_CENTER_Y 450
+#define ILLUST_W 550
+#define ILLUST_H 900
 
 class CombatState : public State {
 	Music combatMusic;

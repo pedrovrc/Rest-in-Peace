@@ -1,9 +1,15 @@
-#ifndef DECK_H_
-#define DECK_H_
+#ifndef DECK_H
+#define DECK_H
 
 #include "Card.h"
 
 class Deck {
+	vector<GameObject*> list;
+
+public:
+	Deck();
+	virtual ~Deck();
+	GameObject* Draw();
 
 };
 
