@@ -14,12 +14,16 @@
 
 class CombatState : public State {
 	Music combatMusic;
+	vector<GameObject*> playerData;
 
 	void LoadScreen();
 	void LoadAmbient(string type);
 	void LoadOpponent(string type);
 	void LoadPlayerProfile();
 	void LoadCombatAssets();
+	void UpdatePlayerData();
+	void RenderPlayerData();
+
 public:
 	CombatState();
 	~CombatState();

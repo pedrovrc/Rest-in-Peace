@@ -11,6 +11,7 @@ using namespace std;
 #define PLAYER_MAX_HP 20
 #define PLAYER_MAX_AP 3
 #define PLAYER_MAX_SP 10
+#define PLAYER_HAND_SIZE 4
 
 class Player {
 	int hp;		// pontos de vida
@@ -18,6 +19,8 @@ class Player {
 	int sp;		// pontos de sanidade
 	int armor;	// pontos de armadura
 	Deck deck;
+	Deck discard;
+	vector<GameObject*> hand;
 	vector<Item> itemList;
 	vector<Buff> buffList;
 
@@ -43,6 +46,9 @@ public:
 	int GetArmor();
 	void GainArmor(int quantity);
 	void LoseArmor(int quantity);
+
+	void DrawHand(int quantity);
+	void RenderHand();
 
 	// metodos de deck
 

@@ -33,6 +33,14 @@ Card::Card(GameObject& associated, string str) : Component(associated)
     {
         this->t = ARMOR;
     }
+
+    // carrega imagem da carta
+    string filename = "img/cards/" + name + ".png";
+    //cout << "name: " << name << endl;
+    //cout << "filename: " << filename << endl;
+    Component* image = new Sprite(associated, filename, 1, 0);
+    associated.AddComponent(image);
+    associated.box.ResizeThis(0.3);
     //cout << name << '\t' << flavor << '\t' << cost << '\t' << t << '\t' << quantity << endl;
 }
 

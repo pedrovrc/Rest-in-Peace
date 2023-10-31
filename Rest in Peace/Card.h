@@ -2,6 +2,7 @@
 #define CARD_H
 
 #include "Component.h"
+#include "Sprite.h"
 
 enum classification {DAMAGE, HEALING, ARMOR};
 

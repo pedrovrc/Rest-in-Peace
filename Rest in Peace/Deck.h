@@ -4,13 +4,14 @@
 #include "Card.h"
 
 class Deck {
+public:
 	vector<GameObject*> list;
 
-public:
 	Deck();
 	virtual ~Deck();
-	GameObject* Draw();
-
+	GameObject* DrawOne();
+	void AddCard();
+	void RemoveCard();
 };
 
 
