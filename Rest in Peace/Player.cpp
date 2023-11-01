@@ -15,7 +15,7 @@ Player::Player() {
 	// carrega deck inicial
 	ifstream decklist;
 	//cout << "opening deck..." << endl;
-	decklist.open("card_info/deck.txt", ifstream::in);
+	decklist.open("card_info/workingdeck.txt", ifstream::in);
 
 	bool flag = true; // GAMBIARRA PARA FAZER UMA CARTA MAIOR
 

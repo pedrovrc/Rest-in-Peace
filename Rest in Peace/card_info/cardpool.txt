@@ -1,3 +1,3 @@
-[Holy bomb] {Throws a bomb with sacred propreties dealing 4 damage} <1 damage 4>
-[Powerful pray] {Pray to God to close your physical and spiritual wounds} <1 heal 4>
-[Michael's blessing] {Archangel Michael blesses your soul, giving you armor} <1 armor 4>
+[Holy bomb] {Throws a bomb with sacred properties dealing 4 damage.} <1 damage 4>
+[Powerful pray] {Pray to close your physical and spiritual wounds. Heal 4 HP.} <1 heal 4>
+[Michael's blessing] {Archangel Michael blesses your soul, giving you 2 armor.} <1 armor 4>

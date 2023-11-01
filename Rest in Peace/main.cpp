@@ -8,7 +8,7 @@
  */
 int main(int argc, char** argv) {
 	Game& game = game.GetInstance();
-	State* state = (State*) new CombatState();
+	State* state = (State*) new TitleState();
 	game.Push(state);
 	game.Run();
 	return 0;

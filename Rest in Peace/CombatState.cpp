@@ -218,7 +218,7 @@ void CombatState::Update(float dt) {
 	UpdateArray(dt);
 
 	InputManager* input = &(InputManager::GetInstance());
-	quitRequested = input->QuitRequested();
+	popRequested = input->QuitRequested();
 
 	Player* player = Player::GetInstance();
 	if (input->KeyPress(SPACE_KEY)) {
