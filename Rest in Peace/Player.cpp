@@ -16,6 +16,9 @@ Player::Player() {
 	ifstream decklist;
 	//cout << "opening deck..." << endl;
 	decklist.open("card_info/deck.txt", ifstream::in);
+
+	bool flag = true; // GAMBIARRA PARA FAZER UMA CARTA MAIOR
+
 	if(decklist.is_open())
 	{
 		cout << "deck opened!" << endl;
@@ -28,6 +31,12 @@ Player::Player() {
 			go_card = new GameObject();
 			Component* card = (Component*) new Card(*go_card, effect);
 			go_card->AddComponent(card);
+
+			// GAMBIARRA PARA FAZER UMA CARTA MAIOR
+			if (flag) {
+				flag = false;
+				go_card->box.ResizeThis(1.3);
+			}
 
 			deck.list.emplace_back(go_card);
 		}

@@ -17,7 +17,7 @@ Deck::~Deck()
 
 GameObject* Deck::DrawOne()
 {
-    cout << "Draw!" << endl;
+    //cout << "Draw!" << endl;
     GameObject* go_card = list.back();
     list.pop_back();
     return go_card;
