@@ -40,7 +40,7 @@ Card::Card(GameObject& associated, string str) : Component(associated)
     //cout << "filename: " << filename << endl;
     Component* image = new Sprite(associated, filename, 1, 0);
     associated.AddComponent(image);
-    associated.box.ResizeThis(0.3);
+    associated.box.SetDimensions(SMALL_CARD_W, SMALL_CARD_H);
     //cout << name << '\t' << flavor << '\t' << cost << '\t' << t << '\t' << quantity << endl;
 }
 

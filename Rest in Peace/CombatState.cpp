@@ -53,9 +53,8 @@ void CombatState::LoadAmbient(string type) {
 void CombatState::LoadOpponent(string type) {
 	// carrega sprite
 	GameObject* opponent = new GameObject;
-	Component* sprite = new Sprite(*opponent, "img/ghost.png", 1, 0);
+	Component* sprite = new Sprite(*opponent, "img/enemies/diabrete.png", 1, 0);
 	opponent->AddComponent(sprite);
-	opponent->box.ResizeThis(0.4);
 	opponent->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,ILLUST_CENTER_Y));
 	AddObject(opponent);
 
@@ -70,7 +69,7 @@ void CombatState::LoadOpponent(string type) {
 	Text* name = new Text(*go_name,
 						  "font/nk57-monospace-no-rg.otf", 30,
 						  Text::TextStyle::BLENDED,
-						  "Fantasma",
+						  "Diabrete",
 						  white, 0);
 	go_name->AddComponent((Component*) name);
 	go_name->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,40));
@@ -140,35 +139,6 @@ void CombatState::LoadPlayerProfile() {
 
 void CombatState::LoadCombatAssets() {
 	Player::GetInstance()->DrawHand(PLAYER_HAND_SIZE);
-
-	// carrega sprite das cartas
-//	GameObject* go_card1 = new GameObject;
-//	Component* card1 = new Sprite(*go_card1, "img/cards/base.png", 1, 0);
-//	go_card1->AddComponent(card1);
-//	go_card1->box.MoveThis(*new Vec2(600,350));
-//	go_card1->box.ResizeThis(0.3);
-//	AddObject(go_card1);
-//
-//	GameObject* go_card2 = new GameObject;
-//	Component* card2 = new Sprite(*go_card2, "img/cards/base.png", 1, 0);
-//	go_card2->AddComponent(card2);
-//	go_card2->box.MoveThis(*new Vec2(750,350));
-//	go_card2->box.ResizeThis(0.3);
-//	AddObject(go_card2);
-//
-//	GameObject* go_card3 = new GameObject;
-//	Component* card3 = new Sprite(*go_card3, "img/cards/base.png", 1, 0);
-//	go_card3->AddComponent(card3);
-//	go_card3->box.MoveThis(*new Vec2(900,350));
-//	go_card3->box.ResizeThis(0.3);
-//	AddObject(go_card3);
-//
-//	GameObject* go_card4 = new GameObject;
-//	Component* card4 = new Sprite(*go_card4, "img/cards/base.png", 1, 0);
-//	go_card4->AddComponent(card4);
-//	go_card4->box.MoveThis(*new Vec2(1050,350));
-//	go_card4->box.ResizeThis(0.3);
-//	AddObject(go_card4);
 }
 
 void CombatState::UpdatePlayerData() {

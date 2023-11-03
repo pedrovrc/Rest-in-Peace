@@ -17,8 +17,6 @@ Player::Player() {
 	//cout << "opening deck..." << endl;
 	decklist.open("card_info/workingdeck.txt", ifstream::in);
 
-	bool flag = true; // GAMBIARRA PARA FAZER UMA CARTA MAIOR
-
 	if(decklist.is_open())
 	{
 		cout << "deck opened!" << endl;
@@ -31,13 +29,6 @@ Player::Player() {
 			go_card = new GameObject();
 			Component* card = (Component*) new Card(*go_card, effect);
 			go_card->AddComponent(card);
-
-			// GAMBIARRA PARA FAZER UMA CARTA MAIOR
-			if (flag) {
-				flag = false;
-				go_card->box.ResizeThis(1.3);
-			}
-
 			deck.list.emplace_back(go_card);
 		}
 		decklist.close();
@@ -133,6 +124,7 @@ void Player::DrawHand(int quantity) {
 void Player::RenderHand() {
 	for (int i = 0; i < hand.size(); i++) {
 		hand[i]->box.SetPosition(*new Vec2((600 + i * 150),350));
+		if (i == 3) hand[i]->box.SetDimensions(BIG_CARD_W, BIG_CARD_H);
 		hand[i]->Render();
 	}
 }

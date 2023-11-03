@@ -1,5 +1,5 @@
-#ifndef EXPLORESTATE_H_
-#define EXPLORESTATE_H_
+#ifndef EXPLORESTATE_H
+#define EXPLORESTATE_H
 
 #include "State.h"
 
