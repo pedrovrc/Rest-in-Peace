@@ -143,11 +143,11 @@ Rect& Rect::GetTranslatedCopy(Vec2 vector) {
 }
 
 /*
- * bool Rect::IsInside(Vec2 point)
+ * bool Rect::Contains(Vec2 point)
  *
  * Checa se ponto fornecido está dentro do objeto Rect. Não considera rotações.
  */
-bool Rect::IsInside(Vec2 point) {
+bool Rect::Contains(Vec2 point) {
 	float limit_lo_x = x;
 	float limit_hi_x = x + w;
 	float limit_lo_y = y;

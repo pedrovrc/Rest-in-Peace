@@ -34,7 +34,7 @@ public:
 	void SetDimensions(float w, float h);
 	Rect& GetScaledCopy(Vec2 scale);
 	Rect& GetTranslatedCopy(Vec2 vector);
-	bool IsInside(Vec2 point);	// nao considera rotacao
+	bool Contains(Vec2 point);	// nao considera rotacao
 
 	// implementar:
 	// - rotacao em um determinado angulo

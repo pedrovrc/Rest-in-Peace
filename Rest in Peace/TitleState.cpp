@@ -4,8 +4,10 @@
 #include "Game.h"
 #include "CombatState.h"
 #include "Text.h"
+#include "Button.h"
 
 TitleState::TitleState() {
+
 }
 
 TitleState::~TitleState() {
@@ -17,8 +19,15 @@ void TitleState::Update(float dt) {
 
 	InputManager* input = &(InputManager::GetInstance());
 	quitRequested = input->QuitRequested();
+	GameObject* startbutton;
 
-	if (input->KeyPress(SPACE_KEY)) {
+	for (int i = 0; i < objectArray.size(); i++) {
+		if (objectArray[i]->GetComponent("Button") != nullptr) {
+			startbutton = objectArray[i].get();
+		}
+	}
+
+	if (input->MousePress(LEFT_MOUSE_BUTTON) && startbutton->box.Contains(input->GetMousePoint())) {
 		Game& game = game.GetInstance();
 		State* state = (State*) new CombatState();
 		game.Push(state);
@@ -32,20 +41,12 @@ void TitleState::LoadAssets() {
 	go->box.MoveThis(*new Vec2(0,0));
 	AddObject(go);
 
-	GameObject* go_text = new GameObject();
-	SDL_Color white;
-	white.r = 255;
-	white.g = 255;
-	white.b = 255;
-	white.a = 255;
-	Text* text = new Text(*go_text,
-						  "font/nk57-monospace-no-rg.otf", 20,
-						  Text::TextStyle::BLENDED,
-						  "Aperte BARRA DE ESPACO para iniciar jogo",
-						  white, 0.5);
-	go_text->AddComponent((Component*) text);
-	go_text->box.SetPosition(*new Vec2(1000,800));
-	AddObject(go_text);
+	GameObject* startbutton = new GameObject;
+	startbutton->box.SetDimensions(505, 121);
+	startbutton->box.MoveThis(*new Vec2(70, 295));
+	Component* button = new Button(*startbutton);
+	startbutton->AddComponent(button);
+	AddObject(startbutton);
 }
 
 void TitleState::Render() {
