@@ -21,7 +21,7 @@ void TitleState::Update(float dt) {
 	quitRequested = input->QuitRequested();
 	GameObject* startbutton;
 
-	for (int i = 0; i < objectArray.size(); i++) {
+	for (int i = 0; i < (int)objectArray.size(); i++) {
 		if (objectArray[i]->GetComponent("Button") != nullptr) {
 			startbutton = objectArray[i].get();
 		}

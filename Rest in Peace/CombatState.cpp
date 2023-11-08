@@ -4,9 +4,12 @@
 #include "Text.h"
 #include "Player.h"
 
+
 CombatState::CombatState() {
 	quitRequested = false;
 	started = false;
+	turnCounter = 0;
+	enemy = new Enemy();
 }
 
 CombatState::~CombatState() {
@@ -83,7 +86,7 @@ void CombatState::LoadOpponent(string type) {
 						  white, 0);
 	go_hpdata->AddComponent((Component*) hpdata);
 	go_hpdata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,80));
-	AddObject(go_hpdata);
+	enemyData.push_back(go_hpdata);
 }
 
 void CombatState::LoadPlayerProfile() {
@@ -302,6 +305,59 @@ void CombatState::UpdatePlayerData() {
 	}
 }
 
+void CombatState::UpdateEnemyData() {
+	SDL_Color white;
+	white.r = 255;
+	white.g = 255;
+	white.b = 255;
+	white.a = 255;
+
+	// Atualiza HUD HP Inimigo ---------------------
+	string hpenemy = "HP: " + to_string(enemy->GetHP()) + "/" + to_string(ENEMY_MAX_HP);
+	GameObject* go_hpenemydata = new GameObject();
+	Text* hpenemydata = new Text(*go_hpenemydata,
+						  "font/nk57-monospace-no-rg.otf", 30,
+						  Text::TextStyle::BLENDED,
+						  hpenemy,
+						  white, 0);
+	go_hpenemydata->AddComponent((Component*) hpenemydata);
+	go_hpenemydata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,80));
+	enemyData.clear();
+	enemyData.push_back(go_hpenemydata);
+}
+
+bool CombatState::UseCard(int val) {
+	val--;
+	Player* player = Player::GetInstance();
+	cout << "Used card " << val << ": " << player->GetCardFromHand(val)->name << endl;
+	if(player->GetAP() >= player->GetCardFromHand(val)->cost)
+	    {
+	        switch(player->GetCardFromHand(val)->t)
+	        {
+	        case DAMAGE:
+	            enemy->TakeDamage(player->GetCardFromHand(val)->quantity);
+	            player->SpendAP(player->GetCardFromHand(val)->cost);
+	            break;
+	        case HEALING:
+	            player->Heal(player->GetCardFromHand(val)->quantity);
+	            player->SpendAP(player->GetCardFromHand(val)->cost);
+	            break;
+	        case ARMOR:
+	            player->GainArmor(player->GetCardFromHand(val)->quantity);
+	            player->SpendAP(player->GetCardFromHand(val)->cost);
+	            break;
+	        }
+	        //hand.erase (hand.begin()+val);
+	        return 1;
+	    }
+	    else
+	    {
+	        cout << "Not enough AP!" << endl;
+	    	return 0;
+	    }
+	return true;
+}
+
 void CombatState::Update(float dt) {
 	UpdateArray(dt);
 
@@ -309,6 +365,11 @@ void CombatState::Update(float dt) {
 	popRequested = input->QuitRequested();
 
 	Player* player = Player::GetInstance();
+
+	if (turnCounter == 0) {
+		TurnPass();
+	}
+
 	if (input->KeyPress(SPACE_KEY)) {
 		player->TakeDamage(1);
 		player->SpendAP(1);
@@ -322,18 +383,48 @@ void CombatState::Update(float dt) {
 		player->GainArmor(1);
 	}
 
+	if (input->KeyPress(N1_KEY)) {
+		UseCard(1);
+	}
+	if (input->KeyPress(N2_KEY)) {
+		UseCard(2);
+	}
+	if (input->KeyPress(N3_KEY)) {
+		UseCard(3);
+	}
+	if (input->KeyPress(N4_KEY)) {
+			UseCard(4);
+	}
+	if (input->KeyPress(N5_KEY)) {
+		TurnPass();
+	}
 	UpdatePlayerData();
+	UpdateEnemyData();
+}
+
+void CombatState::TurnPass() {
+	Player* player = Player::GetInstance();
+	player->ResetAP();
+	enemy->TurnAction();
+	turnCounter++;
 }
 
 void CombatState::Render() {
 	this->RenderArray();
 	this->RenderPlayerData();
+	this->RenderEnemyData();
 	Player::GetInstance()->RenderHand();
 }
 
 void CombatState::RenderPlayerData() {
-	for (int i = 0; i < playerData.size(); i++) {
+	for (int i = 0; i < (int)playerData.size(); i++) {
 		playerData[i]->Render();
+	}
+}
+
+void CombatState::RenderEnemyData() {
+	for (int i = 0; i < (int)enemyData.size(); i++) {
+		enemyData[i]->Render();
 	}
 }
 

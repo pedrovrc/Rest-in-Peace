@@ -23,6 +23,11 @@ using namespace std;
 #define S_KEY SDLK_s
 #define W_KEY SDLK_w
 #define Y_KEY SDLK_y
+#define N1_KEY SDLK_1
+#define N2_KEY SDLK_2
+#define N3_KEY SDLK_3
+#define N4_KEY SDLK_4
+#define N5_KEY SDLK_5
 #define SHIFT_KEY SDLK_LSHIFT
 #define CTRL_KEY SDLK_LCTRL
 

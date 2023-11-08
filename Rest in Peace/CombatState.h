@@ -3,6 +3,7 @@
 
 #include "State.h"
 #include "Music.h"
+#include "Enemy.h"
 
 #define AVATAR_POS_X 1268
 #define AVATAR_POS_Y 21
@@ -20,6 +21,9 @@
 class CombatState : public State {
 	Music combatMusic;
 	vector<GameObject*> playerData;
+	vector<GameObject*> enemyData;
+	int turnCounter;
+	Enemy * enemy;
 
 	void LoadScreen();
 	void LoadAmbient(string type);
@@ -28,6 +32,10 @@ class CombatState : public State {
 	void LoadCombatAssets();
 	void UpdatePlayerData();
 	void RenderPlayerData();
+	void UpdateEnemyData();
+	void RenderEnemyData();
+	bool UseCard(int val);
+	void TurnPass();
 
 public:
 	CombatState();
