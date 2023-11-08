@@ -5,11 +5,16 @@
 using namespace std;
 
 #include "Component.h"
+#include "Sprite.h"
 
 class Button : public Component {
+private:
+	bool isHovered;
+	Sprite* overlay;
+	Rect overlaybox;
 
 public:
-	Button(GameObject& associated);
+	Button(GameObject& associated, string type);
 	void Update(float dt);
 	void Render();
 	void Start();

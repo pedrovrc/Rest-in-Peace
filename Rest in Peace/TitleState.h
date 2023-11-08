@@ -4,6 +4,8 @@
 #include "State.h"
 
 class TitleState : public State {
+private:
+	vector<GameObject*> button_list;
 public:
 	TitleState();
 	~TitleState();

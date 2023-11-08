@@ -6,12 +6,12 @@
 
 enum classification {DAMAGE, HEALING, ARMOR};
 
-#define ORIGINAL_CARD_W 450
-#define ORIGINAL_CARD_H 675
+#define ORIGINAL_CARD_W 900
+#define ORIGINAL_CARD_H 811
 #define BIG_CARD_W 176
 #define BIG_CARD_H 263
-#define SMALL_CARD_W 135
-#define SMALL_CARD_H 203
+#define SMALL_CARD_W 250
+#define SMALL_CARD_H 226
 
 class Card : public Component {
 public:
