@@ -89,7 +89,7 @@ void CombatState::LoadOpponent(string type) {
 void CombatState::LoadPlayerProfile() {
 	// carrega avatar
 	GameObject* avatar = new GameObject;
-	Component* mugshot = new Sprite(*avatar, "img/MC/avatar.png", 1, 0);
+	Component* mugshot = new Sprite(*avatar, "img/MC/avatar v2.png", 1, 0);
 	avatar->AddComponent(mugshot);
 	avatar->box.MoveThis(*new Vec2(AVATAR_POS_X,AVATAR_POS_Y));
 	AddObject(avatar);
@@ -101,40 +101,104 @@ void CombatState::LoadPlayerProfile() {
 	white.b = 255;
 	white.a = 255;
 
+	SDL_Color black;
+	black.r = 0;
+	black.g = 0;
+	black.b = 0;
+	black.a = 0;
+
+	GameObject* name = new GameObject;
+	Component* nametext = new Text(*name,
+							  "font/nk57-monospace-no-rg.otf", 40,
+							  Text::TextStyle::BLENDED,
+							  "Sofia",
+							  white, 0);
+	name->AddComponent(nametext);
+	name->box.SetCenterPosition(*new Vec2(1505, 40));
+	AddObject(name);
+
 	Player* player = Player::GetInstance();
 
-	string hp = "HP: " + to_string(player->GetHP()) + "/" + to_string(PLAYER_MAX_HP);
+	// Comeca com 5 armor para demonstração
+	player->GainArmor(5);
+
+	// Carrega HUD HP -------------------
+	GameObject* redbar = new GameObject;
+	Component* redbar_img = new Sprite(*redbar, "img/resources/red bar.png", 1, 0);
+	redbar->AddComponent(redbar_img);
+	redbar->box.SetDimensions(HUDBAR_W, HUDBAR_H);
+	redbar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y));
+	AddObject(redbar);
+
+	GameObject* hpbar = new GameObject;
+	Component* hpbar_img = new Sprite(*hpbar, "img/resources/green bar.png", 1, 0);
+	hpbar->AddComponent(hpbar_img);
+	hpbar->box.SetDimensions(HUDBAR_W * ((float)player->GetHP()/PLAYER_MAX_HP), HUDBAR_H);
+	hpbar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y));
+	playerData.push_back(hpbar);
+
+	string hp = "Vida: " + to_string(player->GetHP()) + "/" + to_string(PLAYER_MAX_HP);
 	GameObject* go_hpdata = new GameObject();
 	Text* hpdata = new Text(*go_hpdata,
-						  "font/nk57-monospace-no-rg.otf", 30,
+						  "font/nk57-monospace-no-rg.otf", 15,
 						  Text::TextStyle::BLENDED,
 						  hp,
 						  white, 0);
 	go_hpdata->AddComponent((Component*) hpdata);
-	go_hpdata->box.SetPosition(*new Vec2(1400,20));
+	go_hpdata->box.SetCenterPosition(redbar->box.GetCenter());
 	playerData.push_back(go_hpdata);
 
-	string ap = "AP: " + to_string(player->GetAP()) + "/" + to_string(PLAYER_MAX_AP);
-	GameObject* go_apdata = new GameObject();
-	Text* apdata = new Text(*go_apdata,
-						  "font/nk57-monospace-no-rg.otf", 30,
-						  Text::TextStyle::BLENDED,
-						  ap,
-						  white, 0);
-	go_apdata->AddComponent((Component*) apdata);
-	go_apdata->box.SetPosition(*new Vec2(1400,60));
-	playerData.push_back(go_apdata);
+	// Carrega HUD SP -----------------------
+	GameObject* graybar = new GameObject;
+	Component* graybar_img = new Sprite(*graybar, "img/resources/gray bar.png", 1, 0);
+	graybar->AddComponent(graybar_img);
+	graybar->box.SetDimensions(HUDBAR_W, HUDBAR_H);
+	graybar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y + HUD_Y_OFFSET));
+	AddObject(graybar);
 
-	string sp = "SP: " + to_string(player->GetSP()) + "/" + to_string(PLAYER_MAX_SP);
+	GameObject* spbar = new GameObject;
+	Component* spbar_img = new Sprite(*spbar, "img/resources/white bar.png", 1, 0);
+	spbar->AddComponent(spbar_img);
+	spbar->box.SetDimensions(HUDBAR_W * ((float)player->GetSP()/PLAYER_MAX_SP), HUDBAR_H);
+	spbar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y + HUD_Y_OFFSET));
+	playerData.push_back(spbar);
+
+	string sp = "Sanidade: " + to_string(player->GetSP()) + "/" + to_string(PLAYER_MAX_SP);
 	GameObject* go_spdata = new GameObject();
 	Text* spdata = new Text(*go_spdata,
-						  "font/nk57-monospace-no-rg.otf", 30,
+						  "font/nk57-monospace-no-rg.otf", 20,
 						  Text::TextStyle::BLENDED,
 						  sp,
-						  white, 0);
+						  black, 0);
 	go_spdata->AddComponent((Component*) spdata);
-	go_spdata->box.SetPosition(*new Vec2(1400,100));
+	go_spdata->box.SetCenterPosition(graybar->box.GetCenter());
 	playerData.push_back(go_spdata);
+
+	// Carrega HUD Actions ----------------------
+	GameObject* graybar2 = new GameObject;
+	Component* graybar_img2 = new Sprite(*graybar2, "img/resources/gray bar.png", 1, 0);
+	graybar2->AddComponent(graybar_img2);
+	graybar2->box.SetDimensions(HUDBAR_W, HUDBAR_H);
+	graybar2->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y + (2 * HUD_Y_OFFSET)));
+	AddObject(graybar2);
+
+	GameObject* apbar = new GameObject;
+	Component* apbar_img = new Sprite(*apbar, "img/resources/yellow bar.png", 1, 0);
+	apbar->AddComponent(apbar_img);
+	apbar->box.SetDimensions(HUDBAR_W * ((float)player->GetAP()/PLAYER_MAX_AP), HUDBAR_H);
+	apbar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y + (2 * HUD_Y_OFFSET)));
+	playerData.push_back(spbar);
+
+	string ap = "Acoes: " + to_string(player->GetAP()) + "/" + to_string(PLAYER_MAX_AP);
+	GameObject* go_apdata = new GameObject();
+	Text* apdata = new Text(*go_apdata,
+						  "font/nk57-monospace-no-rg.otf", 20,
+						  Text::TextStyle::BLENDED,
+						  ap,
+						  black, 0);
+	go_apdata->AddComponent((Component*) apdata);
+	go_apdata->box.SetCenterPosition(graybar2->box.GetCenter());
+	playerData.push_back(go_apdata);
 }
 
 void CombatState::LoadCombatAssets() {
@@ -147,41 +211,95 @@ void CombatState::UpdatePlayerData() {
 	white.g = 255;
 	white.b = 255;
 	white.a = 255;
-	playerData.clear();
+
+	SDL_Color black;
+	black.r = 0;
+	black.g = 0;
+	black.b = 0;
+	black.a = 0;
+
 	Player* player = Player::GetInstance();
 
-	string hp = "HP: " + to_string(player->GetHP()) + "/" + to_string(PLAYER_MAX_HP);
+	// Atualiza HUD HP ---------------------
+	GameObject* hpbar = new GameObject;
+	Component* hpbar_img = new Sprite(*hpbar, "img/resources/green bar.png", 1, 0);
+	hpbar->AddComponent(hpbar_img);
+	hpbar->box.SetDimensions(HUDBAR_W * ((float)player->GetHP()/PLAYER_MAX_HP), HUDBAR_H);
+	hpbar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y));
+
+	string hp = "Vida: " + to_string(player->GetHP()) + "/" + to_string(PLAYER_MAX_HP);
 	GameObject* go_hpdata = new GameObject();
 	Text* hpdata = new Text(*go_hpdata,
-						  "font/nk57-monospace-no-rg.otf", 30,
+						  "font/nk57-monospace-no-rg.otf", 18,
 						  Text::TextStyle::BLENDED,
 						  hp,
 						  white, 0);
 	go_hpdata->AddComponent((Component*) hpdata);
-	go_hpdata->box.SetPosition(*new Vec2(1400,20));
-	playerData.push_back(go_hpdata);
+	go_hpdata->box.SetCenterPosition(playerData[1]->box.GetCenter());
 
-	string ap = "AP: " + to_string(player->GetAP()) + "/" + to_string(PLAYER_MAX_AP);
-	GameObject* go_apdata = new GameObject();
-	Text* apdata = new Text(*go_apdata,
-						  "font/nk57-monospace-no-rg.otf", 30,
-						  Text::TextStyle::BLENDED,
-						  ap,
-						  white, 0);
-	go_apdata->AddComponent((Component*) apdata);
-	go_apdata->box.SetPosition(*new Vec2(1400,60));
-	playerData.push_back(go_apdata);
+	// Atualiza HUD SP -------------------------------
+	GameObject* spbar = new GameObject;
+	Component* spbar_img = new Sprite(*spbar, "img/resources/white bar.png", 1, 0);
+	spbar->AddComponent(spbar_img);
+	spbar->box.SetDimensions(HUDBAR_W * ((float)player->GetSP()/PLAYER_MAX_SP), HUDBAR_H);
+	spbar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y + HUD_Y_OFFSET));
 
-	string sp = "SP: " + to_string(player->GetSP()) + "/" + to_string(PLAYER_MAX_SP);
+	string sp = "Sanidade: " + to_string(player->GetSP()) + "/" + to_string(PLAYER_MAX_SP);
 	GameObject* go_spdata = new GameObject();
 	Text* spdata = new Text(*go_spdata,
-						  "font/nk57-monospace-no-rg.otf", 30,
+						  "font/nk57-monospace-no-rg.otf", 15,
 						  Text::TextStyle::BLENDED,
 						  sp,
-						  white, 0);
+						  black, 0);
 	go_spdata->AddComponent((Component*) spdata);
-	go_spdata->box.SetPosition(*new Vec2(1400,100));
+	go_spdata->box.SetCenterPosition(playerData[3]->box.GetCenter());
+
+	// Atualiza HUD Actions ----------------------------
+	GameObject* apbar = new GameObject;
+	Component* apbar_img = new Sprite(*apbar, "img/resources/yellow bar.png", 1, 0);
+	apbar->AddComponent(apbar_img);
+	apbar->box.SetDimensions(HUDBAR_W * ((float)player->GetAP()/PLAYER_MAX_AP), HUDBAR_H);
+	apbar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y + (2 * HUD_Y_OFFSET)));
+
+	string ap = "Acoes: " + to_string(player->GetAP()) + "/" + to_string(PLAYER_MAX_AP);
+	GameObject* go_apdata = new GameObject();
+	Text* apdata = new Text(*go_apdata,
+						  "font/nk57-monospace-no-rg.otf", 20,
+						  Text::TextStyle::BLENDED,
+						  ap,
+						  black, 0);
+	go_apdata->AddComponent((Component*) apdata);
+	go_apdata->box.SetCenterPosition(playerData[5]->box.GetCenter());
+
+	playerData.clear();
+	playerData.push_back(hpbar);
+	playerData.push_back(go_hpdata);
+	playerData.push_back(spbar);
 	playerData.push_back(go_spdata);
+	playerData.push_back(apbar);
+	playerData.push_back(go_apdata);
+
+	// Atualiza HUD Armor -------------------------
+	if (player->GetArmor() != 0) {
+		GameObject* bluebar = new GameObject;
+		Component* bluebar_img = new Sprite(*bluebar, "img/resources/blue bar.png", 1, 0);
+		bluebar->AddComponent(bluebar_img);
+		bluebar->box.SetDimensions(HUDBAR_W, HUDBAR_H);
+		bluebar->box.MoveThis(*new Vec2(HUD_POS_X, HUD_POS_Y + (3 * HUD_Y_OFFSET)));
+
+		string armor = "Armadura: " + to_string(player->GetArmor());
+		GameObject* go_armordata = new GameObject();
+		Text* armordata = new Text(*go_armordata,
+							  "font/nk57-monospace-no-rg.otf", 18,
+							  Text::TextStyle::BLENDED,
+							  armor,
+							  white, 0);
+		go_armordata->AddComponent((Component*) armordata);
+		go_armordata->box.SetCenterPosition(bluebar->box.GetCenter());
+
+		playerData.push_back(bluebar);
+		playerData.push_back(go_armordata);
+	}
 }
 
 void CombatState::Update(float dt) {
@@ -201,6 +319,7 @@ void CombatState::Update(float dt) {
 		player->Heal(1);
 		player->ResetAP();
 		player->GainSP(1);
+		player->GainArmor(1);
 	}
 
 	UpdatePlayerData();
