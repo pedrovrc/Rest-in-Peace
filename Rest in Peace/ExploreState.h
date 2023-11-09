@@ -3,6 +3,12 @@
 
 #include "State.h"
 
+/*
+ * Classe ExploreState
+ *
+ * Classe que implementa a tela de exploração.
+ */
+
 class ExploreState : public State {
 public:
 	ExploreState();
@@ -15,7 +21,6 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-	weak_ptr<GameObject> GetPlayerGO();
 };
 
 

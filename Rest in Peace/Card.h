@@ -8,10 +8,17 @@ enum classification {DAMAGE, HEALING, ARMOR};
 
 #define ORIGINAL_CARD_W 900
 #define ORIGINAL_CARD_H 811
-#define BIG_CARD_W 176
-#define BIG_CARD_H 263
+#define BIG_CARD_W 291
+#define BIG_CARD_H 323
 #define SMALL_CARD_W 250
 #define SMALL_CARD_H 226
+
+/*
+ * Classe Card
+ *
+ * Classe que implementa a representação de uma carta do baralho do player.
+ * Utiliza regex para sua inicialização com base em um arquivo txt.
+ */
 
 class Card : public Component {
 public:

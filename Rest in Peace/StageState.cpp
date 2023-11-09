@@ -230,17 +230,3 @@ void StageState::Pause() {
 void StageState::Resume() {
 
 }
-
-/*
- * 	weak_ptr<GameObject> StageState::GetPlayerGO()
- *
- * 	Retorna weak_ptr apontando para o GO do player.
- */
-weak_ptr<GameObject> StageState::GetPlayerGO() {
-	int i = 0;
-	while (objectArray.begin() + i != objectArray.end()) {
-		if (objectArray[i].get()->GetComponent("PenguinBody") != nullptr) return weak_ptr<GameObject>(objectArray[i]);
-		i++;
-	}
-	return weak_ptr<GameObject>();
-}

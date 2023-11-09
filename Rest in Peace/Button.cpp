@@ -3,6 +3,8 @@
 
 Button::Button(GameObject& associated, string type) : Component(associated){
 	isHovered = false;
+
+	// seleciona sprite correto para o tipo
 	if (type == "main menu") {
 		overlay = new Sprite(associated, "img/resources/selection overlay main menu.png", 1, 0);
 	}

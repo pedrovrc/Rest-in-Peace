@@ -13,6 +13,12 @@ using namespace std;
 #define PLAYER_MAX_SP 10
 #define PLAYER_HAND_SIZE 4
 
+/*
+ * Classe Player
+ *
+ * Implementa as funcionalidades e armazena os dados do jogador.
+ */
+
 class Player {
 	int hp;		// pontos de vida
 	int ap;		// pontos de acao
