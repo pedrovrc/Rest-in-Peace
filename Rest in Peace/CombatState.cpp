@@ -4,7 +4,7 @@
 #include "Text.h"
 #include "Player.h"
 #include "Colors.h"
-
+#include "Button.h"
 
 CombatState::CombatState() {
 	quitRequested = false;
@@ -310,11 +310,7 @@ void CombatState::UpdatePlayerData() {
 }
 
 void CombatState::UpdateEnemyData() {
-	SDL_Color white;
-	white.r = 255;
-	white.g = 255;
-	white.b = 255;
-	white.a = 255;
+	Colors& color = Colors::GetInstance();
 
 	// Atualiza HUD HP Inimigo ---------------------
 	string hpenemy = "HP: " + to_string(enemy->GetHP()) + "/" + to_string(ENEMY_MAX_HP);
@@ -323,7 +319,7 @@ void CombatState::UpdateEnemyData() {
 						  "font/nk57-monospace-no-rg.otf", 30,
 						  Text::TextStyle::BLENDED,
 						  hpenemy,
-						  white, 0);
+						  color.white, 0);
 	go_hpenemydata->AddComponent((Component*) hpenemydata);
 	go_hpenemydata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,80));
 	enemyData.clear();
@@ -331,7 +327,6 @@ void CombatState::UpdateEnemyData() {
 }
 
 bool CombatState::UseCard(int val) {
-	val--;
 	Player* player = Player::GetInstance();
 	cout << "Used card " << val << ": " << player->GetCardFromHand(val)->name << endl;
 	if(player->GetAP() >= player->GetCardFromHand(val)->cost)
@@ -371,10 +366,7 @@ void CombatState::Update(float dt) {
 	// comportamentos para teste do HUD dinâmico
 	// Espaco -> diminui atributos
 	Player* player = Player::GetInstance();
-
-	if (turnCounter == 0) {
-		TurnPass();
-	}
+	player->Update(dt);
 
 	if (input->KeyPress(SPACE_KEY)) {
 		player->TakeDamage(1);
@@ -390,18 +382,27 @@ void CombatState::Update(float dt) {
 		player->GainArmor(1);
 	}
 
+	Button* cardButton;
+	for (int i = 0; i < PLAYER_HAND_SIZE; i++) {
+		cardButton = player->GetButtonFromHand(i);
+		if(cardButton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+			cout << "hover + click " << i << endl;
+			UseCard(i);
+		}
+	}
+
 	if (input->KeyPress(N1_KEY)) {
-		UseCard(1);
+		UseCard(0);
 	}
-	if (input->KeyPress(N2_KEY)) {
-		UseCard(2);
-	}
-	if (input->KeyPress(N3_KEY)) {
-		UseCard(3);
-	}
-	if (input->KeyPress(N4_KEY)) {
-			UseCard(4);
-	}
+//	if (input->KeyPress(N2_KEY)) {
+//		UseCard(2);
+//	}
+//	if (input->KeyPress(N3_KEY)) {
+//		UseCard(3);
+//	}
+//	if (input->KeyPress(N4_KEY)) {
+//			UseCard(4);
+//	}
 	if (input->KeyPress(N5_KEY)) {
 		TurnPass();
 	}

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Button.h"
 
 Player* Player::instance;
 
@@ -27,8 +28,13 @@ Player::Player() {
 			getline(decklist, effect);
 
 			go_card = new GameObject();
+
 			Component* card = (Component*) new Card(*go_card, effect);
 			go_card->AddComponent(card);
+
+			Component* button = (Component*) new Button(*go_card, "card");
+			go_card->AddComponent(button);
+
 			deck.list.emplace_back(go_card);
 		}
 		decklist.close();
@@ -131,6 +137,16 @@ void Player::RenderHand() {
 	}
 }
 
+void Player::Update(float dt) {
+	for (int i = 0; i < hand.size(); i++) {
+		hand[i]->Update(dt);
+	}
+}
+
 Card * Player::GetCardFromHand(int val) {
 	return (Card*) hand[val]->GetComponent("Card");
+}
+
+Button * Player::GetButtonFromHand(int val) {
+	return (Button*) hand[val]->GetComponent("Button");
 }

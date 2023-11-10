@@ -7,6 +7,7 @@ using namespace std;
 #include "Deck.h"
 #include "Item.h"
 #include "Buff.h"
+#include "Button.h"
 
 #define PLAYER_MAX_HP 20
 #define PLAYER_MAX_AP 3
@@ -38,6 +39,7 @@ public:
 	static Player* GetInstance();
 
 	Card * GetCardFromHand(int val);
+	Button * GetButtonFromHand(int val);
 
 	int GetHP();
 	void TakeDamage(int dmg_amount);
@@ -57,6 +59,8 @@ public:
 
 	void DrawHand(int quantity);
 	void RenderHand();
+
+	void Update(float dt);
 
 	// metodos de deck
 

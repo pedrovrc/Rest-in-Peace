@@ -21,15 +21,15 @@ void TitleState::Update(float dt) {
 	quitRequested = input->QuitRequested();
 
 	// implementa funcionalidade dos botões do menu
-	GameObject* startbutton = button_list[0];
-	GameObject* loadbutton = button_list[1];
-	GameObject* optionsbutton = button_list[2];
-	GameObject* creditsbutton = button_list[3];
-	GameObject* quitbutton = button_list[4];
-	if (quitbutton->box.Contains(input->GetMousePoint()) && input->MousePress(LEFT_MOUSE_BUTTON)) {
+	Button* startbutton = (Button*) button_list[0]->GetComponent("Button");
+	Button* loadbutton = (Button*) button_list[1]->GetComponent("Button");
+	Button* optionsbutton = (Button*) button_list[2]->GetComponent("Button");
+	Button* creditsbutton = (Button*) button_list[3]->GetComponent("Button");
+	Button* quitbutton = (Button*) button_list[4]->GetComponent("Button");
+	if (quitbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 		quitRequested = true;
 	}
-	if (startbutton->box.Contains(input->GetMousePoint()) && input->MousePress(LEFT_MOUSE_BUTTON)) {
+	if (startbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 		Game& game = game.GetInstance();
 		State* state = (State*) new CombatState();
 		game.Push(state);
