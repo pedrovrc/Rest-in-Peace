@@ -35,7 +35,7 @@ Player::Player() {
 	}
 	//else
 		//cout << "erro" << endl;
-	//cout << "Deck size is: " << list.size() << endl;
+	//-cout << "Deck size is: " << deck.list.size() << endl;
 
 	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
 	shuffle(deck.list.begin(), deck.list.end(), default_random_engine(seed));
@@ -129,4 +129,8 @@ void Player::RenderHand() {
 		if (i == 3) hand[i]->box.SetPosition(*new Vec2(920, 350));
 		hand[i]->Render();
 	}
+}
+
+Card * Player::GetCardFromHand(int val) {
+	return (Card*) hand[val]->GetComponent("Card");
 }

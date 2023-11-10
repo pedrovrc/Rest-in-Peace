@@ -37,6 +37,8 @@ public:
 	~Player();
 	static Player* GetInstance();
 
+	Card * GetCardFromHand(int val);
+
 	int GetHP();
 	void TakeDamage(int dmg_amount);
 	void Heal(int heal_amount);
