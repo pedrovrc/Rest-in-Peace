@@ -18,6 +18,12 @@
 #define ILLUST_W 550
 #define ILLUST_H 900
 
+/*
+ * Classe CombatState
+ *
+ * Clase do estado (tela) de combate.
+ */
+
 class CombatState : public State {
 	Music combatMusic;
 	vector<GameObject*> playerData;
@@ -48,7 +54,6 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-	weak_ptr<GameObject> GetPlayerGO();
 };
 
 #endif /* COMBATSTAGE_H_ */

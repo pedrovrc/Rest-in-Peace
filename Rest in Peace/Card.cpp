@@ -13,7 +13,6 @@ Card::Card(GameObject& associated, string str) : Component(associated)
     string effect;
     effect = regex_replace(str, regex("\\[.*\\]|\\{.*\\}|\\<|\\>"), "$2");
 
-    //cout << "effect:" << effect << endl;
     smatch sm;
     regex_search(effect, sm, regex("(\\d+)"));
 
@@ -36,12 +35,9 @@ Card::Card(GameObject& associated, string str) : Component(associated)
 
     // carrega imagem da carta
     string filename = "img/cards/" + name + ".png";
-    //cout << "name: " << name << endl;
-    //cout << "filename: " << filename << endl;
     Component* image = new Sprite(associated, filename, 1, 0);
     associated.AddComponent(image);
     associated.box.SetDimensions(SMALL_CARD_W, SMALL_CARD_H);
-    //cout << name << '\t' << flavor << '\t' << cost << '\t' << t << '\t' << quantity << endl;
 }
 
 Card::~Card()

@@ -3,6 +3,12 @@
 
 #include "State.h"
 
+/*
+ * Classe InventoryState
+ *
+ * Implementa as telas de inventário (Deck, Itens e Buffs)
+ */
+
 class InventoryState : public State {
 public:
 	InventoryState();
@@ -15,7 +21,6 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-	weak_ptr<GameObject> GetPlayerGO();
 };
 
 #endif /* INVENTORYSTATE_H_ */

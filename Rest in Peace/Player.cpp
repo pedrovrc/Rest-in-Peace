@@ -122,9 +122,11 @@ void Player::DrawHand(int quantity) {
 }
 
 void Player::RenderHand() {
-	for (int i = 0; i < (int)hand.size(); i++) {
-		hand[i]->box.SetPosition(*new Vec2((600 + i * 150),350));
-		if (i == 3) hand[i]->box.SetDimensions(BIG_CARD_W, BIG_CARD_H);
+	for (int i = 0; i < hand.size(); i++) {
+		if (i == 0) hand[i]->box.SetPosition(*new Vec2(610, 110));
+		if (i == 1) hand[i]->box.SetPosition(*new Vec2(920, 110));
+		if (i == 2) hand[i]->box.SetPosition(*new Vec2(610, 350));
+		if (i == 3) hand[i]->box.SetPosition(*new Vec2(920, 350));
 		hand[i]->Render();
 	}
 }

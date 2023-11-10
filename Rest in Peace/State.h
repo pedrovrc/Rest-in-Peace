@@ -22,7 +22,6 @@ public:
 	virtual weak_ptr<GameObject> AddObject(GameObject* go);
 	virtual void DeleteObject(GameObject* go);
 	virtual weak_ptr<GameObject> GetObjectPtr(GameObject* go);
-	virtual weak_ptr<GameObject> GetPlayerGO() = 0;
 
 	bool PopRequested();
 	bool QuitRequested();

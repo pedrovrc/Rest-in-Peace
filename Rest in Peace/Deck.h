@@ -3,6 +3,12 @@
 
 #include "Card.h"
 
+/*
+ * Classe Deck
+ *
+ * Classe que representa um conjunto (deck) de cartas do Player.
+ */
+
 class Deck {
 public:
 	vector<GameObject*> list;

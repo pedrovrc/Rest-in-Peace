@@ -4,6 +4,12 @@
 #include "State.h"
 #include "Music.h"
 
+/*
+ * Classe EndState
+ *
+ * Classe que implementa a tela de fim de jogo.
+ */
+
 class EndState : public State {
 	Music backgroundMusic;
 
@@ -18,8 +24,6 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-
-	weak_ptr<GameObject> GetPlayerGO();
 };
 
 #endif
