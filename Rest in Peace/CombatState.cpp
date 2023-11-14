@@ -3,7 +3,6 @@
 #include "InputManager.h"
 #include "Text.h"
 #include "Player.h"
-#include "Colors.h"
 #include "Button.h"
 
 CombatState::CombatState() {
@@ -328,7 +327,7 @@ void CombatState::UpdateEnemyData() {
 
 bool CombatState::UseCard(int val) {
 	Player* player = Player::GetInstance();
-	cout << "Used card " << val << ": " << player->GetCardFromHand(val)->name << endl;
+	//cout << "Used card " << val << ": " << player->GetCardFromHand(val)->name << endl;
 	if(player->GetAP() >= player->GetCardFromHand(val)->cost)
 	    {
 	        switch(player->GetCardFromHand(val)->t)
@@ -386,7 +385,6 @@ void CombatState::Update(float dt) {
 	for (int i = 0; i < PLAYER_HAND_SIZE; i++) {
 		cardButton = player->GetButtonFromHand(i);
 		if(cardButton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-			cout << "hover + click " << i << endl;
 			UseCard(i);
 		}
 	}

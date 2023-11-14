@@ -2,7 +2,7 @@
 #include "Sprite.h"
 #include "InputManager.h"
 #include "Game.h"
-#include "CombatState.h"
+#include "ExploreState.h"
 #include "Text.h"
 #include "Button.h"
 
@@ -31,7 +31,7 @@ void TitleState::Update(float dt) {
 	}
 	if (startbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 		Game& game = game.GetInstance();
-		State* state = (State*) new CombatState();
+		State* state = (State*) new ExploreState();
 		game.Push(state);
 	}
 }

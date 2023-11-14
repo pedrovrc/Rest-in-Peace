@@ -136,7 +136,7 @@ void Game::Run() {
 	State* currentState;
 
 	while(stateStack.empty() == false) {
-		// checa por quit requisitado por playeraw
+		// checa por quit requisitado por player
 		if (stateStack.top().get()->QuitRequested()) break;
 
 		if (stateStack.top().get()->PopRequested()) {

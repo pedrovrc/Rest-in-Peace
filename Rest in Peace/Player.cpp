@@ -20,7 +20,7 @@ Player::Player() {
 
 	if(decklist.is_open())
 	{
-		cout << "deck opened!" << endl;
+		//cout << "deck opened!" << endl;
 		GameObject* go_card;
 		while (!(decklist.eof()))
 		{

@@ -17,8 +17,6 @@ Button::Button(GameObject& associated, string type) : Component(associated){
 
 void Button::Update(float dt) {
 	InputManager* input = &(InputManager::GetInstance());
-	cout << "box.x.y = " << associated.box.x << " " << associated.box.y << endl;
-	cout << "box.w.h = " << associated.box.w << " " << associated.box.h << endl;
 	if (associated.box.Contains(input->GetMousePoint())) {
 		isHovered = true;
 	} else {
@@ -27,12 +25,8 @@ void Button::Update(float dt) {
 }
 
 void Button::Render() {
+	// renderiza overlay caso botao esteja sob o mouse
 	if (isHovered) {
-		cout << "overlay render:" << endl;
-		cout << "x = " << overlaybox.x << endl;
-		cout << "y = " << overlaybox.y << endl;
-		cout << "w = " << overlaybox.w << endl;
-		cout << "h = " << overlaybox.h << endl << endl;
 		overlaybox.SetCenterPosition(associated.box.GetCenter());
 		overlay->Render(overlaybox.x, overlaybox.y, overlaybox.w, overlaybox.h);
 	}

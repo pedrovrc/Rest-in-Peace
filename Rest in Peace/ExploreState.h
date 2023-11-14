@@ -10,6 +10,8 @@
  */
 
 class ExploreState : public State {
+	vector<GameObject*> button_list;
+
 public:
 	ExploreState();
 	~ExploreState();
@@ -21,6 +23,10 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
+
+	void LoadScreen();
+	void LoadAmbient(string type);
+	void LoadButton(string type);
 };
 
 

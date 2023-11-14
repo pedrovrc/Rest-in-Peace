@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Timer.h"
+#include "Colors.h"
 
 #define INCLUDE_SDL_TTF
 #define INCLUDE_SDL_IMAGE
