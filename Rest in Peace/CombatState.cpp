@@ -76,6 +76,9 @@ void CombatState::LoadOpponent(string type) {
 						  "Diabrete",
 						  color.white, 0);
 	go_name->AddComponent((Component*) name);
+	go_name->box.w = ((Text*)name)->GetSurfaceWidth();
+	go_name->box.h = ((Text*)name)->GetSurfaceHeight();
+	((Text*)name)->SetScope(0, 0, go_name->box.w, go_name->box.h);
 	go_name->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,40));
 	AddObject(go_name);
 
@@ -87,6 +90,9 @@ void CombatState::LoadOpponent(string type) {
 						  "HP 20/20",
 						  color.white, 0);
 	go_hpdata->AddComponent((Component*) hpdata);
+	go_hpdata->box.w = ((Text*)hpdata)->GetSurfaceWidth();
+	go_hpdata->box.h = ((Text*)hpdata)->GetSurfaceHeight();
+	((Text*)hpdata)->SetScope(0, 0, go_hpdata->box.w, go_hpdata->box.h);
 	go_hpdata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,80));
 	enemyData.push_back(go_hpdata);
 }
@@ -110,6 +116,9 @@ void CombatState::LoadPlayerProfile() {
 							  "Sofia",
 							  color.white, 0);
 	name->AddComponent(nametext);
+	name->box.w = ((Text*)nametext)->GetSurfaceWidth();
+	name->box.h = ((Text*)nametext)->GetSurfaceHeight();
+	((Text*)nametext)->SetScope(0, 0, name->box.w, name->box.h);
 	name->box.SetCenterPosition(*new Vec2(1505, 40));
 	AddObject(name);
 
@@ -144,6 +153,9 @@ void CombatState::LoadPlayerProfile() {
 						  hp,
 						  color.white, 0);
 	go_hpdata->AddComponent((Component*) hpdata);
+	go_hpdata->box.w = ((Text*)hpdata)->GetSurfaceWidth();
+	go_hpdata->box.h = ((Text*)hpdata)->GetSurfaceHeight();
+	((Text*)hpdata)->SetScope(0, 0, go_hpdata->box.w, go_hpdata->box.h);
 	go_hpdata->box.SetCenterPosition(redbar->box.GetCenter());
 	playerData.push_back(go_hpdata);
 
@@ -173,6 +185,9 @@ void CombatState::LoadPlayerProfile() {
 						  sp,
 						  color.black, 0);
 	go_spdata->AddComponent((Component*) spdata);
+	go_spdata->box.w = ((Text*)spdata)->GetSurfaceWidth();
+	go_spdata->box.h = ((Text*)spdata)->GetSurfaceHeight();
+	((Text*)spdata)->SetScope(0, 0, go_spdata->box.w, go_spdata->box.h);
 	go_spdata->box.SetCenterPosition(graybar->box.GetCenter());
 	playerData.push_back(go_spdata);
 
@@ -202,6 +217,9 @@ void CombatState::LoadPlayerProfile() {
 						  ap,
 						  color.black, 0);
 	go_apdata->AddComponent((Component*) apdata);
+	go_apdata->box.w = ((Text*)apdata)->GetSurfaceWidth();
+	go_apdata->box.h = ((Text*)apdata)->GetSurfaceHeight();
+	((Text*)apdata)->SetScope(0, 0, go_apdata->box.w, go_apdata->box.h);
 	go_apdata->box.SetCenterPosition(graybar2->box.GetCenter());
 	playerData.push_back(go_apdata);
 }
@@ -231,6 +249,9 @@ void CombatState::UpdatePlayerData() {
 						  hp,
 						  color.white, 0);
 	go_hpdata->AddComponent((Component*) hpdata);
+	go_hpdata->box.w = ((Text*)hpdata)->GetSurfaceWidth();
+	go_hpdata->box.h = ((Text*)hpdata)->GetSurfaceHeight();
+	((Text*)hpdata)->SetScope(0, 0, go_hpdata->box.w, go_hpdata->box.h);
 	go_hpdata->box.SetCenterPosition(playerData[1]->box.GetCenter());
 
 	// Atualiza HUD SP -------------------------------
@@ -250,6 +271,9 @@ void CombatState::UpdatePlayerData() {
 						  sp,
 						  color.black, 0);
 	go_spdata->AddComponent((Component*) spdata);
+	go_spdata->box.w = ((Text*)spdata)->GetSurfaceWidth();
+	go_spdata->box.h = ((Text*)spdata)->GetSurfaceHeight();
+	((Text*)spdata)->SetScope(0, 0, go_spdata->box.w, go_spdata->box.h);
 	go_spdata->box.SetCenterPosition(playerData[3]->box.GetCenter());
 
 	// Atualiza HUD Actions ----------------------------
@@ -269,6 +293,9 @@ void CombatState::UpdatePlayerData() {
 						  ap,
 						  color.black, 0);
 	go_apdata->AddComponent((Component*) apdata);
+	go_apdata->box.w = ((Text*)apdata)->GetSurfaceWidth();
+	go_apdata->box.h = ((Text*)apdata)->GetSurfaceHeight();
+	((Text*)apdata)->SetScope(0, 0, go_apdata->box.w, go_apdata->box.h);
 	go_apdata->box.SetCenterPosition(playerData[5]->box.GetCenter());
 
 	// deleta elementos antigos e adiciona atualizados
@@ -300,6 +327,9 @@ void CombatState::UpdatePlayerData() {
 							  armor,
 							  color.white, 0);
 		go_armordata->AddComponent((Component*) armordata);
+		go_armordata->box.w = ((Text*)armordata)->GetSurfaceWidth();
+		go_armordata->box.h = ((Text*)armordata)->GetSurfaceHeight();
+		((Text*)armordata)->SetScope(0, 0, go_armordata->box.w, go_armordata->box.h);
 		go_armordata->box.SetCenterPosition(bluebar->box.GetCenter());
 
 		// adiciona elementos
@@ -320,6 +350,9 @@ void CombatState::UpdateEnemyData() {
 						  hpenemy,
 						  color.white, 0);
 	go_hpenemydata->AddComponent((Component*) hpenemydata);
+	go_hpenemydata->box.w = ((Text*)hpenemydata)->GetSurfaceWidth();
+	go_hpenemydata->box.h = ((Text*)hpenemydata)->GetSurfaceHeight();
+	((Text*)hpenemydata)->SetScope(0, 0, go_hpenemydata->box.w, go_hpenemydata->box.h);
 	go_hpenemydata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,80));
 	enemyData.clear();
 	enemyData.push_back(go_hpenemydata);

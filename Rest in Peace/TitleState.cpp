@@ -31,7 +31,7 @@ void TitleState::Update(float dt) {
 	}
 	if (startbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 		Game& game = game.GetInstance();
-		State* state = (State*) new ExploreState();
+		State* state = (State*) new ExploreState("intro");
 		game.Push(state);
 	}
 }

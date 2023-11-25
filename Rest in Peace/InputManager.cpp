@@ -34,7 +34,7 @@ InputManager::~InputManager() {
  */
 void InputManager::Update() {
 	SDL_Event event;
-	int mouseButton, key;
+	int mouseButton, key, mousewheel;
 
 	SDL_GetMouseState(&mouseX, &mouseY);
 	quitRequested = false;
@@ -58,6 +58,12 @@ void InputManager::Update() {
 			key = event.key.keysym.sym;
 			if (IsDirectional(key)) UpdateKeyOrButtonMaps(key, event, "keyboard");
 			else if (event.key.repeat != 1) UpdateKeyOrButtonMaps(key, event, "keyboard");
+		}
+
+		// roda
+		if (event.type == SDL_MOUSEWHEEL) {
+			mousewheel = event.button.button;
+			UpdateKeyOrButtonMaps(mousewheel, event, "wheel");
 		}
 	}
 }
@@ -87,8 +93,14 @@ void InputManager::UpdateKeyOrButtonMaps(int index, SDL_Event event, string type
 		keyUpdate[index] = updateCounter;
 		if (event.type == SDL_KEYDOWN) keyState[index] = true;
 		if (event.type == SDL_KEYUP) keyState[index] = false;
+	} else if (type == "wheel") {
+		if (event.type == SDL_MOUSEWHEEL) {
+			mouseWheelUpdate = updateCounter;
+			if (event.wheel.y > 0) mouseWheelState = 1;
+			else if (event.wheel.y < 0) mouseWheelState = -1;
+		}
 	} else {
-		cout << "Invalid type selected. Use 'mouse' or 'keyboard' only." << endl;
+		cout << "Invalid type selected. Use 'mouse', 'keyboard' or 'wheel' only." << endl;
 	}
 }
 
@@ -150,6 +162,22 @@ bool InputManager::MouseRelease(int button) {
 bool InputManager::IsMouseDown(int button) {
 	if (mouseState[button] == true) return true;
 	else return false;
+}
+
+/*
+ * Retorna:
+ * 		1 	- Roda foi rolada para cima
+ * 		-1 	- Roda foi rolada para baixo
+ * 		0 	- Roda não foi rolada
+ */
+bool InputManager::WheelRoll(string direction) {
+	if (direction == "up" && mouseWheelState == 1 && mouseWheelUpdate == updateCounter) {
+		mouseWheelState = 0;
+		return true;
+	} else if (direction == "down" && mouseWheelState == -1 && mouseWheelUpdate == updateCounter) {
+		mouseWheelState = 0;
+		return true;
+	} else return false;
 }
 
 int InputManager::GetMouseX() {

@@ -11,9 +11,9 @@
 
 class ExploreState : public State {
 	vector<GameObject*> button_list;
-
+	bool intro;
 public:
-	ExploreState();
+	ExploreState(string type);
 	~ExploreState();
 
 	void LoadAssets();
@@ -26,7 +26,10 @@ public:
 
 	void LoadScreen();
 	void LoadAmbient(string type);
+	void LoadIntroText();
 	void LoadButton(string type);
+
+	string ReadAllFromFile(string path);
 };
 
 

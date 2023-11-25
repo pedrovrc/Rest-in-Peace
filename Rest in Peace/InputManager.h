@@ -16,6 +16,7 @@ using namespace std;
 #define ESCAPE_KEY SDLK_ESCAPE
 #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 #define RIGHT_MOUSE_BUTTON SDL_BUTTON_RIGHT
+#define MOUSE_WHEEL SDL_MOUSEWHEEL
 #define SPACE_KEY SDLK_SPACE
 #define A_KEY SDLK_a
 #define D_KEY SDLK_d
@@ -39,6 +40,8 @@ using namespace std;
 class InputManager {
 	bool mouseState[6];
 	int mouseUpdate[6];
+	int mouseWheelState;
+	int mouseWheelUpdate;
 	unordered_map<int,bool> keyState;
 	unordered_map<int, int> keyUpdate;
 	bool quitRequested;
@@ -59,6 +62,7 @@ public:
 	bool MousePress(int button);
 	bool MouseRelease(int button);
 	bool IsMouseDown(int button);
+	bool WheelRoll(string direction);
 	int GetMouseX();
 	int GetMouseY();
 	Vec2& GetMousePoint();

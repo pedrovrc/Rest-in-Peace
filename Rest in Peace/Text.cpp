@@ -51,10 +51,10 @@ void Text::Render() {
 		dstRect.h = associated.box.h;
 
 		SDL_Rect clipRect;
-		clipRect.x = 0;
-		clipRect.y = 0;
-		clipRect.w = associated.box.w;
-		clipRect.h = associated.box.h;
+		clipRect.x = scope.x;
+		clipRect.y = scope.y;
+		clipRect.w = scope.w;
+		clipRect.h = scope.h;
 
 		Game& game = game.GetInstance();
 
@@ -72,6 +72,37 @@ void Text::Render() {
 			}
 		}
 	}
+}
+
+void Text::SetScope(int x, int y, int w, int h) {
+	scope.x = x;
+	scope.y = y;
+	scope.w = w;
+	scope.h = h;
+
+	int width = GetSurfaceWidth();
+	int height = GetSurfaceHeight();
+
+	if (scope.x < 0) scope.x = 0;
+	if (scope.x > width) scope.x = width;
+	if (scope.y < 0) scope.y = 0;
+	if (scope.y > height) scope.y = height;
+
+	RemakeTexture();
+}
+
+void Text::RollScope(int y_offset) {
+	scope.y += y_offset;
+	if (scope.y < 0) scope.y = 0;
+	if (scope.y + scope.h > GetSurfaceHeight()) scope.y = GetSurfaceHeight() - scope.h;
+}
+
+int Text::GetSurfaceHeight() {
+	return realSize.h;
+}
+
+int Text::GetSurfaceWidth() {
+	return realSize.w;
 }
 
 void Text::Start() {
@@ -132,7 +163,7 @@ void Text::RemakeTexture() {
 		surface = TTF_RenderText_Shaded(font, text.c_str(), color, bg_color);
 
 	} else if (style == BLENDED) {
-		surface = TTF_RenderText_Blended(font, text.c_str(), color);
+		surface = TTF_RenderUTF8_Blended_Wrapped(font, text.c_str(), color, 650);
 	}
 
 	Game& game = game.GetInstance();
@@ -141,6 +172,6 @@ void Text::RemakeTexture() {
 
 	int w, h;
 	SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
-	associated.box.w = w;
-	associated.box.h = h;
+	realSize.w = w;
+	realSize.h = h;
 }

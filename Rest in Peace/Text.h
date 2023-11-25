@@ -31,6 +31,11 @@ public:
 	void Resume();
 	void NotifyCollision(GameObject& other);
 
+	void SetScope(int x, int y, int w, int h);
+	void RollScope(int y_offset);
+	int GetSurfaceHeight();
+	int GetSurfaceWidth();
+
 	void SetText(string text);
 	void SetColor(SDL_Color color);
 	void SetStyle(TextStyle style);
@@ -46,6 +51,9 @@ private:
 	string fontFile;
 	int fontSize;
 	SDL_Color color;
+
+	Rect realSize;
+	Rect scope;
 
 	Timer blinkTimer;
 	float blinkTime;
