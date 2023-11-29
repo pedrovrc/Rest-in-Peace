@@ -109,4 +109,5 @@ Sprite* CreateAddSprite(GameObject* associated, string filename,
 	Component* newSprite = new Sprite(*associated, filename, frameCount, frameTime);
 	associated->AddComponent(newSprite);
 	associated->box.MoveThis(pos);
+	return (Sprite*)newSprite;
 }
