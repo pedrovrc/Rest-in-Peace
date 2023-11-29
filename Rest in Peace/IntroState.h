@@ -1,20 +1,21 @@
-#ifndef EXPLORESTATE_H
-#define EXPLORESTATE_H
+#ifndef INTROSTATE_H
+#define INTROSTATE_H
 
 #include "State.h"
+#include "Text.h"
 
 /*
- * Classe ExploreState
+ * Classe IntroState
  *
  * Classe que implementa a tela de exploração.
  */
 
-class ExploreState : public State {
+class IntroState : public State {
 	vector<GameObject*> button_list;
-	bool intro;
+	int currentStage;
 public:
-	ExploreState(string type);
-	~ExploreState();
+	IntroState();
+	~IntroState();
 
 	void LoadAssets();
 	void Update(float dt);
@@ -26,11 +27,10 @@ public:
 
 	void LoadScreen();
 	void LoadAmbient(string type);
-	void LoadExecIntro();
-	void LoadText();
+	void LoadIntroText(int part);
 	void LoadButton(string type);
 };
 
 
 
-#endif /* EXPLORESTATE_H_ */
+#endif /* INTROSTATE_H_ */

@@ -5,6 +5,9 @@
 #include "InputManager.h"
 #include "Game.h"
 #include "CombatState.h"
+#include "ScrollerText.h"
+#include "GeneralFunctions.h"
+#include "IntroState.h"
 
 ExploreState::ExploreState(string type) {
 	quitRequested = false;
@@ -27,65 +30,52 @@ void ExploreState::LoadAssets() {
 	// carrega ilustracao de ambiente
 	LoadAmbient("Placeholder");
 
-	// carrega texto de cutscene inicial
-	if (intro) LoadIntroText();
+	// carrega texto do local
+	LoadText();
 
-	// carrega botão que leva para tela de combate
+	// carrega botões de opções dada a situação
+	// ATUALMENTE : carrega botão que leva para tela de combate
 	LoadButton("combat");
+}
+
+void ExploreState::LoadExecIntro() {
+	//cria estado IntroState e coloca na pilha
+	Game& game = game.GetInstance();
+	State* state = (State*) new IntroState();
+	game.Push(state);
 }
 
 void ExploreState::LoadScreen() {
 	// Carrega imagem do fundo da tela
 	GameObject* screen = new GameObject;
-	Component* bg = new Sprite(*screen, "img/screens/dialoguescreen.png", 1, 0);
-	screen->AddComponent(bg);
-	screen->box.MoveThis(*new Vec2(0,0));
+	CreateAddSprite(screen, "img/screens/dialoguescreen.png", 1, 0, *new Vec2(0,0));
 	AddObject(screen);
 }
 
 void ExploreState::LoadAmbient(string type) {
 	// Carrega ilustração do fundo da tela
 	GameObject* ambient = new GameObject;
-	Component* bg;
-
+	string filename;
 	if (type == "Placeholder") {
-		bg = new Sprite(*ambient, "img/living_room_crop.png", 1, 0);
+		filename = "img/living_room_crop.png";
 	}
-
-	ambient->AddComponent(bg);
-	ambient->box.MoveThis(*new Vec2(0,0));
+	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0));
 	AddObject(ambient);
 }
 
-void ExploreState::LoadIntroText() {
+void ExploreState::LoadText() {
 	Colors color = Colors::GetInstance();
 
-	GameObject* intro = new GameObject;
-	intro->box.SetPosition(*new Vec2(570,10));
-	string text = ReadAllFromFile("text/intro.txt");
-	Component* introText = new Text(*intro,
-									"font/PetrovSans-Regular.ttf", 20,
-									Text::TextStyle::BLENDED,
-									text,
-									color.white, 0);
-	intro->AddComponent(introText);
-	intro->box.w = 650;
-	intro->box.h = 600;
-	((Text*)introText)->SetScope(0, 0, intro->box.w, intro->box.h);
-	AddObject(intro);
-}
+	GameObject* event = new GameObject;
+	event->box.SetPosition(*new Vec2(570,10));
 
-string ExploreState::ReadAllFromFile(string path) {
-	ifstream file(path);
-	string text;
+	string text = ReadAllFromFile("text/salao_entrada.txt");
+	Text* eventText = CreateAddText(event, "PetrovSans-Regular.ttf", 20, text, 650, 600, color.white, 0);
 
-	if (file) {	// checa arquivo não nulo
-		ostringstream stream;
-		stream << file.rdbuf();
-		text = stream.str();
-	}
+	Component* textScroller = new ScrollerText(*event, eventText, "texto evento pt1");
+	event->AddComponent(textScroller);
 
-	return text;
+	AddObject(event);
 }
 
 void ExploreState::LoadButton(string type) {
@@ -93,20 +83,8 @@ void ExploreState::LoadButton(string type) {
 
 	GameObject* combat = new GameObject;
 
-	Component* combatbutton = new Button(*combat, "main menu");
-	combat->box.SetDimensions(505, 121);
-	combat->box.SetCenterPosition(*new Vec2(920, 800));
-	combat->AddComponent(combatbutton);
-
-	Component* buttontext = new Text(*combat,
-									"font/nk57-monospace-no-rg.otf", 40,
-									Text::TextStyle::BLENDED,
-									"Ir para combate",
-									color.white, 0);
-	combat->AddComponent(buttontext);
-	combat->box.w = ((Text*)buttontext)->GetSurfaceWidth();
-	combat->box.h = ((Text*)buttontext)->GetSurfaceHeight();
-	((Text*)buttontext)->SetScope(0, 0, combat->box.w, combat->box.h);
+	CreateAddButton(combat, "main menu", 505, 121, *new Vec2(1000, 800), "combat");
+	CreateAddText(combat, "nk57-monospace-no-rg.otf", 40, "Ir para combate", -1, -1, color.white, 0);
 
 	AddObject(combat);
 	button_list.push_back(combat);
@@ -126,24 +104,6 @@ void ExploreState::Update(float dt) {
 		State* state = (State*) new CombatState();
 		game.Push(state);
 	}
-
-	// scroll do texto
-	GameObject* go;
-	if (intro && (input->WheelRoll("down") || input->WheelRoll("up")
-			  || input->KeyPress(UP_ARROW_KEY) || input->KeyPress(DOWN_ARROW_KEY))) {	// detecta scroll ou seta
-		for (int i = 0; i < objectArray.size(); i++) {
-			go = objectArray[i].get();
-			if (go->GetComponent("Text") != nullptr && go->GetComponent("Button") == nullptr) {	// encontra texto não botão
-				Text* text = (Text*)go->GetComponent("Text");
-
-				int y_offset = 0;
-				if (input->WheelRoll("down") || input->KeyPress(DOWN_ARROW_KEY)) y_offset = 50;
-				if (input->WheelRoll("up") || input->KeyPress(UP_ARROW_KEY)) y_offset = -50;
-
-				text->RollScope(y_offset);
-			}
-		}
-	}
 }
 
 void ExploreState::Render() {
@@ -151,6 +111,9 @@ void ExploreState::Render() {
 }
 
 void ExploreState::Start() {
+	// carrega e executa cutscene inicial
+	if (intro) LoadExecIntro();
+
 	LoadAssets();
 }
 
@@ -159,5 +122,5 @@ void ExploreState::Pause() {
 }
 
 void ExploreState::Resume() {
-
+	if (intro == true) intro = false;
 }

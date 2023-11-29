@@ -13,6 +13,24 @@ Button::Button(GameObject& associated, string type) : Component(associated){
 		overlay = new Sprite(associated, "img/resources/selection overlay card.png", 1, 0);
 	}
 	overlaybox.SetDimensions(overlay->GetWidth(), overlay->GetHeight());
+
+	id = "No ID";
+}
+
+Button::Button(GameObject& associated, string type, string identifier) : Component(associated){
+	isHovered = false;
+
+	// seleciona sprite correto para o tipo
+	if (type == "main menu") {
+		overlay = new Sprite(associated, "img/resources/selection overlay main menu.png", 1, 0);
+	}
+	if (type == "card") {
+		// carregar overlay de selecao de carta
+		overlay = new Sprite(associated, "img/resources/selection overlay card.png", 1, 0);
+	}
+	overlaybox.SetDimensions(overlay->GetWidth(), overlay->GetHeight());
+
+	id = identifier;
 }
 
 void Button::Update(float dt) {
@@ -47,4 +65,8 @@ void Button::NotifyCollision(GameObject& other) {
 
 bool Button::IsHovered() {
 	return isHovered;
+}
+
+string Button::GetID() {
+	return id;
 }

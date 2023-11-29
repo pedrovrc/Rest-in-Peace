@@ -5,6 +5,7 @@
 #include "ExploreState.h"
 #include "Text.h"
 #include "Button.h"
+#include "GeneralFunctions.h"
 
 TitleState::TitleState() {
 
@@ -45,45 +46,40 @@ void TitleState::LoadAssets() {
 	AddObject(go);
 
 	// carrega botoes
-	GameObject* start = new GameObject;
-	Component* startbutton = new Button(*start, "main menu");
-	start->box.SetDimensions(MENUBUTTON_W, MENUBUTTON_H);
-	start->box.SetCenterPosition(*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y));
-	start->AddComponent(startbutton);
-	AddObject(start);
-	button_list.push_back(start);
+	// START
+	GameObject* startbutton = new GameObject;
+	CreateAddButton(startbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
+					*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y), "start");
+	AddObject(startbutton);
+	button_list.push_back(startbutton);
 
-	GameObject* load = new GameObject;
-	Component* loadbutton = new Button(*load, "main menu");
-	load->box.SetDimensions(MENUBUTTON_W, MENUBUTTON_H);
-	load->box.SetCenterPosition(*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + MENUBUTTON_H));
-	load->AddComponent(loadbutton);
-	AddObject(load);
-	button_list.push_back(load);
+	// LOAD
+	GameObject* loadbutton = new GameObject;
+	CreateAddButton(loadbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
+						*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + MENUBUTTON_H), "load");
+	AddObject(loadbutton);
+	button_list.push_back(loadbutton);
 
-	GameObject* options = new GameObject;
-	Component* optionsbutton = new Button(*options, "main menu");
-	options->box.SetDimensions(505, 121);
-	options->box.SetCenterPosition(*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + 2 * MENUBUTTON_H));
-	options->AddComponent(optionsbutton);
-	AddObject(options);
-	button_list.push_back(options);
+	// OPTIONS
+	GameObject* optionsbutton = new GameObject;
+	CreateAddButton(optionsbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
+							*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + 2 * MENUBUTTON_H), "options");
+	AddObject(optionsbutton);
+	button_list.push_back(optionsbutton);
 
-	GameObject* credits = new GameObject;
-	Component* creditsbutton = new Button(*credits, "main menu");
-	credits->box.SetDimensions(MENUBUTTON_W, MENUBUTTON_H);
-	credits->box.SetCenterPosition(*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + 3 * MENUBUTTON_H));
-	credits->AddComponent(creditsbutton);
-	AddObject(credits);
-	button_list.push_back(credits);
+	// CREDITS
+	GameObject* creditsbutton = new GameObject;
+	CreateAddButton(creditsbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
+								*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + 3 * MENUBUTTON_H), "credits");
+	AddObject(creditsbutton);
+	button_list.push_back(creditsbutton);
 
-	GameObject* quit = new GameObject;
-	Component* quitbutton = new Button(*quit, "main menu");
-	quit->box.SetDimensions(MENUBUTTON_W, MENUBUTTON_H);
-	quit->box.SetCenterPosition(*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + 4 * MENUBUTTON_H));
-	quit->AddComponent(quitbutton);
-	AddObject(quit);
-	button_list.push_back(quit);
+	// QUIT
+	GameObject* quitbutton = new GameObject;
+	CreateAddButton(quitbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
+								*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + 4 * MENUBUTTON_H), "quit");
+	AddObject(quitbutton);
+	button_list.push_back(quitbutton);
 
 }
 

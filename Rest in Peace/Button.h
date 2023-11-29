@@ -19,15 +19,18 @@ private:
 	bool isHovered;
 	Sprite* overlay;
 	Rect overlaybox;
+	string id;
 
 public:
 	Button(GameObject& associated, string type);
+	Button(GameObject& associated, string type, string identifier);
 	void Update(float dt);
 	void Render();
 	void Start();
 	bool Is(string type);
 	void NotifyCollision(GameObject& other);
 	bool IsHovered();
+	string GetID();
 };
 
 #endif

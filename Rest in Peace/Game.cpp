@@ -148,9 +148,9 @@ void Game::Run() {
 		if (storedState != nullptr) {
 			stateStack.top().get()->Pause();
 			unique_ptr<State> uniqueState (storedState);
+			storedState = nullptr;
 			stateStack.push(move(uniqueState));
 			stateStack.top().get()->Start();
-			storedState = nullptr;
 		}
 
 		currentState = stateStack.top().get();

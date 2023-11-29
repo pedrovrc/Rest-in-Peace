@@ -96,7 +96,7 @@ void Rect::ResizeThis(float ratio) {
  * Seta posição do retângulo para que centro esteja no ponto fornecido.
  */
 void Rect::SetCenterPosition(Vec2 vector) {
-	Vec2* offset = new Vec2(w/2, h/2);
+	Vec2* offset = new Vec2((int)(w/2), (int)(h/2));
 	offset->RotateThis(angle);
 	SetPosition(vector - *offset);
 }
