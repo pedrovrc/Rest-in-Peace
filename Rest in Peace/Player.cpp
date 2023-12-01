@@ -147,6 +147,37 @@ Card * Player::GetCardFromHand(int val) {
 	return (Card*) hand[val]->GetComponent("Card");
 }
 
+void Player::DeleteCardFromHand(int val) {
+	hand[val]->RequestDelete();
+}
+
+void Player::DeleteCard(GameObject * go) {
+	int size = hand.size(), i = 0;
+	while (i < size) {
+		if (go == hand[i]) {
+			hand.erase(hand.begin() + i);
+			//delete go;
+			return;
+		}
+	i++;
+	}
+}
+
+GameObject * Player::GetDeadCard(int val) {
+	if(val < hand.size()) {
+		GameObject * go;
+		if(hand[val]->IsDead()) {
+			go = hand[val];
+			return go;
+		}
+	}
+	return nullptr;
+}
+
+int Player::GetHandSize() {
+	return (int)hand.size();
+}
+
 Button * Player::GetButtonFromHand(int val) {
 	return (Button*) hand[val]->GetComponent("Button");
 }
