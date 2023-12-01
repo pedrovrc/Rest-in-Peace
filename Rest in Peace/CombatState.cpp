@@ -378,7 +378,7 @@ bool CombatState::UseCard(int val) {
 	            player->SpendAP(player->GetCardFromHand(val)->cost);
 	            break;
 	        }
-	        //hand.erase (hand.begin()+val);
+	        player->DeleteCardFromHand(val);
 	        return 1;
 	    }
 	    else
@@ -415,16 +415,16 @@ void CombatState::Update(float dt) {
 	}
 
 	Button* cardButton;
-	for (int i = 0; i < PLAYER_HAND_SIZE; i++) {
+	for (int i = 0; i < player->GetHandSize(); i++) {
 		cardButton = player->GetButtonFromHand(i);
 		if(cardButton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 			UseCard(i);
 		}
 	}
 
-	if (input->KeyPress(N1_KEY)) {
-		UseCard(0);
-	}
+//	if (input->KeyPress(N1_KEY)) {
+//		UseCard(0);
+//	}
 //	if (input->KeyPress(N2_KEY)) {
 //		UseCard(2);
 //	}
@@ -439,12 +439,20 @@ void CombatState::Update(float dt) {
 	}
 	UpdatePlayerData();
 	UpdateEnemyData();
+	for(int i = 0; i < player->GetHandSize(); i++) {
+		GameObject * go = player->GetDeadCard(i);
+		if(go != nullptr) {
+			player->DeleteCard(go);
+		}
+	}
 }
+
 
 void CombatState::TurnPass() {
 	Player* player = Player::GetInstance();
 	player->ResetAP();
 	enemy->TurnAction();
+	player->DrawHand(PLAYER_HAND_SIZE-player->GetHandSize());
 	turnCounter++;
 }
 

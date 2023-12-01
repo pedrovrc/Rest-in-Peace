@@ -39,6 +39,10 @@ public:
 	static Player* GetInstance();
 
 	Card * GetCardFromHand(int val);
+	void DeleteCardFromHand(int val);
+	GameObject * GetDeadCard(int val);
+	void DeleteCard(GameObject * go);
+	int GetHandSize();
 	Button * GetButtonFromHand(int val);
 
 	int GetHP();
