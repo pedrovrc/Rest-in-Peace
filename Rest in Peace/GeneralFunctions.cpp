@@ -66,7 +66,7 @@ Text* CreateAddText(GameObject* associated, string font,
 								 int blinkTime) {
 	string fontpath = "font/" + font;
 	Component* newText = new Text(*associated,
-									"font/PetrovSans-Regular.ttf", fontSize,
+									fontpath, fontSize,
 									Text::TextStyle::BLENDED,
 									text,
 									color, blinkTime);
@@ -105,9 +105,21 @@ Button* CreateAddButton(GameObject* associated, string type,
 }
 
 Sprite* CreateAddSprite(GameObject* associated, string filename,
-						int frameCount, int frameTime, Vec2 pos) {
+						int frameCount, int frameTime, Vec2 pos,
+						int width, int height) {
 	Component* newSprite = new Sprite(*associated, filename, frameCount, frameTime);
 	associated->AddComponent(newSprite);
-	associated->box.MoveThis(pos);
+	if (width >= 0 && height >= 0) associated->box.SetDimensions(width, height);
+	associated->box.SetPosition(pos);
+	return (Sprite*)newSprite;
+}
+
+Sprite* CreateAddCenteredSprite(GameObject* associated, string filename,
+						int frameCount, int frameTime, Vec2 centerpos,
+						int width, int height) {
+	Component* newSprite = new Sprite(*associated, filename, frameCount, frameTime);
+	associated->AddComponent(newSprite);
+	if (width >= 0 && height >= 0) associated->box.SetDimensions(width, height);
+	associated->box.SetCenterPosition(centerpos);
 	return (Sprite*)newSprite;
 }

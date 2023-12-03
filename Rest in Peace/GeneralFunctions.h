@@ -22,6 +22,10 @@ Text* CreateAddText(GameObject* associated, string font,
 					 SDL_Color color,
 					 int blinkTime);
 Sprite* CreateAddSprite(GameObject* associated, string filename,
-						int frameCount, int frameTime, Vec2 pos);
+						int frameCount, int frameTime, Vec2 pos,
+						int width, int height);
+Sprite* CreateAddCenteredSprite(GameObject* associated, string filename,
+						int frameCount, int frameTime, Vec2 centerpos,
+						int width, int height);
 
 #endif

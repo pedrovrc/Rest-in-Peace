@@ -42,7 +42,7 @@ void IntroState::LoadAssets() {
 void IntroState::LoadScreen() {
 	// Carrega imagem do fundo da tela
 	GameObject* screen = new GameObject;
-	CreateAddSprite(screen, "img/screens/dialoguescreen.png", 1, 0, *new Vec2(0,0));
+	CreateAddSprite(screen, "img/screens/dialoguescreen.png", 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(screen);
 }
 
@@ -53,7 +53,7 @@ void IntroState::LoadAmbient(string type) {
 	if (type == "Placeholder") {
 		filename = "img/living_room_crop.png";
 	}
-	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0));
+	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
 }
 
@@ -66,7 +66,7 @@ void IntroState::LoadIntroText(int part) {
 		intro->box.SetPosition(*new Vec2(570,10));
 
 		string text = ReadAllFromFile("text/intro1.txt");
-		Text* introText = CreateAddText(intro, "PetrovSans-Regular.ttf", 20, text, 650, 600, color.white, 0);
+		Text* introText = CreateAddText(intro, PETROV, 20, text, 650, 600, color.white, 0);
 
 		Component* textScroller = new ScrollerText(*intro, introText, "texto intro pt1");
 		intro->AddComponent(textScroller);
@@ -91,7 +91,7 @@ void IntroState::LoadIntroText(int part) {
 		intro->box.SetPosition(*new Vec2(570,10));
 
 		string text = ReadAllFromFile("text/intro2.txt");
-		Text* introText = CreateAddText(intro, "PetrovSans-Regular.ttf", 20, text, 650, 600, color.white, 0);
+		Text* introText = CreateAddText(intro, PETROV, 20, text, 650, 600, color.white, 0);
 
 		Component* textScroller = new ScrollerText(*intro, introText, "texto intro pt2");
 		intro->AddComponent(textScroller);
@@ -108,7 +108,7 @@ void IntroState::LoadButton(string type) {
 	if (type == "continue") {
 		GameObject* contin = new GameObject;
 		CreateAddButton(contin, "main menu", 505, 121, position, "continue");
-		CreateAddText(contin, "nk57-monospace-no-rg.otf", 40, "Entrar", -1, -1, color.white, 0);
+		CreateAddText(contin, NK57, 40, "Entrar", -1, -1, color.white, 0);
 
 		AddObject(contin);
 		button_list.push_back(contin);
@@ -137,7 +137,7 @@ void IntroState::LoadButton(string type) {
 		GameObject* explore = new GameObject;
 
 		CreateAddButton(explore, "main menu", 505, 121, position, "end");
-		CreateAddText(explore, "nk57-monospace-no-rg.otf", 40, "Explorar", -1, -1, color.white, 0);
+		CreateAddText(explore, NK57, 40, "Explorar", -1, -1, color.white, 0);
 
 		AddObject(explore);
 		button_list.push_back(explore);

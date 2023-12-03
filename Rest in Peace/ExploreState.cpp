@@ -48,7 +48,7 @@ void ExploreState::LoadExecIntro() {
 void ExploreState::LoadScreen() {
 	// Carrega imagem do fundo da tela
 	GameObject* screen = new GameObject;
-	CreateAddSprite(screen, "img/screens/dialoguescreen.png", 1, 0, *new Vec2(0,0));
+	CreateAddSprite(screen, "img/screens/dialoguescreen.png", 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(screen);
 }
 
@@ -59,7 +59,7 @@ void ExploreState::LoadAmbient(string type) {
 	if (type == "Placeholder") {
 		filename = "img/living_room_crop.png";
 	}
-	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0));
+	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
 }
 
@@ -70,7 +70,7 @@ void ExploreState::LoadText() {
 	event->box.SetPosition(*new Vec2(570,10));
 
 	string text = ReadAllFromFile("text/salao_entrada.txt");
-	Text* eventText = CreateAddText(event, "PetrovSans-Regular.ttf", 20, text, 650, 600, color.white, 0);
+	Text* eventText = CreateAddText(event, PETROV, 20, text, 650, 600, color.white, 0);
 
 	Component* textScroller = new ScrollerText(*event, eventText, "texto evento pt1");
 	event->AddComponent(textScroller);
@@ -84,7 +84,7 @@ void ExploreState::LoadButton(string type) {
 	GameObject* combat = new GameObject;
 
 	CreateAddButton(combat, "main menu", 505, 121, *new Vec2(1000, 800), "combat");
-	CreateAddText(combat, "nk57-monospace-no-rg.otf", 40, "Ir para combate", -1, -1, color.white, 0);
+	CreateAddText(combat, NK57, 40, "Ir para combate", -1, -1, color.white, 0);
 
 	AddObject(combat);
 	button_list.push_back(combat);

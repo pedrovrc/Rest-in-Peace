@@ -9,6 +9,9 @@
 #define INCLUDE_SDL_IMAGE
 #include "SDL_include.h"
 
+#define NK57 "nk57-monospace-no-rg.otf"
+#define PETROV "PetrovSans-Regular.ttf"
+
 class Text : public Component {
 public:
 	enum TextStyle { SOLID, SHADED, BLENDED };
