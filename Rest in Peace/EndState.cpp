@@ -4,62 +4,41 @@
 #include "Music.h"
 #include "Text.h"
 #include "GameData.h"
+#include "GeneralFunctions.h"
 
 EndState::EndState() {
 	quitRequested = false;
+	Colors color = Colors::GetInstance();
+	GameObject* go_textQuit = new GameObject();
+	GameObject* go_bg = new GameObject();
+	CreateAddSprite(go_bg, "img/living_room.jpg", 1, 0, *new Vec2(0,0), WINDOW_WIDTH, WINDOW_HEIGHT);
+	AddObject(go_bg);
 
 	if (GameData::playerVictory) {
 		// vitoria
 		// carrega bg
-		GameObject* go_bg = new GameObject();
-		Component* bg = new Sprite(*go_bg, "img/win.jpg", 1, 0);
-		go_bg->AddComponent(bg);
-		go_bg->box.MoveThis(*new Vec2(0,0));
-		AddObject(go_bg);
+		CreateAddText(go_textQuit, NK57, 40, "YOU WIN!", -1, -1, color.white, 0);
+		go_textQuit->box.SetCenterPosition(*new Vec2(800,450));
 
+		AddObject(go_textQuit);
 		// carrega musica
-		backgroundMusic.Open("audio/endStateWin.ogg");
+		//backgroundMusic.Open("audio/endStateWin.ogg");
 	} else {
 		// derrota
 		// carrega bg
-		GameObject* go_bg = new GameObject();
-		Component* bg = new Sprite(*go_bg, "img/lose.jpg", 1, 0);
-		go_bg->AddComponent(bg);
-		go_bg->box.MoveThis(*new Vec2(0,0));
-		AddObject(go_bg);
+		CreateAddText(go_textQuit, NK57, 40, "YOU LOSE!", -1, -1, color.white, 0);
+		go_textQuit->box.SetCenterPosition(*new Vec2(800,450));
+
+		AddObject(go_textQuit);
 
 		// carrega musica
-		backgroundMusic.Open("audio/endStateLose.ogg");
+		//backgroundMusic.Open("audio/endStateLose.ogg");
 	}
 
 	// carrega texto
-	GameObject* go_textQuit = new GameObject();
-	SDL_Color black;
-	black.r = 0;
-	black.g = 0;
-	black.b = 0;
-	black.a = 255;
-	Text* textQuit = new Text(*go_textQuit,
-						  "font/Call me maybe.ttf", 16,
-						  Text::TextStyle::SOLID,
-						  "Press ESC to quit",
-						  black, 0.5);
-	go_textQuit->AddComponent((Component*) textQuit);
-	go_textQuit->box.SetPosition(*new Vec2(250,500));
-	go_textQuit->box.w = 500;
-	go_textQuit->box.h = 100;
-	AddObject(go_textQuit);
 
 	GameObject* go_textPlay = new GameObject();
-	Text* textPlay = new Text(*go_textPlay,
-						  "font/Call me maybe.ttf", 16,
-						  Text::TextStyle::SOLID,
-						  "Press SPACEBAR to play again",
-						  black, 0.5);
-	go_textPlay->AddComponent((Component*) textPlay);
-	go_textPlay->box.SetPosition(*new Vec2(250,450));
-	go_textPlay->box.w = 500;
-	go_textPlay->box.h = 100;
+
 	AddObject(go_textPlay);
 
 }

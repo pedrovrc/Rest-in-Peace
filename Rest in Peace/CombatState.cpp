@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Button.h"
 #include "GeneralFunctions.h"
+#include "Game.h"
+#include "EndState.h"
 
 CombatState::CombatState() {
 	quitRequested = false;
@@ -255,7 +257,7 @@ void CombatState::UpdateEnemyData() {
 
 bool CombatState::UseCard(int val) {
 	Player* player = Player::GetInstance();
-	if((player->GetAP() >= player->GetCardFromHand(val)->cost) ||
+	if((player->GetAP() >= player->GetCardFromHand(val)->cost) &&
 			player->GetSP() >= player->GetCardFromHand(val)->sanityCost)
 	    {
 	        switch(player->GetCardFromHand(val)->t)
@@ -296,13 +298,22 @@ bool CombatState::UseCard(int val) {
 
 void CombatState::Update(float dt) {
 	UpdateArray(dt);
+	Player* player = Player::GetInstance();
+
+	if(player->GetHP() <= 0 || enemy->GetHP() <= 0) {
+		Game& game = game.GetInstance();
+		if(player->GetHP() <= 0) game.gameData.playerVictory = false;
+		else game.gameData.playerVictory = true;
+		State* state = (State*) new EndState();
+		game.Push(state);
+		popRequested = true;
+	}
 
 	InputManager* input = &(InputManager::GetInstance());
 	popRequested = input->QuitRequested();
 
 	// comportamentos para teste do HUD dinâmico
 	// Espaco -> diminui atributos
-	Player* player = Player::GetInstance();
 	player->Update(dt);
 
 	if (input->KeyPress(SPACE_KEY)) {
