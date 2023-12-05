@@ -21,3 +21,9 @@ GameObject* Deck::DrawOne()
     list.pop_back();
     return go_card;
 }
+
+GameObject* Deck::DrawThis(int val) {
+	GameObject* go_card = list[val];
+	list.erase(list.begin()+val);
+	return go_card;
+}

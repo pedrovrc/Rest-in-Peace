@@ -165,17 +165,19 @@ void IntroState::Update(float dt) {
 		}
 	}
 
+	// implementa funcionalidade do botao da parte 2
+	if (currentStage == 2 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		popRequested = true;
+	}
+
 	// implementa funcionalidade do botao da parte 1
-	if (currentStage == 1 && currentbutton->IsHovered() && input->KeyPress(SPACE_KEY)) {
+	if (currentStage == 1 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 		LoadIntroText(2);
 		LoadButton("end");
 		currentStage = 2;
 	}
 
-	// implementa funcionalidade do botao da parte 2
-	if (currentStage == 2 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-		popRequested = true;
-	}
+
 }
 
 void IntroState::Render() {

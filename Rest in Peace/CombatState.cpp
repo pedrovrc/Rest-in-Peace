@@ -164,7 +164,8 @@ void CombatState::LoadPlayerProfile() {
 }
 
 void CombatState::LoadCombatAssets() {
-	Player::GetInstance()->DrawHand(PLAYER_HAND_SIZE);
+	Player::GetInstance()->DrawRequired();
+	Player::GetInstance()->DrawHand(PLAYER_HAND_SIZE-Player::GetInstance()->GetHandSize());
 }
 
 void CombatState::UpdatePlayerData() {

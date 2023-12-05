@@ -63,6 +63,7 @@ public:
 	void LoseArmor(int quantity);
 
 	void DrawHand(int quantity);
+	void DrawRequired();
 	void RenderHand();
 
 	void Update(float dt);

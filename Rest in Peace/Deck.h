@@ -16,6 +16,7 @@ public:
 	Deck();
 	virtual ~Deck();
 	GameObject* DrawOne();
+	GameObject* DrawThis(int val);
 	void AddCard();
 	void RemoveCard();
 };
