@@ -4,7 +4,7 @@
 #include "Component.h"
 #include "Sprite.h"
 
-enum classification {DAMAGE, HEALING, ARMOR};
+enum classification {DAMAGE, HEALING, ARMOR, SANITY};
 
 #define ORIGINAL_CARD_W 900
 #define ORIGINAL_CARD_H 811
@@ -25,6 +25,7 @@ public:
 	Card(GameObject& associated, string str);
 	~Card();
 	int cost;
+	int sanityCost;
 	string name;
 	string flavor;
 	classification t;

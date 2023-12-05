@@ -15,12 +15,10 @@ Player::Player() {
 
 	// carrega deck inicial
 	ifstream decklist;
-	//cout << "opening deck..." << endl;
-	decklist.open("card_info/workingdeck.txt", ifstream::in);
+	decklist.open("card_info/deck.txt", ifstream::in);
 
 	if(decklist.is_open())
 	{
-		//cout << "deck opened!" << endl;
 		GameObject* go_card;
 		while (!(decklist.eof()))
 		{
@@ -39,9 +37,6 @@ Player::Player() {
 		}
 		decklist.close();
 	}
-	//else
-		//cout << "erro" << endl;
-	//-cout << "Deck size is: " << deck.list.size() << endl;
 
 	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
 	shuffle(deck.list.begin(), deck.list.end(), default_random_engine(seed));
@@ -164,7 +159,7 @@ void Player::DeleteCard(GameObject * go) {
 }
 
 GameObject * Player::GetDeadCard(int val) {
-	if(val < hand.size()) {
+	if(val < (int)hand.size()) {
 		GameObject * go;
 		if(hand[val]->IsDead()) {
 			go = hand[val];
@@ -180,4 +175,11 @@ int Player::GetHandSize() {
 
 Button * Player::GetButtonFromHand(int val) {
 	return (Button*) hand[val]->GetComponent("Button");
+}
+
+void Player::DiscardHand() {
+	while(GetHandSize() > 0) {
+		GameObject * go = hand[0];
+		DeleteCard(go);
+	}
 }

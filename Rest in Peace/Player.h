@@ -43,6 +43,7 @@ public:
 	GameObject * GetDeadCard(int val);
 	void DeleteCard(GameObject * go);
 	int GetHandSize();
+	void DiscardHand();
 	Button * GetButtonFromHand(int val);
 
 	int GetHP();

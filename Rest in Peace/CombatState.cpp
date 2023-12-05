@@ -254,30 +254,40 @@ void CombatState::UpdateEnemyData() {
 
 bool CombatState::UseCard(int val) {
 	Player* player = Player::GetInstance();
-	//cout << "Used card " << val << ": " << player->GetCardFromHand(val)->name << endl;
-	if(player->GetAP() >= player->GetCardFromHand(val)->cost)
+	if((player->GetAP() >= player->GetCardFromHand(val)->cost) ||
+			player->GetSP() >= player->GetCardFromHand(val)->sanityCost)
 	    {
 	        switch(player->GetCardFromHand(val)->t)
 	        {
 	        case DAMAGE:
 	            enemy->TakeDamage(player->GetCardFromHand(val)->quantity);
 	            player->SpendAP(player->GetCardFromHand(val)->cost);
+	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+	            player->DeleteCardFromHand(val);
 	            break;
 	        case HEALING:
 	            player->Heal(player->GetCardFromHand(val)->quantity);
 	            player->SpendAP(player->GetCardFromHand(val)->cost);
+	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+	            player->DeleteCardFromHand(val);
 	            break;
 	        case ARMOR:
 	            player->GainArmor(player->GetCardFromHand(val)->quantity);
 	            player->SpendAP(player->GetCardFromHand(val)->cost);
+	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+	            player->DeleteCardFromHand(val);
 	            break;
+	        case SANITY:
+	            player->SpendAP(player->GetCardFromHand(val)->cost);
+	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+				player->DiscardHand();
+				player->DrawHand(PLAYER_HAND_SIZE);
+	        	break;
 	        }
-	        player->DeleteCardFromHand(val);
 	        return 1;
 	    }
 	    else
 	    {
-	        cout << "Not enough AP!" << endl;
 	    	return 0;
 	    }
 	return true;

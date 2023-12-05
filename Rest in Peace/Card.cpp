@@ -14,12 +14,15 @@ Card::Card(GameObject& associated, string str) : Component(associated)
     effect = regex_replace(str, regex("\\[.*\\]|\\{.*\\}|\\<|\\>"), "$2");
 
     smatch sm;
-    regex_search(effect, sm, regex("(\\d+)"));
 
-    cost = stoi(sm[0]);
-    regex_search(effect, sm, regex("(\\d+)$"));
+    regex_search(effect, sm, regex("(\\d) (\\d) (\\w+) (\\d)"));
+    cost = stoi(sm[1]);
 
-    quantity = stoi(sm[0]);
+    sanityCost = stoi(sm[2]);
+
+    quantity = stoi(sm[4]);
+
+
     if(regex_search(effect,var,regex("(damage)")))
     {
         this->t = DAMAGE;
@@ -29,9 +32,13 @@ Card::Card(GameObject& associated, string str) : Component(associated)
         this->t = HEALING;
     }
     if(regex_search(effect,var,regex("(armor)")))
-    {
-        this->t = ARMOR;
-    }
+	{
+		this->t = ARMOR;
+	}
+    if(regex_search(effect,var,regex("(sanity)")))
+	{
+		this->t = SANITY;
+	}
 
     // carrega imagem da carta
     string filename = "img/cards/" + name + ".png";

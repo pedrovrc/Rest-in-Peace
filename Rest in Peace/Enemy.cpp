@@ -16,7 +16,6 @@ void Enemy::TurnAction() {
 void Enemy::TakeDamage(int dmg_amount) {
 	hp -= dmg_amount;
 	if (hp < 0) hp = 0;
-	//cout << "inimigo tomou dano" << endl;
 }
 
 int Enemy::GetHP() {
