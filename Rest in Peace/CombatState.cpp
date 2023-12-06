@@ -97,9 +97,6 @@ void CombatState::LoadPlayerProfile() {
 
 	Player* player = Player::GetInstance();
 
-	// Comeca com 5 armor para demonstração
-	//player->GainArmor(5);
-
 	// Carrega HUD HP -------------------
 	// barra vermelha
 	GameObject* redbar = new GameObject;

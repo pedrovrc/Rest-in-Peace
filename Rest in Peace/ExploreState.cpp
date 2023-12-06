@@ -30,6 +30,9 @@ void ExploreState::LoadAssets() {
 	// carrega ilustracao de ambiente
 	LoadAmbient("Placeholder");
 
+	// carrega ilustrações e dados do painel do player
+	LoadPlayerProfile();
+
 	// carrega texto do local
 	LoadText();
 
@@ -61,6 +64,67 @@ void ExploreState::LoadAmbient(string type) {
 	}
 	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
+}
+
+void ExploreState::LoadPlayerProfile() {
+	Colors& color = Colors::GetInstance();
+
+	// carrega avatar do player
+	GameObject* avatar = new GameObject;
+	CreateAddSprite(avatar, "img/MC/avatar v2.png", 1, 0,
+					*new Vec2(AVATAR_POS_X, AVATAR_POS_Y), -1, -1);
+	AddObject(avatar);
+
+	// carrega textos
+	// carrega nome
+	GameObject* name = new GameObject;
+	CreateAddText(name, "nk57-monospace-no-rg.otf", 40, "Sofia", -1, -1, color.white, 0);
+	name->box.SetCenterPosition(*new Vec2(1505, 40));
+	AddObject(name);
+
+	Player* player = Player::GetInstance();
+
+	// Carrega HUD HP -------------------
+	// barra vermelha
+	GameObject* redbar = new GameObject;
+	CreateAddSprite(redbar, "img/resources/red bar.png", 1, 0,
+					*new Vec2(HUD_POS_X, HUD_POS_Y), HUDBAR_W, HUDBAR_H);
+	AddObject(redbar);
+
+	// barra verde
+	GameObject* hpbar = new GameObject;
+	CreateAddSprite(hpbar, "img/resources/green bar.png", 1, 0,
+					*new Vec2(HUD_POS_X, HUD_POS_Y),
+					HUDBAR_W * ((float)player->GetHP()/PLAYER_MAX_HP), HUDBAR_H);
+	playerData.push_back(hpbar);
+
+	// string na barra
+	string hp = "Vida: " + to_string(player->GetHP()) + "/" + to_string(PLAYER_MAX_HP);
+	GameObject* go_hpdata = new GameObject();
+	CreateAddText(go_hpdata, NK57, 15, hp, -1, -1, color.white, 0);
+	go_hpdata->box.SetCenterPosition(redbar->box.GetCenter());
+	playerData.push_back(go_hpdata);
+
+	// Carrega HUD SP -----------------------
+	// barra cinza.
+	GameObject* graybar = new GameObject;
+	CreateAddSprite(graybar, "img/resources/gray bar.png", 1, 0,
+			*new Vec2(HUD_POS_X, HUD_POS_Y + HUD_Y_OFFSET), HUDBAR_W, HUDBAR_H);
+	AddObject(graybar);
+
+	// barra branca
+	GameObject* spbar = new GameObject;
+	CreateAddSprite(spbar, "img/resources/white bar.png", 1, 0,
+				*new Vec2(HUD_POS_X, HUD_POS_Y + HUD_Y_OFFSET),
+				HUDBAR_W * ((float)player->GetSP()/PLAYER_MAX_SP), HUDBAR_H);
+	playerData.push_back(spbar);
+
+	// string na barra
+	string sp = "Sanidade: " + to_string(player->GetSP()) + "/" + to_string(PLAYER_MAX_SP);
+	GameObject* go_spdata = new GameObject();
+	CreateAddText(go_spdata, NK57, 15, sp, -1, -1, color.black, 0);
+	go_spdata->box.SetCenterPosition(graybar->box.GetCenter());
+	playerData.push_back(go_spdata);
 }
 
 void ExploreState::LoadText() {
@@ -108,6 +172,13 @@ void ExploreState::Update(float dt) {
 
 void ExploreState::Render() {
 	this->RenderArray();
+	this->RenderPlayerData();
+}
+
+void ExploreState::RenderPlayerData() {
+	for (int i = 0; i < (int)playerData.size(); i++) {
+		playerData[i]->Render();
+	}
 }
 
 void ExploreState::Start() {
