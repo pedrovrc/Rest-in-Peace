@@ -106,6 +106,31 @@ void IntroState::LoadIntroText(int part) {
 
 		AddObject(intro);
 	}
+
+	if (part == 3) {
+		// deleta texto antigo
+		Component* cpt = nullptr;
+		GameObject* go;
+		for (int i = 0; i < objectArray.size(); i++) {
+			go = objectArray[i].get();
+			cpt = go->GetComponent("ScrollerText");
+			if (cpt != nullptr && ((ScrollerText*)cpt)->GetID() == "texto intro pt2") {
+				DeleteObject(go);
+			}
+		}
+
+		// cria novo texto
+		GameObject* intro = new GameObject;
+		intro->box.SetPosition(*new Vec2(570,10));
+
+		string text = ReadAllFromFile("text/intro3.txt");
+		Text* introText = CreateAddText(intro, PETROV, 20, text, 650, 600, color.white, 0);
+
+		Component* textScroller = new ScrollerText(*intro, introText, "texto intro pt3");
+		intro->AddComponent(textScroller);
+
+		AddObject(intro);
+	}
 }
 
 void IntroState::LoadPlayerProfile() {
@@ -189,7 +214,7 @@ void IntroState::LoadButton(string type) {
 		button_list.push_back(contin);
 	}
 
-	if (type == "end" ) {
+	if (type == "continue 2") {
 		// deleta botao antigo
 		Component* cpt = nullptr;
 		for (int i = 0; i < button_list.size(); i++) {
@@ -204,6 +229,33 @@ void IntroState::LoadButton(string type) {
 			go = objectArray[i].get();
 			cpt = go->GetComponent("Button");
 			if (cpt != nullptr && ((Button*)cpt)->GetID() == "continue") {
+				DeleteObject(go);
+			}
+		}
+
+		GameObject* contin = new GameObject;
+		CreateAddButton(contin, "main menu", 505, 121, position, "continue 2");
+		CreateAddText(contin, NK57, 40, "Continuar", -1, -1, color.white, 0);
+
+		AddObject(contin);
+		button_list.push_back(contin);
+	}
+
+	if (type == "end" ) {
+		// deleta botao antigo
+		Component* cpt = nullptr;
+		for (int i = 0; i < button_list.size(); i++) {
+			cpt = button_list[i]->GetComponent("Button");
+			if (cpt != nullptr && ((Button*)cpt)->GetID() == "continue 2") {
+				button_list.erase(button_list.begin() + i);
+			}
+		}
+		GameObject* go;
+		cpt = nullptr;
+		for (int i = 0; i < objectArray.size(); i++) {
+			go = objectArray[i].get();
+			cpt = go->GetComponent("Button");
+			if (cpt != nullptr && ((Button*)cpt)->GetID() == "continue 2") {
 				DeleteObject(go);
 			}
 		}
@@ -237,24 +289,36 @@ void IntroState::Update(float dt) {
 	if (currentStage == 2) {
 		for (int i = 0; i < button_list.size(); i++) {
 			currentbutton = (Button*) button_list[i]->GetComponent("Button");
+			if (currentbutton->GetID() == "continue 2") break;
+		}
+	}
+	if (currentStage == 3) {
+		for (int i = 0; i < button_list.size(); i++) {
+			currentbutton = (Button*) button_list[i]->GetComponent("Button");
 			if (currentbutton->GetID() == "end") break;
 		}
 	}
 
-	if (currentStage == 3 && profileCover->box.x > 1600) {
+	if (currentStage == 4 && profileCover->box.x > 1600) {
 		popRequested = true;
+	}
+
+	if (currentStage == 3 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		currentStage = 4;
+		animate = true;
 	}
 
 	// implementa funcionalidade do botao da parte 2
 	if (currentStage == 2 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		LoadIntroText(3);
+		LoadButton("end");
 		currentStage = 3;
-		animate = true;
 	}
 
 	// implementa funcionalidade do botao da parte 1
 	if (currentStage == 1 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 		LoadIntroText(2);
-		LoadButton("end");
+		LoadButton("continue 2");
 		currentStage = 2;
 	}
 }

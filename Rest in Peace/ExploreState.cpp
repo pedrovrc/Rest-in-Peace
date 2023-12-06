@@ -14,6 +14,7 @@ ExploreState::ExploreState(string type) {
 	started = false;
 	if (type == "intro") intro = true;
 	else intro = false;
+	currentStage = 0;
 }
 
 ExploreState::~ExploreState() {
@@ -34,11 +35,13 @@ void ExploreState::LoadAssets() {
 	LoadPlayerProfile();
 
 	// carrega texto do local
-	LoadText();
+	LoadText(1);
 
 	// carrega botões de opções dada a situação
-	// ATUALMENTE : carrega botão que leva para tela de combate
-	LoadButton("combat");
+	// ATUALMENTE : carrega botão de opção inicial da cena
+	LoadButton("name");
+
+	currentStage = 1;
 }
 
 void ExploreState::LoadExecIntro() {
@@ -127,31 +130,129 @@ void ExploreState::LoadPlayerProfile() {
 	playerData.push_back(go_spdata);
 }
 
-void ExploreState::LoadText() {
+void ExploreState::LoadText(int part) {
 	Colors color = Colors::GetInstance();
 
-	GameObject* event = new GameObject;
-	event->box.SetPosition(*new Vec2(570,10));
+	if (part == 1) {
+		GameObject* event = new GameObject;
+		event->box.SetPosition(*new Vec2(570,10));
 
-	string text = ReadAllFromFile("text/salao_entrada.txt");
-	Text* eventText = CreateAddText(event, PETROV, 20, text, 650, 600, color.white, 0);
+		string text = ReadAllFromFile("text/eventoinicial1.txt");
+		Text* eventText = CreateAddText(event, PETROV, 20, text, 650, 600, color.white, 0);
 
-	Component* textScroller = new ScrollerText(*event, eventText, "texto evento pt1");
-	event->AddComponent(textScroller);
+		Component* textScroller = new ScrollerText(*event, eventText, "texto evento pt1");
+		event->AddComponent(textScroller);
 
-	AddObject(event);
+		AddObject(event);
+	}
+
+	if (part == 2) {
+		// deleta texto antigo
+		Component* cpt = nullptr;
+		GameObject* go;
+		for (int i = 0; i < objectArray.size(); i++) {
+			go = objectArray[i].get();
+			cpt = go->GetComponent("ScrollerText");
+			if (cpt != nullptr && ((ScrollerText*)cpt)->GetID() == "texto evento pt1") {
+				DeleteObject(go);
+			}
+		}
+
+		GameObject* event = new GameObject;
+		event->box.SetPosition(*new Vec2(570,10));
+
+		string text = ReadAllFromFile("text/eventoinicial2.txt");
+		Text* eventText = CreateAddText(event, PETROV, 20, text, 650, 600, color.white, 0);
+
+		Component* textScroller = new ScrollerText(*event, eventText, "texto evento pt2");
+		event->AddComponent(textScroller);
+
+		AddObject(event);
+	}
+
+	if (part == 3) {
+		// deleta texto antigo
+		Component* cpt = nullptr;
+		GameObject* go;
+		for (int i = 0; i < objectArray.size(); i++) {
+			go = objectArray[i].get();
+			cpt = go->GetComponent("ScrollerText");
+			if (cpt != nullptr && ((ScrollerText*)cpt)->GetID() == "texto evento pt2") {
+				DeleteObject(go);
+			}
+		}
+
+		GameObject* event = new GameObject;
+		event->box.SetPosition(*new Vec2(570,10));
+
+		string text = ReadAllFromFile("text/placeholder.txt");
+		Text* eventText = CreateAddText(event, PETROV, 20, text, 650, 600, color.white, 0);
+
+		Component* textScroller = new ScrollerText(*event, eventText, "texto evento pt3");
+		event->AddComponent(textScroller);
+
+		AddObject(event);
+	}
 }
 
 void ExploreState::LoadButton(string type) {
 	Colors color = Colors::GetInstance();
 
-	GameObject* combat = new GameObject;
+	GameObject* button = new GameObject;
 
-	CreateAddButton(combat, "main menu", 505, 121, *new Vec2(1000, 800), "combat");
-	CreateAddText(combat, NK57, 40, "Ir para combate", -1, -1, color.white, 0);
+	if (type == "name") {
+		CreateAddButton(button, "main menu", 505, 121, *new Vec2(1000, 800), type);
+		CreateAddText(button, NK57, 40, "Diga seu nome", -1, -1, color.white, 0);
+	}
 
-	AddObject(combat);
-	button_list.push_back(combat);
+	if (type == "take keys") {
+		// deleta botao antigo
+		Component* cpt = nullptr;
+		for (int i = 0; i < button_list.size(); i++) {
+			cpt = button_list[i]->GetComponent("Button");
+			if (cpt != nullptr && ((Button*)cpt)->GetID() == "name") {
+				button_list.erase(button_list.begin() + i);
+			}
+		}
+		GameObject* go;
+		cpt = nullptr;
+		for (int i = 0; i < objectArray.size(); i++) {
+			go = objectArray[i].get();
+			cpt = go->GetComponent("Button");
+			if (cpt != nullptr && ((Button*)cpt)->GetID() == "name") {
+				DeleteObject(go);
+			}
+		}
+
+		CreateAddButton(button, "main menu", 505, 121, *new Vec2(1000, 800), type);
+		CreateAddText(button, NK57, 40, "Pegue as chaves", -1, -1, color.white, 0);
+	}
+
+	if (type == "combat") {
+		// deleta botao antigo
+		Component* cpt = nullptr;
+		for (int i = 0; i < button_list.size(); i++) {
+			cpt = button_list[i]->GetComponent("Button");
+			if (cpt != nullptr && ((Button*)cpt)->GetID() == "take keys") {
+				button_list.erase(button_list.begin() + i);
+			}
+		}
+		GameObject* go;
+		cpt = nullptr;
+		for (int i = 0; i < objectArray.size(); i++) {
+			go = objectArray[i].get();
+			cpt = go->GetComponent("Button");
+			if (cpt != nullptr && ((Button*)cpt)->GetID() == "take keys") {
+				DeleteObject(go);
+			}
+		}
+
+		CreateAddButton(button, "main menu", 505, 121, *new Vec2(1000, 800), type);
+		CreateAddText(button, NK57, 40, "Ir para combate", -1, -1, color.white, 0);
+	}
+
+	AddObject(button);
+	button_list.push_back(button);
 }
 
 void ExploreState::Update(float dt) {
@@ -160,13 +261,46 @@ void ExploreState::Update(float dt) {
 	InputManager* input = &(InputManager::GetInstance());
 	popRequested = input->QuitRequested();
 
-	// implementa funcionalidade do botão de combate
-	Button* combatbutton = (Button*) button_list[0]->GetComponent("Button");
+	// implementa funcionalidade do botão
+	Button* currentbutton;
+	if (currentStage == 1) {
+		for (int i = 0; i < button_list.size(); i++) {
+			currentbutton = (Button*) button_list[i]->GetComponent("Button");
+			if (currentbutton->GetID() == "name") break;
+		}
+	}
+	if (currentStage == 2) {
+		for (int i = 0; i < button_list.size(); i++) {
+			currentbutton = (Button*) button_list[i]->GetComponent("Button");
+			if (currentbutton->GetID() == "take keys") break;
+		}
+	}
+	if (currentStage == 3) {
+		for (int i = 0; i < button_list.size(); i++) {
+			currentbutton = (Button*) button_list[i]->GetComponent("Button");
+			if (currentbutton->GetID() == "combat") break;
+		}
+	}
 
-	if (combatbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-		Game& game = game.GetInstance();
-		State* state = (State*) new CombatState();
-		game.Push(state);
+
+	if (currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		if (currentStage == 3) {
+			Game& game = game.GetInstance();
+			State* state = (State*) new CombatState();
+			game.Push(state);
+		}
+
+		if (currentStage == 2) {
+			LoadText(3);
+			LoadButton("combat");
+			currentStage = 3;
+		}
+
+		if (currentStage == 1) {
+			LoadText(2);
+			LoadButton("take keys");
+			currentStage = 2;
+		}
 	}
 }
 

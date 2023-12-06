@@ -22,6 +22,7 @@ class ExploreState : public State {
 	vector<GameObject*> button_list;
 	vector<GameObject*> playerData;
 	bool intro;
+	int currentStage;
 public:
 	ExploreState(string type);
 	~ExploreState();
@@ -38,7 +39,7 @@ public:
 	void LoadAmbient(string type);
 	void LoadPlayerProfile();
 	void LoadExecIntro();
-	void LoadText();
+	void LoadText(int part);
 	void LoadButton(string type);
 
 	void RenderPlayerData();
