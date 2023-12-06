@@ -16,6 +16,7 @@ IntroState::IntroState() {
 	started = false;
 	currentStage = 0;
 	animate = false;
+	profileCover = nullptr;
 }
 
 IntroState::~IntroState() {
@@ -84,15 +85,7 @@ void IntroState::LoadIntroText(int part) {
 
 	if (part == 2) {
 		// deleta texto antigo
-		Component* cpt = nullptr;
-		GameObject* go;
-		for (int i = 0; i < objectArray.size(); i++) {
-			go = objectArray[i].get();
-			cpt = go->GetComponent("ScrollerText");
-			if (cpt != nullptr && ((ScrollerText*)cpt)->GetID() == "texto intro pt1") {
-				DeleteObject(go);
-			}
-		}
+		DeleteText("texto intro pt1");
 
 		// cria novo texto
 		GameObject* intro = new GameObject;
@@ -109,15 +102,7 @@ void IntroState::LoadIntroText(int part) {
 
 	if (part == 3) {
 		// deleta texto antigo
-		Component* cpt = nullptr;
-		GameObject* go;
-		for (int i = 0; i < objectArray.size(); i++) {
-			go = objectArray[i].get();
-			cpt = go->GetComponent("ScrollerText");
-			if (cpt != nullptr && ((ScrollerText*)cpt)->GetID() == "texto intro pt2") {
-				DeleteObject(go);
-			}
-		}
+		DeleteText("texto intro pt2");
 
 		// cria novo texto
 		GameObject* intro = new GameObject;
@@ -130,6 +115,18 @@ void IntroState::LoadIntroText(int part) {
 		intro->AddComponent(textScroller);
 
 		AddObject(intro);
+	}
+}
+
+void IntroState::DeleteText(string id) {
+	Component* cpt = nullptr;
+	GameObject* go;
+	for (int i = 0; i < objectArray.size(); i++) {
+		go = objectArray[i].get();
+		cpt = go->GetComponent("ScrollerText");
+		if (cpt != nullptr && ((ScrollerText*)cpt)->GetID() == id) {
+			DeleteObject(go);
+		}
 	}
 }
 
@@ -205,69 +202,52 @@ void IntroState::LoadButton(string type) {
 	Vec2 position;
 	position.Set(1080, 800);
 
-	if (type == "continue") {
-		GameObject* contin = new GameObject;
-		CreateAddButton(contin, "main menu", 505, 121, position, "continue");
-		CreateAddText(contin, NK57, 40, "Entrar", -1, -1, color.white, 0);
+	GameObject* button = new GameObject;
 
-		AddObject(contin);
-		button_list.push_back(contin);
+	if (type == "continue") {
+		// cria novo botao
+		CreateAddButton(button, "main menu", 505, 121, position, "continue");
+		CreateAddText(button, NK57, 40, "Entrar", -1, -1, color.white, 0);
 	}
 
 	if (type == "continue 2") {
 		// deleta botao antigo
-		Component* cpt = nullptr;
-		for (int i = 0; i < button_list.size(); i++) {
-			cpt = button_list[i]->GetComponent("Button");
-			if (cpt != nullptr && ((Button*)cpt)->GetID() == "continue") {
-				button_list.erase(button_list.begin() + i);
-			}
-		}
-		GameObject* go;
-		cpt = nullptr;
-		for (int i = 0; i < objectArray.size(); i++) {
-			go = objectArray[i].get();
-			cpt = go->GetComponent("Button");
-			if (cpt != nullptr && ((Button*)cpt)->GetID() == "continue") {
-				DeleteObject(go);
-			}
-		}
+		DeleteButton("continue");
 
-		GameObject* contin = new GameObject;
-		CreateAddButton(contin, "main menu", 505, 121, position, "continue 2");
-		CreateAddText(contin, NK57, 40, "Continuar", -1, -1, color.white, 0);
-
-		AddObject(contin);
-		button_list.push_back(contin);
+		// cria novo botao
+		CreateAddButton(button, "main menu", 505, 121, position, "continue 2");
+		CreateAddText(button, NK57, 40, "Continuar", -1, -1, color.white, 0);
 	}
 
 	if (type == "end" ) {
 		// deleta botao antigo
-		Component* cpt = nullptr;
-		for (int i = 0; i < button_list.size(); i++) {
-			cpt = button_list[i]->GetComponent("Button");
-			if (cpt != nullptr && ((Button*)cpt)->GetID() == "continue 2") {
-				button_list.erase(button_list.begin() + i);
-			}
-		}
-		GameObject* go;
-		cpt = nullptr;
-		for (int i = 0; i < objectArray.size(); i++) {
-			go = objectArray[i].get();
-			cpt = go->GetComponent("Button");
-			if (cpt != nullptr && ((Button*)cpt)->GetID() == "continue 2") {
-				DeleteObject(go);
-			}
-		}
+		DeleteButton("continue 2");
 
 		// cria novo botao
-		GameObject* explore = new GameObject;
+		CreateAddButton(button, "main menu", 505, 121, position, "end");
+		CreateAddText(button, NK57, 40, "Explorar", -1, -1, color.white, 0);
+	}
 
-		CreateAddButton(explore, "main menu", 505, 121, position, "end");
-		CreateAddText(explore, NK57, 40, "Explorar", -1, -1, color.white, 0);
+	AddObject(button);
+	button_list.push_back(button);
+}
 
-		AddObject(explore);
-		button_list.push_back(explore);
+void IntroState::DeleteButton(string id) {
+	Component* cpt = nullptr;
+	for (int i = 0; i < button_list.size(); i++) {
+		cpt = button_list[i]->GetComponent("Button");
+		if (cpt != nullptr && ((Button*)cpt)->GetID() == id) {
+			button_list.erase(button_list.begin() + i);
+		}
+	}
+	GameObject* go;
+	cpt = nullptr;
+	for (int i = 0; i < objectArray.size(); i++) {
+		go = objectArray[i].get();
+		cpt = go->GetComponent("Button");
+		if (cpt != nullptr && ((Button*)cpt)->GetID() == id) {
+			DeleteObject(go);
+		}
 	}
 }
 
@@ -278,7 +258,7 @@ void IntroState::Update(float dt) {
 	InputManager* input = &(InputManager::GetInstance());
 	popRequested = input->QuitRequested();
 
-	// implementa funcionalidade dos botões
+	// seleciona botão de acordo com estágio botões
 	Button* currentbutton;
 	if (currentStage == 1) {
 		for (int i = 0; i < button_list.size(); i++) {
@@ -299,27 +279,31 @@ void IntroState::Update(float dt) {
 		}
 	}
 
+	// estágio final - animando painel lateral
 	if (currentStage == 4 && profileCover->box.x > 1600) {
 		popRequested = true;
 	}
 
-	if (currentStage == 3 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-		currentStage = 4;
-		animate = true;
-	}
+	if (currentStage != 4 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		// implementa funcionalidade do botao da parte 3
+		if (currentStage == 3) {
+			currentStage = 4;
+			animate = true;
+		}
 
-	// implementa funcionalidade do botao da parte 2
-	if (currentStage == 2 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-		LoadIntroText(3);
-		LoadButton("end");
-		currentStage = 3;
-	}
+		// implementa funcionalidade do botao da parte 2
+		if (currentStage == 2) {
+			LoadIntroText(3);
+			LoadButton("end");
+			currentStage = 3;
+		}
 
-	// implementa funcionalidade do botao da parte 1
-	if (currentStage == 1 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-		LoadIntroText(2);
-		LoadButton("continue 2");
-		currentStage = 2;
+		// implementa funcionalidade do botao da parte 1
+		if (currentStage == 1) {
+			LoadIntroText(2);
+			LoadButton("continue 2");
+			currentStage = 2;
+		}
 	}
 }
 

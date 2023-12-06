@@ -25,6 +25,19 @@ class IntroState : public State {
 	GameObject* profileCover;
 	bool animate;
 	int currentStage;
+
+	void LoadScreen();
+	void LoadAmbient(string type);
+	void LoadPlayerProfile();
+	void LoadProfileCover();
+	void LoadIntroText(int part);
+	void LoadButton(string type);
+
+	void DeleteButton(string id);
+	void DeleteText(string id);
+
+	void RenderPlayerData();
+
 public:
 	IntroState();
 	~IntroState();
@@ -36,15 +49,6 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-
-	void LoadScreen();
-	void LoadAmbient(string type);
-	void LoadPlayerProfile();
-	void LoadProfileCover();
-	void LoadIntroText(int part);
-	void LoadButton(string type);
-
-	void RenderPlayerData();
 };
 
 
