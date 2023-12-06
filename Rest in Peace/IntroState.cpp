@@ -149,6 +149,7 @@ void IntroState::Update(float dt) {
 	UpdateArray(dt);
 
 	InputManager* input = &(InputManager::GetInstance());
+	popRequested = input->QuitRequested();
 
 	// implementa funcionalidade dos botões
 	Button* currentbutton;

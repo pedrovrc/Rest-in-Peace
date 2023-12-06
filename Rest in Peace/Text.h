@@ -36,6 +36,8 @@ public:
 
 	void SetScope(int x, int y, int w, int h);
 	void RollScope(int y_offset);
+	bool ScopeUpLimit();
+	bool ScopeDownLimit();
 	int GetSurfaceHeight();
 	int GetSurfaceWidth();
 

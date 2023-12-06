@@ -93,8 +93,18 @@ void Text::SetScope(int x, int y, int w, int h) {
 
 void Text::RollScope(int y_offset) {
 	scope.y += y_offset;
-	if (scope.y < 0) scope.y = 0;
-	if (scope.y + scope.h > GetSurfaceHeight()) scope.y = GetSurfaceHeight() - scope.h;
+	if (ScopeUpLimit()) scope.y = 0;
+	if (ScopeDownLimit()) scope.y = GetSurfaceHeight() - scope.h;
+}
+
+bool Text::ScopeUpLimit() {
+	if (scope.y <= 0) return true;
+	else return false;
+}
+
+bool Text::ScopeDownLimit() {
+	if (scope.y + scope.h >= GetSurfaceHeight()) return true;
+	else return false;
 }
 
 int Text::GetSurfaceHeight() {
