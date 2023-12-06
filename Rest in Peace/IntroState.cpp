@@ -228,6 +228,8 @@ void IntroState::LoadButton(string type) {
 		CreateAddText(button, NK57, 40, "Explorar", -1, -1, color.white, 0);
 	}
 
+	button->box.SetCenterPosition(*new Vec2(900, 760));
+
 	AddObject(button);
 	button_list.push_back(button);
 }

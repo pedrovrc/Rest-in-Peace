@@ -23,6 +23,20 @@ class ExploreState : public State {
 	vector<GameObject*> playerData;
 	bool intro;
 	int currentStage;
+	bool choiceActive;
+
+	void LoadScreen();
+	void LoadAmbient(string type);
+	void LoadPlayerProfile();
+	void LoadExecIntro();
+	void LoadText(string id);
+	void LoadButton(string id, string position);
+
+	void DeleteButton(string id);
+	void DeleteText(string id);
+
+	void RenderPlayerData();
+
 public:
 	ExploreState(string type);
 	~ExploreState();
@@ -34,15 +48,6 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-
-	void LoadScreen();
-	void LoadAmbient(string type);
-	void LoadPlayerProfile();
-	void LoadExecIntro();
-	void LoadText(int part);
-	void LoadButton(string type);
-
-	void RenderPlayerData();
 };
 
 
