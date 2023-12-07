@@ -75,7 +75,7 @@ void IntroState::LoadIntroText(int part) {
 		intro->box.SetPosition(*new Vec2(570,10));
 
 		string text = ReadAllFromFile("text/intro1.txt");
-		Text* introText = CreateAddText(intro, PETROV, 20, text, 650, 600, color.white, 0);
+		Text* introText = CreateAddText(intro, PETROV, REGULAR_SIZE, text, 650, 600, color.white, 0);
 
 		Component* textScroller = new ScrollerText(*intro, introText, "texto intro pt1");
 		intro->AddComponent(textScroller);
@@ -92,7 +92,7 @@ void IntroState::LoadIntroText(int part) {
 		intro->box.SetPosition(*new Vec2(570,10));
 
 		string text = ReadAllFromFile("text/intro2.txt");
-		Text* introText = CreateAddText(intro, PETROV, 20, text, 650, 600, color.white, 0);
+		Text* introText = CreateAddText(intro, PETROV, REGULAR_SIZE, text, 650, 600, color.white, 0);
 
 		Component* textScroller = new ScrollerText(*intro, introText, "texto intro pt2");
 		intro->AddComponent(textScroller);
@@ -109,7 +109,7 @@ void IntroState::LoadIntroText(int part) {
 		intro->box.SetPosition(*new Vec2(570,10));
 
 		string text = ReadAllFromFile("text/intro3.txt");
-		Text* introText = CreateAddText(intro, PETROV, 20, text, 650, 600, color.white, 0);
+		Text* introText = CreateAddText(intro, PETROV, REGULAR_SIZE, text, 650, 600, color.white, 0);
 
 		Component* textScroller = new ScrollerText(*intro, introText, "texto intro pt3");
 		intro->AddComponent(textScroller);

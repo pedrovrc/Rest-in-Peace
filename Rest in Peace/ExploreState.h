@@ -2,6 +2,7 @@
 #define EXPLORESTATE_H
 
 #include "State.h"
+#include "Button.h"
 
 #define AVATAR_POS_X 1268
 #define AVATAR_POS_Y 21
@@ -24,6 +25,7 @@ class ExploreState : public State {
 	bool intro;
 	int currentStage;
 	bool choiceActive;
+	vector<int> choiceArray;
 
 	void LoadScreen();
 	void LoadAmbient(string type);
@@ -34,6 +36,9 @@ class ExploreState : public State {
 
 	void DeleteButton(string id);
 	void DeleteText(string id);
+
+	int GetChoiceResult(int choiceID);
+	Button* GetButton(int index);
 
 	void RenderPlayerData();
 

@@ -12,6 +12,8 @@
 #define NK57 "nk57-monospace-no-rg.otf"
 #define PETROV "PetrovSans-Regular.ttf"
 
+#define REGULAR_SIZE 25
+
 class Text : public Component {
 public:
 	enum TextStyle { SOLID, SHADED, BLENDED };
