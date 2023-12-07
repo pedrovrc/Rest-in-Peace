@@ -3,6 +3,8 @@
 
 #include "State.h"
 #include "Button.h"
+#include "Event.h"
+class Event;
 
 #define AVATAR_POS_X 1268
 #define AVATAR_POS_Y 21
@@ -22,23 +24,13 @@
 class ExploreState : public State {
 	vector<GameObject*> button_list;
 	vector<GameObject*> playerData;
+	Event* event;
 	bool intro;
-	int currentStage;
-	bool choiceActive;
-	vector<int> choiceArray;
 
 	void LoadScreen();
 	void LoadAmbient(string type);
 	void LoadPlayerProfile();
 	void LoadExecIntro();
-	void LoadText(string id);
-	void LoadButton(string id, string position);
-
-	void DeleteButton(string id);
-	void DeleteText(string id);
-
-	int GetChoiceResult(int choiceID);
-	Button* GetButton(int index);
 
 	void RenderPlayerData();
 
@@ -47,14 +39,20 @@ public:
 	~ExploreState();
 
 	void LoadAssets();
+	void LoadCombatState();
 	void Update(float dt);
 	void Render();
 
 	void Start();
 	void Pause();
 	void Resume();
+
+	void AddButton(GameObject* button);
+
+	Button* GetButton(string id);
+
+	void DeleteButton(string id);
+	void DeleteText(string id);
 };
-
-
 
 #endif /* EXPLORESTATE_H_ */

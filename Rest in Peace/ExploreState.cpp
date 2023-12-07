@@ -13,8 +13,7 @@ ExploreState::ExploreState(string type) {
 	started = false;
 	if (type == "intro") intro = true;
 	else intro = false;
-	currentStage = 0;
-	choiceActive = false;
+	event = new Event(type, this);
 }
 
 ExploreState::~ExploreState() {
@@ -34,14 +33,8 @@ void ExploreState::LoadAssets() {
 	// carrega ilustrações e dados do painel do player
 	LoadPlayerProfile();
 
-	// carrega texto do local
-	LoadText("event pt1");
-
-	// carrega botões de opções dada a situação
-	// ATUALMENTE : carrega botão de opção inicial da cena
-	LoadButton("name", "centered");
-
-	currentStage = 1;
+	// carrega dados do evento
+	event->LoadAssets();
 }
 
 void ExploreState::LoadExecIntro() {
@@ -130,41 +123,11 @@ void ExploreState::LoadPlayerProfile() {
 	playerData.push_back(go_spdata);
 }
 
-void ExploreState::LoadText(string id) {
-	Colors color = Colors::GetInstance();
-
-	GameObject* newText = new GameObject;
-	newText->box.SetPosition(*new Vec2(570,10));
-
-	string text;
-
-	if (id == "event pt1") {
-		text = ReadAllFromFile("text/eventoinicial1.txt");
-	}
-
-	if (id == "event pt2") {
-		text = ReadAllFromFile("text/eventoinicial2.txt");
-	}
-
-	if (id == "event pt3") {
-		text = ReadAllFromFile("text/eventoinicial3.txt");
-	}
-
-	if (id == "event end1") {
-		text = ReadAllFromFile("text/eventoinicialfim1.txt");
-	}
-
-	if (id == "placeholder") {
-		text = ReadAllFromFile("text/placeholder.txt");
-	}
-
-	Text* eventText = CreateAddText(newText, PETROV, REGULAR_SIZE, text, 650, 600, color.white, 0);
-
-	Component* textScroller = new ScrollerText(*newText, eventText, id);
-	newText->AddComponent(textScroller);
-
-	AddObject(newText);
-
+void ExploreState::LoadCombatState() {
+	Game& game = game.GetInstance();
+	State* state = (State*) new CombatState();
+	game.Push(state);
+	popRequested = true;
 }
 
 void ExploreState::DeleteText(string id) {
@@ -181,46 +144,7 @@ void ExploreState::DeleteText(string id) {
 	}
 }
 
-void ExploreState::LoadButton(string id, string position) {
-	Colors color = Colors::GetInstance();
-
-	GameObject* button = new GameObject;
-	CreateAddButton(button, "main menu", 505, 121, *new Vec2(0, 0), id);
-
-	if (id == "name") {
-		CreateAddText(button, NK57, 40, "Diga seu nome", -1, -1, color.white, 0);
-	}
-
-	if (id == "take keys") {
-		CreateAddText(button, NK57, 40, "Pegue as chaves", -1, -1, color.white, 0);
-	}
-
-	if (id == "training") {
-		CreateAddText(button, NK57, 40, "Treinar", -1, -1, color.white, 0);
-	}
-
-	if (id == "skip") {
-		CreateAddText(button, NK57, 40, "Pular treino", -1, -1, color.white, 0);
-	}
-
-	if (id == "explore") {
-		CreateAddText(button, NK57, 40, "Explorar", -1, -1, color.white, 0);
-	}
-
-	if (id == "combat") {
-		CreateAddText(button, NK57, 40, "Ir para combate", -1, -1, color.white, 0);
-	}
-
-	if (position == "centered") {
-		button->box.SetCenterPosition(*new Vec2(900, 760));
-	}
-	if (position == "1 of 2") {
-		button->box.SetCenterPosition(*new Vec2(900, 700));
-	}
-	if (position == "2 of 2") {
-		button->box.SetCenterPosition(*new Vec2(900, 820));
-	}
-
+void ExploreState::AddButton(GameObject* button) {
 	AddObject(button);
 	button_list.push_back(button);
 }
@@ -252,141 +176,16 @@ void ExploreState::Update(float dt) {
 	InputManager* input = &(InputManager::GetInstance());
 	popRequested = input->QuitRequested();
 
-	// seleciona botões de acordo com estágio da cena
-	Button* currentbutton = GetButton(1);;
-	Button* currentbutton2 = nullptr;
-	if (currentStage == 3) currentbutton2 = GetButton(2);
-
-	if(currentStage == 3) choiceActive = true;
-	else choiceActive = false;
-
-	// implementa funcionamento dos botões
-	// caso seja um estágio sem escolhas
-	if (choiceActive == false) {
-		if (currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-			if (currentStage == 5) {
-				Game& game = game.GetInstance();
-				State* state = (State*) new CombatState();
-				game.Push(state);
-			}
-
-			if (currentStage == 4) {
-				if (GetChoiceResult(0) == 1) {
-
-				} else if (GetChoiceResult(0) == 2) {
-					DeleteButton("explore");
-					DeleteText("event end1");
-					LoadText("placeholder");
-					LoadButton("combat", "centered");
-				}
-				currentStage = 5;
-			}
-
-			if (currentStage == 2) {
-				DeleteText("event pt2");
-				LoadText("event pt3");
-				DeleteButton("take keys");
-				LoadButton("training", "1 of 2");
-				LoadButton("skip", "2 of 2");
-				currentStage = 3;
-			}
-
-			if (currentStage == 1) {
-				DeleteText("event pt1");
-				LoadText("event pt2");
-				DeleteButton("name");
-				LoadButton("take keys", "centered");
-				currentStage = 2;
-			}
-		}
-	} else {	// caso seja um estágio com escolhas
-		if (currentStage == 3) {
-			if (currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {	// botão 1 - treinamento
-				cout << "botão 1" << endl;
-				choiceArray.push_back(1);
-			}
-			if (currentbutton2->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {	// botão 2 - pular
-				cout << "botão 2" << endl;
-				choiceArray.push_back(2);
-				DeleteButton("training");
-				DeleteButton("skip");
-				DeleteText("event pt3");
-				LoadText("event end1");
-				LoadButton("explore", "centered");
-				currentStage = 4;
-			}
-		}
-	}
+	event->Update(dt);
 }
 
-int ExploreState::GetChoiceResult(int choiceID) {
-	return choiceArray[choiceID];
-}
-
-Button* ExploreState::GetButton(int index) {
+Button* ExploreState::GetButton(string id) {
 	Button* button;
 
-	if (currentStage == 1) {
-		if (index == 1) {
-			for (int i = 0; i < button_list.size(); i++) {
-				button = (Button*) button_list[i]->GetComponent("Button");
-				if (button->GetID() == "name") return button;;
-			}
-			return nullptr;
-		}
-		if (index == 2) return nullptr;
+	for (int i = 0; i < button_list.size(); i++) {
+		button = (Button*) button_list[i]->GetComponent("Button");
+		if (button->GetID() == id) return button;;
 	}
-	if (currentStage == 2) {
-		if (index == 1) {
-			for (int i = 0; i < button_list.size(); i++) {
-				button = (Button*) button_list[i]->GetComponent("Button");
-				if (button->GetID() == "take keys") return button;;
-			}
-			return nullptr;
-		}
-		if (index == 2) return nullptr;
-	}
-	if (currentStage == 3) {
-		if (index == 1) {
-			for (int i = 0; i < button_list.size(); i++) {
-				button = (Button*) button_list[i]->GetComponent("Button");
-				if (button->GetID() == "training") return button;;
-			}
-			return nullptr;
-		}
-		if (index == 2) {
-			for (int i = 0; i < button_list.size(); i++) {
-				button = (Button*) button_list[i]->GetComponent("Button");
-				if (button->GetID() == "skip") return button;;
-			}
-			return nullptr;
-		}
-	}
-	if (currentStage == 4) {
-		if (index == 1) {
-			for (int i = 0; i < button_list.size(); i++) {
-				button = (Button*) button_list[i]->GetComponent("Button");
-				if (button->GetID() == "explore") return button;;
-			}
-			return nullptr;
-		}
-		if (index == 2) return nullptr;
-	}
-	if (currentStage == 5) {
-		if (GetChoiceResult(0) == 1) {
-
-		} else if (GetChoiceResult(0) == 2) {
-			if (index == 1) {
-				for (int i = 0; i < button_list.size(); i++) {
-					button = (Button*) button_list[i]->GetComponent("Button");
-					if (button->GetID() == "combat") return button;;
-				}
-				return nullptr;
-			}
-			if (index == 2) return nullptr;
-		}
-	}
-
 	return nullptr;
 }
 
