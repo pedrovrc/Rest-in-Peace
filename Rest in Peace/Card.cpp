@@ -47,6 +47,14 @@ Card::Card(GameObject& associated, string str) : Component(associated)
 	{
 		this->t = LAGRIMAS;
 	}
+    if(regex_search(effect,var,regex("(truque)")))
+	{
+		this->t = TRUQUE;
+	}
+    if(regex_search(effect,var,regex("(diabrura)")))
+	{
+		this->t = DIABRURA;
+	}
 
     // carrega imagem da carta
     string filename = "img/cards/" + name + ".png";
@@ -58,6 +66,14 @@ Card::Card(GameObject& associated, string str) : Component(associated)
 Card::~Card()
 {
     //dtor
+}
+
+void Card::ModifyCost(int val) {
+	modCost = val;
+}
+
+int Card::GetCost() {
+	return cost+modCost;
 }
 
 void Card::Update(float dt) {
