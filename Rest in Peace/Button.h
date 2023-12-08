@@ -28,7 +28,6 @@ public:
 	void Render();
 	void Start();
 	bool Is(string type);
-	void NotifyCollision(GameObject& other);
 	bool IsHovered();
 	string GetID();
 };

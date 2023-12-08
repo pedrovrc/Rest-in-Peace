@@ -31,7 +31,6 @@ public:
 	void Start();
 	bool Is(string type);
 	int GetChannel();
-	void NotifyCollision(GameObject& other);
 };
 
 #endif

@@ -36,7 +36,6 @@ public:
 	void Render();
 	void Start();
 	bool Is(string type);
-	void NotifyCollision(GameObject& other);
 	void ModifyCost(int val);
 	int GetCost();
 };

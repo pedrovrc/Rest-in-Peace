@@ -132,10 +132,6 @@ bool Text::Is(string type) {
 	return false;
 }
 
-void Text::NotifyCollision(GameObject& other) {
-
-}
-
 void Text::SetText(string text) {
 	this->text = text;
 	RemakeTexture();

@@ -59,10 +59,6 @@ bool Button::Is(string type) {
 	return false;
 }
 
-void Button::NotifyCollision(GameObject& other) {
-
-}
-
 bool Button::IsHovered() {
 	return isHovered;
 }

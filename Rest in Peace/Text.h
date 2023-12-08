@@ -34,7 +34,6 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-	void NotifyCollision(GameObject& other);
 
 	void SetScope(int x, int y, int w, int h);
 	void RollScope(int y_offset);

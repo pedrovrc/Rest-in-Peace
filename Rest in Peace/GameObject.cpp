@@ -111,18 +111,3 @@ bool GameObject::IsDead() {
 void GameObject::RequestDelete() {
 	isDead = true;
 }
-
-/*
- * 	void GameObject::NotifyCollision(GameObject& other)
- *
- * 	Notifica os componentes desse GO que houve colisão com outro GO.
- */
-void GameObject::NotifyCollision(GameObject& other) {
-	int i = 0;
-	Component* cpt;
-	while (components.begin() + i != components.end()) {
-		cpt = (Component*) components[i].get();
-		cpt->NotifyCollision(other);
-		i++;
-	}
-}

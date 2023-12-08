@@ -30,7 +30,6 @@ public:
 
 	bool Is(string type);
 	string GetID();
-	void NotifyCollision(GameObject& other);
 };
 
 

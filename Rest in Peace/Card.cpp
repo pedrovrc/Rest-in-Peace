@@ -92,7 +92,3 @@ bool Card::Is(string type) {
 	if (type == "Card") return true;
 	else return false;
 }
-
-void Card::NotifyCollision(GameObject& other) {
-
-}

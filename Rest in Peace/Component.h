@@ -23,7 +23,6 @@ public:
 	virtual void Render() = 0;
 	virtual void Start() = 0;
 	virtual bool Is(string type) = 0;
-	virtual void NotifyCollision(GameObject& other) = 0;
 };
 
 #endif

@@ -78,7 +78,3 @@ bool Sound::Is(string type) {
 int Sound::GetChannel() {
 	return channel;
 }
-
-void Sound::NotifyCollision(GameObject& other) {
-
-}

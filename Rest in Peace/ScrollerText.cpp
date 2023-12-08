@@ -111,7 +111,3 @@ bool ScrollerText::Is(string type) {
 string ScrollerText::GetID() {
 	return id;
 }
-
-void ScrollerText::NotifyCollision(GameObject& other) {
-
-}
