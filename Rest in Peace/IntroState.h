@@ -2,6 +2,7 @@
 #define INTROSTATE_H
 
 #include "State.h"
+#include "Music.h"
 #include "Text.h"
 
 #define AVATAR_POS_X 1268
@@ -20,6 +21,7 @@
  */
 
 class IntroState : public State {
+	Music introMusic;
 	vector<GameObject*> button_list;
 	vector<GameObject*> playerData;
 	GameObject* profileCover;

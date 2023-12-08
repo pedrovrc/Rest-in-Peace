@@ -31,7 +31,7 @@ void IntroState::LoadAssets() {
 	LoadScreen();
 
 	// carrega ilustracao de ambiente
-	LoadAmbient("Placeholder");
+	LoadAmbient("mansion");
 
 	// carrega ilustrações e dados do painel do player
 	LoadPlayerProfile();
@@ -59,11 +59,13 @@ void IntroState::LoadAmbient(string type) {
 	// Carrega ilustração do fundo da tela
 	GameObject* ambient = new GameObject;
 	string filename;
-	if (type == "Placeholder") {
-		filename = "img/living_room_crop.png";
+	if (type == "mansion") {
+		filename = "img/forest mansion.png";
 	}
 	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
+
+	introMusic.Open("audio/dark forest ambience.mp3");
 }
 
 void IntroState::LoadIntroText(int part) {
@@ -324,13 +326,14 @@ void IntroState::RenderPlayerData() {
 
 void IntroState::Start() {
 	LoadAssets();
+	introMusic.Play();
 }
 
 void IntroState::Pause() {
-
+	introMusic.Stop();
 }
 
 void IntroState::Resume() {
-
+	introMusic.Play();
 }
 

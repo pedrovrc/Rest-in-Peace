@@ -2,6 +2,7 @@
 #define EXPLORESTATE_H
 
 #include "State.h"
+#include "Music.h"
 #include "Button.h"
 #include "Event.h"
 class Event;
@@ -22,6 +23,7 @@ class Event;
  */
 
 class ExploreState : public State {
+	Music exploreMusic;
 	vector<GameObject*> button_list;
 	vector<GameObject*> playerData;
 	Event* event;

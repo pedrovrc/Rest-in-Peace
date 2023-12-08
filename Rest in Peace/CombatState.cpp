@@ -28,7 +28,7 @@ void CombatState::LoadAssets() {
 	LoadScreen();
 
 	// carrega ilustracao de ambiente
-	LoadAmbient("Placeholder");
+	LoadAmbient("living room");
 
 	// carrega ilustracao e dados do painel do 	oponente
 	LoadOpponent("Placeholder");
@@ -38,9 +38,6 @@ void CombatState::LoadAssets() {
 
 	// carrega ilustrações e dados do painel de combate
 	LoadCombatAssets();
-
-	// abre musica
-	combatMusic.Open("audio/stageState.ogg");
 }
 
 void CombatState::LoadScreen() {
@@ -53,8 +50,15 @@ void CombatState::LoadScreen() {
 void CombatState::LoadAmbient(string type) {
 	// Carrega ilustração do fundo da tela
 	GameObject* ambient = new GameObject;
-	CreateAddSprite(ambient, "img/living_room_crop.png", 1, 0, *new Vec2(0,0), -1, -1);
+	string filename;
+	if (type == "living room") {
+		filename = "img/old_haunted_house_blur.png";
+	}
+	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
+
+	// abre musica
+	combatMusic.Open("audio/combatMusic.mp3");
 }
 
 void CombatState::LoadOpponent(string type) {
@@ -452,12 +456,13 @@ void CombatState::DeleteText(string id) {
 
 void CombatState::Start() {
 	LoadAssets();
+	combatMusic.Play();
 }
 
 void CombatState::Pause() {
-
+	combatMusic.Stop();
 }
 
 void CombatState::Resume() {
-
+	combatMusic.Play();
 }

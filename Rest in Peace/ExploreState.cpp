@@ -28,10 +28,12 @@ void ExploreState::LoadAssets() {
 	LoadScreen();
 
 	// carrega ilustracao de ambiente
-	LoadAmbient("Placeholder");
+	LoadAmbient("living room");
 
 	// carrega ilustrações e dados do painel do player
 	LoadPlayerProfile();
+
+	exploreMusic.Open("audio/moonlight sonata reversed.mp3");
 
 	// carrega dados do evento
 	event->LoadAssets();
@@ -55,8 +57,8 @@ void ExploreState::LoadAmbient(string type) {
 	// Carrega ilustração do fundo da tela
 	GameObject* ambient = new GameObject;
 	string filename;
-	if (type == "Placeholder") {
-		filename = "img/living_room_crop.png";
+	if (type == "living room") {
+		filename = "img/old_haunted_house.png";
 	}
 	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
@@ -190,6 +192,7 @@ Button* ExploreState::GetButton(string id) {
 }
 
 void ExploreState::Render() {
+	if (intro) return;
 	this->RenderArray();
 	this->RenderPlayerData();
 }
@@ -201,16 +204,19 @@ void ExploreState::RenderPlayerData() {
 }
 
 void ExploreState::Start() {
-	// carrega e executa cutscene inicial
-	if (intro) LoadExecIntro();
-
 	LoadAssets();
+	exploreMusic.Play();
+	// carrega e executa cutscene inicial
+	if (intro) {
+		LoadExecIntro();
+	}
 }
 
 void ExploreState::Pause() {
-
+	exploreMusic.Stop();
 }
 
 void ExploreState::Resume() {
 	if (intro == true) intro = false;
+	exploreMusic.Play();
 }
