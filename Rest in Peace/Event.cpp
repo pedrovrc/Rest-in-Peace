@@ -148,7 +148,7 @@ Button* Event::GetButton(int index) {
 	}
 	if (currentStage == 5) {
 		if (GetChoiceResult(0) == 1) {
-
+			return motherState->GetButton("combat");
 		} else if (GetChoiceResult(0) == 2 && index == 1) {
 			return motherState->GetButton("combat");
 		}
@@ -182,8 +182,10 @@ void Event::Update(float dt) {
 
 			if (currentStage == 4) {
 				if (GetChoiceResult(0) == 1) {
+					// executa tutorial aqui
 
 				} else if (GetChoiceResult(0) == 2) {
+					// pula tutorial
 					motherState->DeleteButton("explore");
 					motherState->DeleteText("event end1");
 					LoadText("placeholder");
@@ -213,6 +215,12 @@ void Event::Update(float dt) {
 		if (currentStage == 3) {
 			if (currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {	// botão 1 - treinamento
 				choiceArray.push_back(1);
+				motherState->DeleteButton("training");
+				motherState->DeleteButton("skip");
+				motherState->DeleteText("event pt3");
+				LoadText("placeholder");
+				LoadButton("combat", "centered");
+				currentStage = 5;
 			}
 			if (currentbutton2->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {	// botão 2 - pular
 				choiceArray.push_back(2);
