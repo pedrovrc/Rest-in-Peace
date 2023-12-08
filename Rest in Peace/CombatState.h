@@ -54,6 +54,8 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
+
+	void DeleteText(string id);
 };
 
 #endif /* COMBATSTAGE_H_ */

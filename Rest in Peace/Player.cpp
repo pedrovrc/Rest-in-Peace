@@ -123,7 +123,7 @@ void Player::DrawHand(int quantity) {
 }
 
 void Player::RenderHand() {
-	for (int i = 0; i < hand.size(); i++) {
+	for (int i = 0; i < (int)hand.size(); i++) {
 		if (i == 0) hand[i]->box.SetPosition(*new Vec2(610, 110));
 		if (i == 1) hand[i]->box.SetPosition(*new Vec2(920, 110));
 		if (i == 2) hand[i]->box.SetPosition(*new Vec2(610, 350));
@@ -133,7 +133,7 @@ void Player::RenderHand() {
 }
 
 void Player::Update(float dt) {
-	for (int i = 0; i < hand.size(); i++) {
+	for (int i = 0; i < (int)hand.size(); i++) {
 		hand[i]->Update(dt);
 	}
 }

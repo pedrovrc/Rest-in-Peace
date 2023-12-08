@@ -121,7 +121,7 @@ void IntroState::LoadIntroText(int part) {
 void IntroState::DeleteText(string id) {
 	Component* cpt = nullptr;
 	GameObject* go;
-	for (int i = 0; i < objectArray.size(); i++) {
+	for (int i = 0; i < (int)objectArray.size(); i++) {
 		go = objectArray[i].get();
 		cpt = go->GetComponent("ScrollerText");
 		if (cpt != nullptr && ((ScrollerText*)cpt)->GetID() == id) {
@@ -236,7 +236,7 @@ void IntroState::LoadButton(string type) {
 
 void IntroState::DeleteButton(string id) {
 	Component* cpt = nullptr;
-	for (int i = 0; i < button_list.size(); i++) {
+	for (int i = 0; i < (int)button_list.size(); i++) {
 		cpt = button_list[i]->GetComponent("Button");
 		if (cpt != nullptr && ((Button*)cpt)->GetID() == id) {
 			button_list.erase(button_list.begin() + i);
@@ -244,7 +244,7 @@ void IntroState::DeleteButton(string id) {
 	}
 	GameObject* go;
 	cpt = nullptr;
-	for (int i = 0; i < objectArray.size(); i++) {
+	for (int i = 0; i < (int)objectArray.size(); i++) {
 		go = objectArray[i].get();
 		cpt = go->GetComponent("Button");
 		if (cpt != nullptr && ((Button*)cpt)->GetID() == id) {
@@ -263,19 +263,19 @@ void IntroState::Update(float dt) {
 	// seleciona botão de acordo com estágio botões
 	Button* currentbutton;
 	if (currentStage == 1) {
-		for (int i = 0; i < button_list.size(); i++) {
+		for (int i = 0; i < (int)button_list.size(); i++) {
 			currentbutton = (Button*) button_list[i]->GetComponent("Button");
 			if (currentbutton->GetID() == "continue") break;
 		}
 	}
 	if (currentStage == 2) {
-		for (int i = 0; i < button_list.size(); i++) {
+		for (int i = 0; i < (int)button_list.size(); i++) {
 			currentbutton = (Button*) button_list[i]->GetComponent("Button");
 			if (currentbutton->GetID() == "continue 2") break;
 		}
 	}
 	if (currentStage == 3) {
-		for (int i = 0; i < button_list.size(); i++) {
+		for (int i = 0; i < (int)button_list.size(); i++) {
 			currentbutton = (Button*) button_list[i]->GetComponent("Button");
 			if (currentbutton->GetID() == "end") break;
 		}

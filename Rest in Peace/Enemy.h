@@ -9,10 +9,16 @@ public:
 	~Enemy();
 	void TurnAction();
 	void TakeDamage(int dmg_amount);
+	void ApplyFreeze(int val);
+	void ApplyWeakness(int val);
 	int GetHP();
+	int GetFreeze();
+	int GetWeakness();
 
 private:
 	int hp;
+	int freezeAmount;
+	int weaknessAmount;
 };
 
 

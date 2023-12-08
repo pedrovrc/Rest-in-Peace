@@ -77,6 +77,16 @@ void CombatState::LoadOpponent(string type) {
 	CreateAddText(go_hpdata, "nk57-monospace-no-rg.otf", 30, "PV 20/20", -1, -1, color.white, 0);
 	go_hpdata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,80));
 	enemyData.push_back(go_hpdata);
+
+	GameObject* go_freeze = new GameObject();
+	CreateAddText(go_freeze, "nk57-monospace-no-rg.otf", 15, "Congelado: 0", -1, -1, color.white, 0);
+	go_freeze->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,120));
+	enemyData.push_back(go_freeze);
+
+	GameObject* go_weakness = new GameObject();
+	CreateAddText(go_weakness, "nk57-monospace-no-rg.otf", 15, "Fraqueza: 0", -1, -1, color.white, 0);
+	go_weakness->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,160));
+	enemyData.push_back(go_weakness);
 }
 
 void CombatState::LoadPlayerProfile() {
@@ -242,14 +252,32 @@ void CombatState::UpdatePlayerData() {
 
 void CombatState::UpdateEnemyData() {
 	Colors& color = Colors::GetInstance();
+	enemyData.clear();
 
 	// Atualiza HUD HP Inimigo ---------------------
 	string hpenemy = "HP: " + to_string(enemy->GetHP()) + "/" + to_string(ENEMY_MAX_HP);
 	GameObject* go_hpenemydata = new GameObject();
 	CreateAddText(go_hpenemydata, NK57, 30, hpenemy, -1, -1, color.white, 0);
 	go_hpenemydata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,80));
-	enemyData.clear();
 	enemyData.push_back(go_hpenemydata);
+
+	// Atualiza HUD Gelo Inimigo ---------------------
+	if(enemy->GetFreeze() != 0) {
+		string freezeenemy = "Congelado: " + to_string(enemy->GetFreeze());
+		GameObject* go_freezeenemydata = new GameObject();
+		CreateAddText(go_freezeenemydata, NK57, 15, freezeenemy, -1, -1, color.white, 0);
+		go_freezeenemydata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,120));
+		enemyData.push_back(go_freezeenemydata);
+	}
+
+	// Atualiza HUD Fraqueza Inimigo ---------------------
+	if(enemy->GetWeakness() != 0) {
+		string weaknessenemy = "Fraqueza: " + to_string(enemy->GetWeakness());
+		GameObject* go_weaknessenemydata = new GameObject();
+		CreateAddText(go_weaknessenemydata, NK57, 15, weaknessenemy, -1, -1, color.white, 0);
+		go_weaknessenemydata->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,140));
+		enemyData.push_back(go_weaknessenemydata);
+	}
 }
 
 bool CombatState::UseCard(int val) {
@@ -283,6 +311,18 @@ bool CombatState::UseCard(int val) {
 				player->DiscardHand();
 				player->DrawHand(PLAYER_HAND_SIZE);
 	        	break;
+	        case CONGELADO:
+				player->SpendAP(player->GetCardFromHand(val)->cost);
+				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+				enemy->ApplyFreeze(player->GetCardFromHand(val)->quantity);
+				player->DeleteCardFromHand(val);
+				break;
+	        case LAGRIMAS:
+				player->SpendAP(player->GetCardFromHand(val)->cost);
+				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+				enemy->ApplyWeakness(player->GetCardFromHand(val)->quantity);
+				player->DeleteCardFromHand(val);
+				break;
 	        }
 	        return 1;
 	    }
@@ -386,6 +426,10 @@ void CombatState::RenderEnemyData() {
 	for (int i = 0; i < (int)enemyData.size(); i++) {
 		enemyData[i]->Render();
 	}
+}
+
+void CombatState::DeleteText(string id) {
+
 }
 
 void CombatState::Start() {
