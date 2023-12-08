@@ -7,6 +7,7 @@
 #include "GeneralFunctions.h"
 #include "Game.h"
 #include "EndState.h"
+#include <time.h>
 
 CombatState::CombatState() {
 	quitRequested = false;
@@ -282,45 +283,62 @@ void CombatState::UpdateEnemyData() {
 
 bool CombatState::UseCard(int val) {
 	Player* player = Player::GetInstance();
-	if((player->GetAP() >= player->GetCardFromHand(val)->cost) &&
+	if((player->GetAP() >= player->GetCardFromHand(val)->GetCost()) &&
 			player->GetSP() >= player->GetCardFromHand(val)->sanityCost)
 	    {
 	        switch(player->GetCardFromHand(val)->t)
 	        {
 	        case DAMAGE:
+	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
 	            enemy->TakeDamage(player->GetCardFromHand(val)->quantity);
-	            player->SpendAP(player->GetCardFromHand(val)->cost);
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 	            player->DeleteCardFromHand(val);
 	            break;
 	        case HEALING:
+	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
 	            player->Heal(player->GetCardFromHand(val)->quantity);
-	            player->SpendAP(player->GetCardFromHand(val)->cost);
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 	            player->DeleteCardFromHand(val);
 	            break;
 	        case ARMOR:
+	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
 	            player->GainArmor(player->GetCardFromHand(val)->quantity);
-	            player->SpendAP(player->GetCardFromHand(val)->cost);
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 	            player->DeleteCardFromHand(val);
 	            break;
 	        case SANITY:
-	            player->SpendAP(player->GetCardFromHand(val)->cost);
+	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				player->DiscardHand();
 				player->DrawHand(PLAYER_HAND_SIZE);
 	        	break;
 	        case CONGELADO:
-				player->SpendAP(player->GetCardFromHand(val)->cost);
+				player->SpendAP(player->GetCardFromHand(val)->GetCost());
 				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				enemy->ApplyFreeze(player->GetCardFromHand(val)->quantity);
 				player->DeleteCardFromHand(val);
 				break;
 	        case LAGRIMAS:
-				player->SpendAP(player->GetCardFromHand(val)->cost);
+				player->SpendAP(player->GetCardFromHand(val)->GetCost());
 				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				enemy->ApplyWeakness(player->GetCardFromHand(val)->quantity);
+				player->DeleteCardFromHand(val);
+				break;
+	        case TRUQUE:
+	        	player->SpendAP(player->GetCardFromHand(val)->GetCost());
+				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+				player->DiscardHand();
+				player->DrawHand(PLAYER_HAND_SIZE);
+				for (int i = 0; i < player->GetHandSize(); i++) {
+					srand((int)time(NULL));
+					if(rand()%2 == 1) player->GetCardFromHand(i)->ModifyCost(1);
+					else player->GetCardFromHand(i)->ModifyCost(-1);
+				}
+				break;
+	        case DIABRURA:
+				player->SpendAP(player->GetCardFromHand(val)->GetCost());
+				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+				enemy->TakeDamage(5+(player->GetHP()/4));
 				player->DeleteCardFromHand(val);
 				break;
 	        }

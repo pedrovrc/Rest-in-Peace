@@ -187,7 +187,7 @@ void Player::DiscardHand() {
 void Player::DrawRequired() {
 	for (int i = 0; i < (int)deck.list.size(); i++) {
 		Card * c =(Card*) deck.list[i]->GetComponent("Card");
-		if(c->name == "Revelação") {
+		if(c->name == "revelacao") {
 			hand.push_back(deck.DrawThis(i));
 			return;
 		}
