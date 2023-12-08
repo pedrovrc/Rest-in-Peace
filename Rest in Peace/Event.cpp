@@ -39,7 +39,7 @@ bool Event::IsChoiceActive() {
 }
 
 int Event::GetChoiceResult(int choiceID) {
-	if (choiceID < choiceArray.size() && choiceID >= 0)
+	if (choiceID < (int)choiceArray.size() && choiceID >= 0)
 		return choiceArray[choiceID];
 	else
 		return -1;

@@ -39,6 +39,14 @@ Card::Card(GameObject& associated, string str) : Component(associated)
 	{
 		this->t = SANITY;
 	}
+    if(regex_search(effect,var,regex("(congelado)")))
+	{
+		this->t = CONGELADO;
+	}
+    if(regex_search(effect,var,regex("(lagrimas)")))
+	{
+		this->t = LAGRIMAS;
+	}
 
     // carrega imagem da carta
     string filename = "img/cards/" + name + ".png";

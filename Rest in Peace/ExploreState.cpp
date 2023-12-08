@@ -135,7 +135,7 @@ void ExploreState::DeleteText(string id) {
 
 	Component* cpt = nullptr;
 	GameObject* go;
-	for (int i = 0; i < objectArray.size(); i++) {
+	for (int i = 0; i < (int)objectArray.size(); i++) {
 		go = objectArray[i].get();
 		cpt = go->GetComponent("ScrollerText");
 		if (cpt != nullptr && ((ScrollerText*)cpt)->GetID() == id) {
@@ -153,7 +153,7 @@ void ExploreState::DeleteButton(string id) {
 	if (id == "") return;
 
 	Component* cpt = nullptr;
-	for (int i = 0; i < button_list.size(); i++) {
+	for (int i = 0; i < (int)button_list.size(); i++) {
 		cpt = button_list[i]->GetComponent("Button");
 		if (cpt != nullptr && ((Button*)cpt)->GetID() == id) {
 			button_list.erase(button_list.begin() + i);
@@ -161,7 +161,7 @@ void ExploreState::DeleteButton(string id) {
 	}
 	GameObject* go;
 	cpt = nullptr;
-	for (int i = 0; i < objectArray.size(); i++) {
+	for (int i = 0; i < (int)objectArray.size(); i++) {
 		go = objectArray[i].get();
 		cpt = go->GetComponent("Button");
 		if (cpt != nullptr && ((Button*)cpt)->GetID() == id) {
@@ -182,7 +182,7 @@ void ExploreState::Update(float dt) {
 Button* ExploreState::GetButton(string id) {
 	Button* button;
 
-	for (int i = 0; i < button_list.size(); i++) {
+	for (int i = 0; i < (int)button_list.size(); i++) {
 		button = (Button*) button_list[i]->GetComponent("Button");
 		if (button->GetID() == id) return button;;
 	}
