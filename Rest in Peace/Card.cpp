@@ -1,4 +1,5 @@
 #include "Card.h"
+#include "GeneralFunctions.h"
 #include <regex>
 #include <iostream>
 
@@ -61,6 +62,13 @@ Card::Card(GameObject& associated, string str) : Component(associated)
     Component* image = new Sprite(associated, filename, 1, 0);
     associated.AddComponent(image);
     associated.box.SetDimensions(SMALL_CARD_W, SMALL_CARD_H);
+
+    // carrega modificadores de custo
+    modCostPlus = new GameObject;
+    CreateAddSprite(modCostPlus, "img/resources/plusOne.png", 1, 0, *new Vec2(0, 0), -1, -1);
+
+    modCostMinus = new GameObject;
+    CreateAddSprite(modCostMinus, "img/resources/minusOne.png", 1, 0, *new Vec2(0, 0), -1, -1);
 }
 
 Card::~Card()
@@ -81,7 +89,13 @@ void Card::Update(float dt) {
 }
 
 void Card::Render() {
-
+	if (modCost == 1) {
+		modCostPlus->box.SetPosition(associated.box.GetPos() + *new Vec2(40, -5));
+		modCostPlus->Render();
+	} else if (modCost == -1) {
+		modCostMinus->box.SetPosition(associated.box.GetPos() + *new Vec2(40, -5));
+		modCostMinus->Render();
+	}
 }
 
 void Card::Start() {

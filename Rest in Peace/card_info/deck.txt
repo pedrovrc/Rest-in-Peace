@@ -10,3 +10,15 @@
 [espreitar]{Sentindo o cheiro, espreitando a presa... Após dois turnos, cause 30 de dano.}<3 0 espreitar 0>
 [devorar]{Uma mordida será suficiente. Cause 12 de dano. Se o inimigo morrer, restaure 4 PV.}<2 0 devorar 0>
 [risada]{Deleite-se ao debochar do inimigo. Cause 2 Perma-Fraco. Restaure 3 Sanidade. Uso único.}<2 0 risada 0>
+[bomba sagrada]{Arremessa uma bomba com propriedades sagradas.}<1 0 damage 4>
+[dilúvio de lágrimas]{Seu desespero destruirá seus inimigos. Gaste 5 sanidade. Inflija 5 Fraco}<3 5 lagrimas 5>
+[congelar]{Congele o inimigo com vapor frio. O inimigo congelado toma mais dano. Congele 4.}<2 0 congelado 4>
+[reza poderosa]{Reze para curar suas feridas físicas e espirituais. Cure 4 PV.}<1 0 heal 4>
+[bênção de miguel]{O Arcanjo Miguel abençoa sua alma. Receba 2 de Armadura.}<1 0 armor 2>
+[revelação]{Abra sua mente e toque o vasto infinito. Perca 4 sanidade. Compre uma mão nova.}<0 4 sanity 0>
+[truque]{Receba "ajuda" dos diabretes. Compre uma mão nova. As cartas recebem +1 ou -1 de custo aleatoriamente.}<1 0 truque 0>
+[diabrura]{Liberte os diabretes em você. Cause 5 de dano. Cause +1 dano para cada 4 PV que tiver.}<3 0 diabrura 0>
+[pesadelo]{A mente será atormentada. Perca 7 de Sanidade. Cause 8 de dano. Aplique 4 Fraco.}<2 7 pesadelo 0>
+[espreitar]{Sentindo o cheiro, espreitando a presa... Após dois turnos, cause 30 de dano.}<3 0 espreitar 0>
+[devorar]{Uma mordida será suficiente. Cause 12 de dano. Se o inimigo morrer, restaure 4 PV.}<2 0 devorar 0>
+[risada]{Deleite-se ao debochar do inimigo. Cause 2 Perma-Fraco. Restaure 3 Sanidade. Uso único.}<2 0 risada 0>

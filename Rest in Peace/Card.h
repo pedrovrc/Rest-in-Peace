@@ -21,6 +21,9 @@ enum classification {DAMAGE, HEALING, ARMOR, SANITY, CONGELADO, LAGRIMAS, TRUQUE
  */
 
 class Card : public Component {
+	GameObject* modCostPlus;
+	GameObject* modCostMinus;
+
 public:
 	Card(GameObject& associated, string str);
 	~Card();
