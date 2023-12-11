@@ -24,7 +24,7 @@ void Event::LoadAssets() {
 
 	// carrega botões de opções dada a situação
 	// ATUALMENTE : carrega botão de opção inicial da cena
-	LoadButton("name", "centered");
+	LoadButton("walk", "centered");
 
 	currentStage = 1;
 	started = true;
@@ -74,6 +74,14 @@ void Event::LoadText(string id) {
 		text = ReadAllFromFile("text/eventoinicial3.txt");
 	}
 
+	if (id == "event pt4") {
+		text = ReadAllFromFile("text/eventoinicial4.txt");
+	}
+
+	if (id == "event pt5") {
+		text = ReadAllFromFile("text/eventoinicial5.txt");
+	}
+
 	if (id == "event end1") {
 		text = ReadAllFromFile("text/eventoinicialfim1.txt");
 	}
@@ -96,8 +104,16 @@ void Event::LoadButton(string id, string position) {
 	GameObject* button = new GameObject;
 	CreateAddButton(button, "main menu", 505, 121, *new Vec2(0, 0), id);
 
+	if (id == "walk") {
+		CreateAddText(button, NK57, 40, "Ande um pouco mais", -1, -1, color.white, 0);
+	}
+
 	if (id == "name") {
 		CreateAddText(button, NK57, 40, "Diga seu nome", -1, -1, color.white, 0);
+	}
+
+	if (id == "death") {
+		CreateAddText(button, NK57, 40, "...elas morrem?", -1, -1, color.white, 0);
 	}
 
 	if (id == "take keys") {
@@ -135,19 +151,25 @@ void Event::LoadButton(string id, string position) {
 
 Button* Event::GetButton(int index) {
 	if (currentStage == 1) {
-		if (index == 1) return motherState->GetButton("name");
+		if (index == 1) return motherState->GetButton("walk");
 	}
 	if (currentStage == 2) {
-		if (index == 1) return motherState->GetButton("take keys");
+		if (index == 1) return motherState->GetButton("name");
 	}
 	if (currentStage == 3) {
+		if (index == 1) return motherState->GetButton("death");
+	}
+	if (currentStage == 4) {
+		if (index == 1) return motherState->GetButton("take keys");
+	}
+	if (currentStage == 5) {
 		if (index == 1) return motherState->GetButton("training");
 		if (index == 2) return motherState->GetButton("skip");
 	}
-	if (currentStage == 4) {
+	if (currentStage == 6) {
 		if (index == 1) return motherState->GetButton("explore");
 	}
-	if (currentStage == 5) {
+	if (currentStage == 7) {
 		if (GetChoiceResult(0) == 1) {
 			return motherState->GetButton("combat");
 		} else if (GetChoiceResult(0) == 2 && index == 1) {
@@ -168,20 +190,20 @@ void Event::Update(float dt) {
 	// seleciona botões de acordo com estágio da cena
 	Button* currentbutton = GetButton(1);;
 	Button* currentbutton2 = nullptr;
-	if (currentStage == 3) currentbutton2 = GetButton(2);
+	if (currentStage == 5) currentbutton2 = GetButton(2);
 
-	if(currentStage == 3) choiceActive = true;
+	if(currentStage == 5) choiceActive = true;
 	else choiceActive = false;
 
 	// implementa funcionamento dos botões
 	// caso seja um estágio sem escolhas
 	if (choiceActive == false) {
 		if (currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-			if (currentStage == 5) {
+			if (currentStage == 7) {
 				ended = true;
 			}
 
-			if (currentStage == 4) {
+			if (currentStage == 6) {
 				if (GetChoiceResult(0) == 1) {
 					// executa tutorial aqui
 
@@ -192,45 +214,61 @@ void Event::Update(float dt) {
 					LoadText("placeholder");
 					LoadButton("combat", "centered");
 				}
+				currentStage = 7;
+			}
+
+			if (currentStage == 4) {
+				motherState->DeleteText("event pt4");
+				LoadText("event pt5");
+				motherState->DeleteButton("take keys");
+				LoadButton("training", "1 of 2");
+				LoadButton("skip", "2 of 2");
 				currentStage = 5;
+			}
+
+			if (currentStage == 3) {
+				motherState->DeleteText("event pt3");
+				LoadText("event pt4");
+				motherState->DeleteButton("death");
+				LoadButton("take keys", "centered");
+				currentStage = 4;
 			}
 
 			if (currentStage == 2) {
 				motherState->DeleteText("event pt2");
 				LoadText("event pt3");
-				motherState->DeleteButton("take keys");
-				LoadButton("training", "1 of 2");
-				LoadButton("skip", "2 of 2");
+				motherState->DeleteButton("name");
+				LoadButton("death", "centered");
 				currentStage = 3;
 			}
 
 			if (currentStage == 1) {
 				motherState->DeleteText("event pt1");
 				LoadText("event pt2");
-				motherState->DeleteButton("name");
-				LoadButton("take keys", "centered");
+				motherState->DeleteButton("walk");
+				LoadButton("name", "centered");
 				currentStage = 2;
 			}
 		}
 	} else {	// caso seja um estágio com escolhas
-		if (currentStage == 3) {
+		if (currentStage == 5) {
 			if (currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {	// botão 1 - treinamento
 				choiceArray.push_back(1);
 				motherState->DeleteButton("training");
 				motherState->DeleteButton("skip");
-				motherState->DeleteText("event pt3");
+				motherState->DeleteText("event pt5");
 				LoadText("placeholder");
 				LoadButton("combat", "centered");
-				currentStage = 5;
+				currentStage = 7;
 			}
 			if (currentbutton2->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {	// botão 2 - pular
 				choiceArray.push_back(2);
 				motherState->DeleteButton("training");
 				motherState->DeleteButton("skip");
-				motherState->DeleteText("event pt3");
+				motherState->DeleteText("event pt5");
 				LoadText("event end1");
 				LoadButton("explore", "centered");
-				currentStage = 4;
+				currentStage = 6;
 			}
 		}
 	}

@@ -103,24 +103,6 @@ void IntroState::LoadIntroText(int part) {
 
 		AddObject(intro);
 	}
-
-	if (part == 3) {
-		// deleta texto antigo
-		DeleteText("texto intro pt2");
-
-		// cria novo texto
-		GameObject* intro = new GameObject;
-		intro->box.SetPosition(*new Vec2(570,10));
-		intro->box.SetDimensions(650, 600);
-
-		string text = ReadAllFromFile("text/intro3.txt");
-		Text* introText = CreateAddText(intro, PETROV, REGULAR_SIZE, text, 650, 600, color.white, 0);
-
-		Component* textScroller = new ScrollerText(*intro, introText, "texto intro pt3");
-		intro->AddComponent(textScroller);
-
-		AddObject(intro);
-	}
 }
 
 void IntroState::DeleteText(string id) {
@@ -215,18 +197,9 @@ void IntroState::LoadButton(string type) {
 		CreateAddText(button, NK57, 40, "Entrar", -1, -1, color.white, 0);
 	}
 
-	if (type == "continue 2") {
-		// deleta botao antigo
-		DeleteButton("continue");
-
-		// cria novo botao
-		CreateAddButton(button, "main menu", 505, 121, position, "continue 2");
-		CreateAddText(button, NK57, 40, "Continuar", -1, -1, color.white, 0);
-	}
-
 	if (type == "end" ) {
 		// deleta botao antigo
-		DeleteButton("continue 2");
+		DeleteButton("continue");
 
 		// cria novo botao
 		CreateAddButton(button, "main menu", 505, 121, position, "end");
@@ -276,39 +249,26 @@ void IntroState::Update(float dt) {
 	if (currentStage == 2) {
 		for (int i = 0; i < (int)button_list.size(); i++) {
 			currentbutton = (Button*) button_list[i]->GetComponent("Button");
-			if (currentbutton->GetID() == "continue 2") break;
-		}
-	}
-	if (currentStage == 3) {
-		for (int i = 0; i < (int)button_list.size(); i++) {
-			currentbutton = (Button*) button_list[i]->GetComponent("Button");
 			if (currentbutton->GetID() == "end") break;
 		}
 	}
 
 	// estágio final - animando painel lateral
-	if (currentStage == 4 && profileCover->box.x > 1600) {
+	if (currentStage == 3 && profileCover->box.x > 1600) {
 		popRequested = true;
 	}
 
-	if (currentStage != 4 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-		// implementa funcionalidade do botao da parte 3
-		if (currentStage == 3) {
-			currentStage = 4;
-			animate = true;
-		}
-
+	if (currentStage != 3 && currentbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 		// implementa funcionalidade do botao da parte 2
 		if (currentStage == 2) {
-			LoadIntroText(3);
-			LoadButton("end");
 			currentStage = 3;
+			animate = true;
 		}
 
 		// implementa funcionalidade do botao da parte 1
 		if (currentStage == 1) {
 			LoadIntroText(2);
-			LoadButton("continue 2");
+			LoadButton("end");
 			currentStage = 2;
 		}
 	}
