@@ -12,9 +12,17 @@
 
 class EndState : public State {
 	Music backgroundMusic;
+	string opponent;
+	string ambient;
+	bool flagInitialScreen;
+	bool flagChoice;
+
+	void LoadAmbient(string type);
+	void LoadTextAndMusic();
+	void LoadOpponent(string type);
 
 public:
-	EndState();
+	EndState(string opponent, string ambient);
 	~EndState();
 
 	void LoadAssets();

@@ -30,6 +30,8 @@ class CombatState : public State {
 	vector<GameObject*> enemyData;
 	int turnCounter;
 	Enemy * enemy;
+	string ambient;
+	string opponent;
 
 	void LoadScreen();
 	void LoadAmbient(string type);
@@ -44,7 +46,7 @@ class CombatState : public State {
 	void TurnPass();
 
 public:
-	CombatState();
+	CombatState(string ambient, string opponent);
 	~CombatState();
 
 	void LoadAssets();

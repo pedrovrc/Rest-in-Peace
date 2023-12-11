@@ -75,6 +75,7 @@ void IntroState::LoadIntroText(int part) {
 		// cria texto
 		GameObject* intro = new GameObject;
 		intro->box.SetPosition(*new Vec2(570,10));
+		intro->box.SetDimensions(650, 600);
 
 		string text = ReadAllFromFile("text/intro1.txt");
 		Text* introText = CreateAddText(intro, PETROV, REGULAR_SIZE, text, 650, 600, color.white, 0);
@@ -92,6 +93,7 @@ void IntroState::LoadIntroText(int part) {
 		// cria novo texto
 		GameObject* intro = new GameObject;
 		intro->box.SetPosition(*new Vec2(570,10));
+		intro->box.SetDimensions(650, 600);
 
 		string text = ReadAllFromFile("text/intro2.txt");
 		Text* introText = CreateAddText(intro, PETROV, REGULAR_SIZE, text, 650, 600, color.white, 0);
@@ -109,6 +111,7 @@ void IntroState::LoadIntroText(int part) {
 		// cria novo texto
 		GameObject* intro = new GameObject;
 		intro->box.SetPosition(*new Vec2(570,10));
+		intro->box.SetDimensions(650, 600);
 
 		string text = ReadAllFromFile("text/intro3.txt");
 		Text* introText = CreateAddText(intro, PETROV, REGULAR_SIZE, text, 650, 600, color.white, 0);

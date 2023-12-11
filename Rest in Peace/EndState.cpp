@@ -6,8 +6,12 @@
 #include "GameData.h"
 #include "GeneralFunctions.h"
 
-EndState::EndState() {
+EndState::EndState(string opponent, string ambient) {
 	quitRequested = false;
+	this->opponent = opponent;
+	this->ambient = ambient;
+	flagInitialScreen = false;
+	flagChoice = false;
 }
 
 EndState::~EndState() {
@@ -15,32 +19,62 @@ EndState::~EndState() {
 }
 
 void EndState::LoadAssets() {
-	Colors color = Colors::GetInstance();
-	GameObject* go_textQuit = new GameObject();
+	LoadAmbient(ambient);
+
+	LoadTextAndMusic();
+
+	LoadOpponent(opponent);
+
+	flagInitialScreen = true;
+}
+
+void EndState::LoadAmbient(string type) {
 	GameObject* go_bg = new GameObject();
-	CreateAddSprite(go_bg, "img/old_haunted_house_full_blur.png", 1, 0, *new Vec2(0,0), WINDOW_WIDTH, WINDOW_HEIGHT);
+	string filename;
+
+	if (type == "living room") {
+		filename = "img/old_haunted_house_full_blur.png";
+	}
+
+	CreateAddSprite(go_bg, filename, 1, 0, *new Vec2(0,0), WINDOW_WIDTH, WINDOW_HEIGHT);
 	AddObject(go_bg);
+}
+
+void EndState::LoadTextAndMusic() {
+	Colors color = Colors::GetInstance();
+	GameObject* textQuit = new GameObject();
 
 	if (GameData::playerVictory) {
 		// vitoria
 		// carrega bg
-		CreateAddText(go_textQuit, NK57, 90, "YOU WIN!", -1, -1, color.white, 0);
-		go_textQuit->box.SetCenterPosition(*new Vec2(800,450));
-
-		AddObject(go_textQuit);
+		CreateAddText(textQuit, NK57, 90, "VITÓRIA!", -1, -1, color.white, 0);
 
 		// carrega musica
 		backgroundMusic.Open("audio/winMusic.mp3");
 	} else {
 		// derrota
 		// carrega bg
-		CreateAddText(go_textQuit, NK57, 90, "YOU LOSE!", -1, -1, color.white, 0);
-		go_textQuit->box.SetCenterPosition(*new Vec2(800,450));
-
-		AddObject(go_textQuit);
+		CreateAddText(textQuit, NK57, 90, "DERROTA!", -1, -1, color.white, 0);
 
 		// carrega musica
 		backgroundMusic.Open("audio/loseMusic.mp3");
+	}
+
+	textQuit->box.SetCenterPosition(*new Vec2(800,450));
+	AddObject(textQuit);
+
+	GameObject* textPrompt = new GameObject;
+	CreateAddText(textPrompt, NK57, 50, "Pressione espaço para continuar", -1, -1, color.white, 0);
+	textPrompt->box.SetCenterPosition(*new Vec2(800,550));
+	AddObject(textPrompt);
+}
+
+void EndState::LoadOpponent(string type) {
+	if (type == "diabrete") {
+		// carrega sprite do diabrete dependendo de vitória ou derrota
+
+		// carrega texto do diabrete
+		// "Você não resistiu aos truques dos diabretes."
 	}
 }
 

@@ -58,6 +58,7 @@ void Event::LoadText(string id) {
 
 	GameObject* newText = new GameObject;
 	newText->box.SetPosition(*new Vec2(570,10));
+	newText->box.SetDimensions(650, 600);
 
 	string text;
 

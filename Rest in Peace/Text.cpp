@@ -169,7 +169,7 @@ void Text::RemakeTexture() {
 		surface = TTF_RenderText_Shaded(font, text.c_str(), color, bg_color);
 
 	} else if (style == BLENDED) {
-		surface = TTF_RenderUTF8_Blended_Wrapped(font, text.c_str(), color, 650);
+		surface = TTF_RenderUTF8_Blended_Wrapped(font, text.c_str(), color, associated.box.w);
 	}
 
 	Game& game = game.GetInstance();

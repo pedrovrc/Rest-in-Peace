@@ -9,11 +9,13 @@
 #include "EndState.h"
 #include <time.h>
 
-CombatState::CombatState() {
+CombatState::CombatState(string ambient, string opponent) {
 	quitRequested = false;
 	started = false;
 	turnCounter = 0;
 	enemy = new Enemy();
+	this->ambient = ambient;
+	this->opponent = opponent;
 }
 
 CombatState::~CombatState() {
@@ -28,10 +30,10 @@ void CombatState::LoadAssets() {
 	LoadScreen();
 
 	// carrega ilustracao de ambiente
-	LoadAmbient("living room");
+	LoadAmbient(ambient);
 
 	// carrega ilustracao e dados do painel do 	oponente
-	LoadOpponent("Placeholder");
+	LoadOpponent(opponent);
 
 	// carrega ilustrações e dados do painel do player
 	LoadPlayerProfile();
@@ -359,13 +361,21 @@ void CombatState::Update(float dt) {
 	UpdateArray(dt);
 	Player* player = Player::GetInstance();
 
+	// condição de término de jogo
 	if(player->GetHP() <= 0 || enemy->GetHP() <= 0) {
 		Game& game = game.GetInstance();
-		if(player->GetHP() <= 0) game.gameData.playerVictory = false;
-		else game.gameData.playerVictory = true;
-		State* state = (State*) new EndState();
+
+		if (player->GetHP() <= 0) {
+			game.gameData.playerVictory = false;
+		} else {
+			game.gameData.playerVictory = true;
+		}
+
+		State* state = (State*) new EndState(opponent, ambient);
 		game.Push(state);
+
 		popRequested = true;
+		return;
 	}
 
 	InputManager* input = &(InputManager::GetInstance());

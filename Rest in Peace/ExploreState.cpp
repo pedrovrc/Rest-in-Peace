@@ -127,7 +127,7 @@ void ExploreState::LoadPlayerProfile() {
 
 void ExploreState::LoadCombatState() {
 	Game& game = game.GetInstance();
-	State* state = (State*) new CombatState();
+	State* state = (State*) new CombatState("living room", "Placeholder");
 	game.Push(state);
 	popRequested = true;
 }
