@@ -1,0 +1,17 @@
+Resolvendo prezar por sua sanidade e não precisar se preocupar com mais truques futuramente, você resolve acabar com isso aqui e agora.
+
+Você levanta sua mão e um raio de luz sai da sua palma, cortando o grito estridente do diabrete e transformando-o em pó.
+
+É inevitável se sentir culpada por essa escolha. Mas você se mantém forte e... risonha?
+
+Aparentemente, você absorveu um pouco da energia do diabrete. Você se sente cheia de travessuras e mal consegue conter uma risada ao perceber isso.
+
+[Ganhou uma nova habilidade passiva: Travessura ou Travessura]
+
+[Ao usar uma carta, tem 50% de chance de infligir 1 de um dos possíveis status em todos os inimigos (ativa no maximo 2 vezes por turno):]
+
+[-Frágil -> tome dano adicional baseado na quantidade desse status]
+
+[-Fraco -> dê dano a menos igual a esse status]
+
+[-Tonto -> chance de não agir nesse turno]
