@@ -32,6 +32,7 @@ class CombatState : public State {
 	Enemy * enemy;
 	string ambient;
 	string opponent;
+	int espreitarCount;
 
 	void LoadScreen();
 	void LoadAmbient(string type);

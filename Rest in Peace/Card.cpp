@@ -56,6 +56,18 @@ Card::Card(GameObject& associated, string str) : Component(associated)
 	{
 		this->t = DIABRURA;
 	}
+    if(regex_search(effect,var,regex("(risada)")))
+	{
+		this->t = RISADA;
+	}
+    if(regex_search(effect,var,regex("(espreitar)")))
+	{
+		this->t = ESPREITAR;
+	}
+    if(regex_search(effect,var,regex("(devorar)")))
+	{
+		this->t = DEVORAR;
+	}
 
     // carrega imagem da carta
     string filename = "img/cards/" + name + ".png";

@@ -5,6 +5,7 @@ Enemy::Enemy() {
 	hp = 20;
 	freezeAmount = 0;
 	weaknessAmount = 0;
+	weaknessAmountPerma = 0;
 }
 
 Enemy::~Enemy() {
@@ -34,13 +35,17 @@ int Enemy::GetFreeze() {
 }
 
 int Enemy::GetWeakness() {
-	return weaknessAmount;
+	return weaknessAmount + weaknessAmountPerma;
 }
 
 void Enemy::ApplyFreeze(int val) {
-	freezeAmount = val;
+	freezeAmount += val;
 }
 
 void Enemy::ApplyWeakness(int val) {
-	weaknessAmount = val;
+	weaknessAmount += val;
+}
+
+void Enemy::ApplPermayWeakness(int val) {
+	weaknessAmountPerma += val;
 }

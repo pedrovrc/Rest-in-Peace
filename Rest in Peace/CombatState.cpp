@@ -16,6 +16,7 @@ CombatState::CombatState(string ambient, string opponent) {
 	enemy = new Enemy();
 	this->ambient = ambient;
 	this->opponent = opponent;
+	espreitarCount = -1;
 }
 
 CombatState::~CombatState() {
@@ -347,6 +348,26 @@ bool CombatState::UseCard(int val) {
 				enemy->TakeDamage(5+(player->GetHP()/4));
 				player->DeleteCardFromHand(val);
 				break;
+	        case RISADA:
+				player->SpendAP(player->GetCardFromHand(val)->GetCost());
+				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+				enemy->ApplPermayWeakness(2);
+				player->GainSP(3);
+				player->DeleteCardFromHand(val);
+				break;
+	        case ESPREITAR:
+				player->SpendAP(player->GetCardFromHand(val)->GetCost());
+				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+				espreitarCount = 0;
+				player->DeleteCardFromHand(val);
+				break;
+	        case DEVORAR:
+				player->SpendAP(player->GetCardFromHand(val)->GetCost());
+				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
+				if(enemy->GetHP() <= 12) player->Heal(4);
+				enemy->TakeDamage(12);
+				player->DeleteCardFromHand(val);
+				break;
 	        }
 	        return 1;
 	    }
@@ -439,6 +460,12 @@ void CombatState::TurnPass() {
 	enemy->TurnAction();
 	player->DrawHand(PLAYER_HAND_SIZE-player->GetHandSize());
 	turnCounter++;
+	if(espreitarCount != -1) {
+		espreitarCount++;
+		if(espreitarCount >= 2) {
+			enemy->TakeDamage(30);
+		}
+	}
 }
 
 void CombatState::Render() {

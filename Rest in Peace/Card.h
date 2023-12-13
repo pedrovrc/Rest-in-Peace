@@ -4,7 +4,17 @@
 #include "Component.h"
 #include "Sprite.h"
 
-enum classification {DAMAGE, HEALING, ARMOR, SANITY, CONGELADO, LAGRIMAS, TRUQUE, DIABRURA};
+enum classification {DAMAGE,
+					 HEALING,
+					 ARMOR,
+					 SANITY,
+					 CONGELADO,
+					 LAGRIMAS,
+					 TRUQUE,
+					 DIABRURA,
+					 RISADA,
+					 ESPREITAR,
+					 DEVORAR};
 
 #define ORIGINAL_CARD_W 900
 #define ORIGINAL_CARD_H 811

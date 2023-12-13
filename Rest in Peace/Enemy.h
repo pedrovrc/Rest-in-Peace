@@ -11,6 +11,7 @@ public:
 	void TakeDamage(int dmg_amount);
 	void ApplyFreeze(int val);
 	void ApplyWeakness(int val);
+	void ApplPermayWeakness(int val);
 	int GetHP();
 	int GetFreeze();
 	int GetWeakness();
@@ -19,6 +20,7 @@ private:
 	int hp;
 	int freezeAmount;
 	int weaknessAmount;
+	int weaknessAmountPerma;
 };
 
 
