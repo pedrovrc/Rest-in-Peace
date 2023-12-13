@@ -293,6 +293,9 @@ bool CombatState::UseCard(int val) {
 	if((player->GetAP() >= player->GetCardFromHand(val)->GetCost()) &&
 			player->GetSP() >= player->GetCardFromHand(val)->sanityCost)
 	    {
+			srand((int)time(NULL));
+			int temp = rand();
+
 	        switch(player->GetCardFromHand(val)->t)
 	        {
 	        case DAMAGE:
@@ -337,9 +340,9 @@ bool CombatState::UseCard(int val) {
 				player->DiscardHand();
 				player->DrawHand(PLAYER_HAND_SIZE);
 				for (int i = 0; i < player->GetHandSize(); i++) {
-					srand((int)time(NULL));
-					if(rand()%2 == 1) player->GetCardFromHand(i)->ModifyCost(1);
+					if(temp%2 == 1) player->GetCardFromHand(i)->ModifyCost(1);
 					else player->GetCardFromHand(i)->ModifyCost(-1);
+					temp++;
 				}
 				break;
 	        case DIABRURA:

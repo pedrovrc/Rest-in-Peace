@@ -89,6 +89,7 @@ Card::~Card()
 }
 
 void Card::ModifyCost(int val) {
+	if(cost+val > 3) return;
 	modCost = val;
 }
 
