@@ -13,6 +13,19 @@ Event::Event(string type, ExploreState* state) {
 	started = false;
 	ended = false;
 	passTime = false;
+	renderMatias = 0;
+	renderMatiasName = 0;
+
+	blurBG = new GameObject;
+	CreateAddSprite(blurBG, "img/old_haunted_house_sketch_blur.png", 1, 0, *new Vec2(0,0), -1, -1);
+
+	matiasSprite = new GameObject;
+	CreateAddSprite(matiasSprite, "img/enemies/matias.png", 1, 0, *new Vec2(0,0), -1, -1);
+
+	Colors color = Colors::GetInstance();
+	matiasName = new GameObject;
+	CreateAddText(matiasName, NK57, 50, "Matias Grande", -1, -1, color.white, 0);
+	matiasName->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X, 30));
 }
 
 Event::~Event() {
@@ -186,6 +199,26 @@ void Event::Update(float dt) {
 		motherState->LoadCombatState();
 	}
 
+	if (renderMatias == 1) {
+		motherState->AddObject(blurBG);
+		motherState->AddObject(matiasSprite);
+		renderMatias = 2;
+	}
+	if (renderMatias == -1) {
+		motherState->DeleteObject(blurBG);
+		motherState->DeleteObject(matiasSprite);
+		renderMatias = 0;
+	}
+
+	if (renderMatiasName == 1) {
+		motherState->AddObject(matiasName);
+		renderMatiasName = 2;
+	}
+	if (renderMatiasName == -1) {
+		motherState->DeleteObject(matiasName);
+		renderMatiasName = 0;
+	}
+
 	InputManager* input = &(InputManager::GetInstance());
 
 	// seleciona botões de acordo com estágio da cena
@@ -243,6 +276,7 @@ void Event::Update(float dt) {
 				motherState->DeleteButton("name");
 				LoadButton("death", "centered");
 				currentStage = 3;
+				renderMatiasName = 1;
 			}
 
 			if (currentStage == 1) {
@@ -251,6 +285,7 @@ void Event::Update(float dt) {
 				motherState->DeleteButton("walk");
 				LoadButton("name", "centered");
 				currentStage = 2;
+				renderMatias = 1;
 			}
 		}
 	} else {	// caso seja um estágio com escolhas
@@ -263,6 +298,8 @@ void Event::Update(float dt) {
 				LoadText("placeholder");
 				LoadButton("combat", "centered");
 				currentStage = 7;
+				renderMatias = -1;
+				renderMatiasName = -1;
 			}
 			if (currentbutton2->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {	// botão 2 - pular
 				choiceArray.push_back(2);
@@ -272,6 +309,8 @@ void Event::Update(float dt) {
 				LoadText("event end1");
 				LoadButton("explore", "centered");
 				currentStage = 6;
+				renderMatias = -1;
+				renderMatiasName = -1;
 			}
 		}
 	}

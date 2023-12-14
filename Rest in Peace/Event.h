@@ -9,6 +9,11 @@ class Event {
 	int currentStage;
 	bool choiceActive;
 	vector<int> choiceArray;
+	GameObject* matiasSprite;
+	GameObject* matiasName;
+	GameObject* blurBG;
+	int renderMatias;
+	int renderMatiasName;
 	bool started;
 	bool ended;
 
