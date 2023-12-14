@@ -38,14 +38,14 @@ void EndState::LoadAmbient(string type) {
 
 	if (flagInitialScreen) {
 		if (type == "living room") {
-			filename = "img/old_haunted_house_full_blur.png";
+			filename = "img/old_haunted_house_sketch_full_blur.png";
 		}
 		CreateAddSprite(go_bg, filename, 1, 0, *new Vec2(0,0), WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 
 	if (flagChoice) {
 		if (type == "living room") {
-			filename = "img/old_haunted_house_blur.png";
+			filename = "img/old_haunted_house_sketch.png";
 		}
 		CreateAddSprite(go_bg, filename, 1, 0, *new Vec2(0,0), 550, 900);
 	}
@@ -60,14 +60,14 @@ void EndState::LoadTextAndMusic() {
 	if (GameData::playerVictory) {
 		// vitoria
 		// carrega bg
-		CreateAddText(textQuit, NK57, 90, "VITÓRIA!", -1, -1, color.white, 0);
+		CreateAddText(textQuit, NK57, 90, "VITÓRIA!", -1, -1, color.black, 0);
 
 		// carrega musica
 		backgroundMusic.Open("audio/winMusic.mp3");
 	} else {
 		// derrota
 		// carrega bg
-		CreateAddText(textQuit, NK57, 90, "DERROTA!", -1, -1, color.white, 0);
+		CreateAddText(textQuit, NK57, 90, "DERROTA!", -1, -1, color.black, 0);
 
 		// carrega musica
 		backgroundMusic.Open("audio/loseMusic.mp3");
@@ -77,9 +77,9 @@ void EndState::LoadTextAndMusic() {
 
 	GameObject* textPrompt = new GameObject;
 	if (game.gameData.playerVictory) {
-		CreateAddText(textPrompt, NK57, 50, "Pressione espaço para continuar", -1, -1, color.white, 0);
+		CreateAddText(textPrompt, NK57, 50, "Pressione espaço para continuar", -1, -1, color.black, 0);
 	} else {
-		CreateAddText(textPrompt, NK57, 50, "Pressione espaço para recomeçar", -1, -1, color.white, 0);
+		CreateAddText(textPrompt, NK57, 50, "Pressione espaço para recomeçar", -1, -1, color.black, 0);
 	}
 	textPrompt->box.SetCenterPosition(*new Vec2(800,800));
 	AddObject(textPrompt);

@@ -55,7 +55,7 @@ void CombatState::LoadAmbient(string type) {
 	GameObject* ambient = new GameObject;
 	string filename;
 	if (type == "living room") {
-		filename = "img/old_haunted_house_blur.png";
+		filename = "img/old_haunted_house_sketch_blur.png";
 	}
 	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
@@ -79,6 +79,12 @@ void CombatState::LoadOpponent(string type) {
 	CreateAddText(go_name, "nk57-monospace-no-rg.otf", 30, "Diabrete", -1, -1, color.white, 0);
 	go_name->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,40));
 	AddObject(go_name);
+
+	// carrega barra vermelha
+	GameObject* redbar = new GameObject;
+	CreateAddSprite(redbar, "img/resources/red bar.png", 1, 0,
+					*new Vec2((ILLUST_CENTER_X-100),66), 200, 30);
+	AddObject(redbar);
 
 	// carrega HP
 	GameObject* go_hpdata = new GameObject();

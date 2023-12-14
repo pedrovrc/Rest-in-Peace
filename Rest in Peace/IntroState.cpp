@@ -60,7 +60,7 @@ void IntroState::LoadAmbient(string type) {
 	GameObject* ambient = new GameObject;
 	string filename;
 	if (type == "mansion") {
-		filename = "img/forest mansion.png";
+		filename = "img/forest mansion sketch.png";
 	}
 	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
