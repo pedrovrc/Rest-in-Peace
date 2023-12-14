@@ -23,6 +23,11 @@ Colors::Colors() {
 	black.g = 0;
 	black.b = 0;
 	black.a = 0;
+
+	red.r = 255;
+	red.g = 0;
+	red.b = 0;
+	red.a = 255;
 }
 
 Colors& Colors::GetInstance() {

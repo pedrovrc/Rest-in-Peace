@@ -17,6 +17,7 @@ Deck::~Deck()
 
 GameObject* Deck::DrawOne()
 {
+	if(list.empty()) return nullptr;
     GameObject* go_card = list.back();
     list.pop_back();
     return go_card;

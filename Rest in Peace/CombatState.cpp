@@ -256,11 +256,32 @@ void CombatState::UpdatePlayerData() {
 		playerData.push_back(bluebar);
 		playerData.push_back(go_armordata);
 	}
+
+	// Atualiza HUD cards restantes
+	// atualiza string de decksize
+	string decksize = "Cards no deck: " + to_string(player->GetDeckSize());
+	GameObject* go_decksize = new GameObject();
+	if(player->GetDeckSize() <= 3)
+		CreateAddText(go_decksize, NK57, 18, decksize, -1, -1, color.red, 0);
+	else
+		CreateAddText(go_decksize, NK57, 18, decksize, -1, -1, color.white, 0);
+	go_decksize->box.SetCenterPosition(*new Vec2(1425, 255));
+
+	// adiciona elementos
+	playerData.push_back(go_decksize);
 }
 
 void CombatState::UpdateEnemyData() {
 	Colors& color = Colors::GetInstance();
 	enemyData.clear();
+
+	// Atualiza HUD HP ---------------------
+	// refaz barra verde
+	GameObject* hpenemybar = new GameObject;
+	CreateAddSprite(hpenemybar, "img/resources/green bar.png", 1, 0,
+					*new Vec2((ILLUST_CENTER_X-100),66),
+					200 * ((float)enemy->GetHP()/ENEMY_MAX_HP), 30);
+	enemyData.push_back(hpenemybar);
 
 	// Atualiza HUD HP Inimigo ---------------------
 	string hpenemy = "HP: " + to_string(enemy->GetHP()) + "/" + to_string(ENEMY_MAX_HP);

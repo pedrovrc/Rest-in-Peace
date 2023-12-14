@@ -22,6 +22,7 @@ public:
 	SDL_Color white;
 	SDL_Color gray;
 	SDL_Color black;
+	SDL_Color red;
 
 	Colors();
 	static Colors& GetInstance();

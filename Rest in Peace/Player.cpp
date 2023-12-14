@@ -118,7 +118,12 @@ void Player::LoseArmor(int quantity) {
 
 void Player::DrawHand(int quantity) {
 	for (int i = 0; i < quantity; i++) {
-		hand.push_back(deck.DrawOne());
+		GameObject * go = deck.DrawOne();
+		if(go == nullptr) {
+			TakeDamage(GetHP());
+			return;
+		}
+		hand.push_back(go);
 	}
 }
 
@@ -197,4 +202,8 @@ void Player::DrawRequired() {
 			return;
 		}
 	}
+}
+
+int Player::GetDeckSize() {
+	return deck.list.size();
 }

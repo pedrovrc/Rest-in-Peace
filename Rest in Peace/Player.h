@@ -38,6 +38,8 @@ public:
 	~Player();
 	static Player* GetInstance();
 
+	int GetDeckSize();
+
 	Card * GetCardFromHand(int val);
 	void DeleteCardFromHand(int val);
 	GameObject * GetDeadCard(int val);
