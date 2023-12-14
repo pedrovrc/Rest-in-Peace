@@ -293,6 +293,9 @@ bool CombatState::UseCard(int val) {
 	if((player->GetAP() >= player->GetCardFromHand(val)->GetCost()) &&
 			player->GetSP() >= player->GetCardFromHand(val)->sanityCost)
 	    {
+
+			player->SoundCardFromHand(val);
+
 			srand((int)time(NULL));
 			int temp = rand();
 

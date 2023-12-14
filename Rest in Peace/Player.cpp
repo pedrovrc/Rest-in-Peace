@@ -142,6 +142,11 @@ Card * Player::GetCardFromHand(int val) {
 	return (Card*) hand[val]->GetComponent("Card");
 }
 
+void Player::SoundCardFromHand(int val) {
+	Sound * s = (Sound*)hand[val]->GetComponent("Sound");
+	s->Play();
+}
+
 void Player::DeleteCardFromHand(int val) {
 	hand[val]->RequestDelete();
 }

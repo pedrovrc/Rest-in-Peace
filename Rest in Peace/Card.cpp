@@ -70,10 +70,15 @@ Card::Card(GameObject& associated, string str) : Component(associated)
 	}
 
     // carrega imagem da carta
-    string filename = "img/cards/" + name + ".png";
-    Component* image = new Sprite(associated, filename, 1, 0);
-    associated.AddComponent(image);
-    associated.box.SetDimensions(SMALL_CARD_W, SMALL_CARD_H);
+	string filename = "img/cards/" + name + ".png";
+	Component* image = new Sprite(associated, filename, 1, 0);
+	associated.AddComponent(image);
+	associated.box.SetDimensions(SMALL_CARD_W, SMALL_CARD_H);
+
+	// carrega som da carta
+	filename = "audio/cards/" + name + ".mp3";
+	Component* sound = new Sound(associated, filename);
+	associated.AddComponent(sound);
 
     // carrega modificadores de custo
     modCostPlus = new GameObject;

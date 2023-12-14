@@ -46,6 +46,8 @@ public:
 	void DiscardHand();
 	Button * GetButtonFromHand(int val);
 
+	void SoundCardFromHand(int val);
+
 	int GetHP();
 	void TakeDamage(int dmg_amount);
 	void Heal(int heal_amount);

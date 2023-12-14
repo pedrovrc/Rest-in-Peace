@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Sprite.h"
+#include "Sound.h"
 
 enum classification {DAMAGE,
 					 HEALING,
