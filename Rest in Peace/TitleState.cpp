@@ -8,7 +8,12 @@
 #include "GeneralFunctions.h"
 
 TitleState::TitleState() {
-
+	tutorialOverlay = new GameObject;
+	creditScreen = new GameObject;
+	renderTutorial = false;
+	renderCredits = false;
+	creditsReturnButton.SetDimensions(120, 100);
+	creditsReturnButton.SetPosition(*new Vec2(1380, 60));
 }
 
 TitleState::~TitleState() {
@@ -23,27 +28,46 @@ void TitleState::Update(float dt) {
 
 	// implementa funcionalidade dos botões do menu
 	Button* startbutton = (Button*) button_list[0]->GetComponent("Button");
-	Button* loadbutton = (Button*) button_list[1]->GetComponent("Button");
-	Button* optionsbutton = (Button*) button_list[2]->GetComponent("Button");
+	Button* cardsbutton = (Button*) button_list[1]->GetComponent("Button");
+	Button* tutorialbutton = (Button*) button_list[2]->GetComponent("Button");
 	Button* creditsbutton = (Button*) button_list[3]->GetComponent("Button");
 	Button* quitbutton = (Button*) button_list[4]->GetComponent("Button");
-	if (quitbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-		quitRequested = true;
-	}
-	if (startbutton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
-		Game& game = game.GetInstance();
-		State* state = (State*) new ExploreState("intro");
-		game.Push(state);
+
+	if (input->MousePress(LEFT_MOUSE_BUTTON)) {
+		if (renderCredits) {
+			if (creditsReturnButton.Contains(input->GetMousePoint())) {
+				renderCredits = false;
+			}
+		} else {
+			if (startbutton->IsHovered()) {
+				Game& game = game.GetInstance();
+				State* state = (State*) new ExploreState("intro");
+				game.Push(state);
+			}
+			if (tutorialbutton->IsHovered()) {
+				renderTutorial = !renderTutorial;
+			}
+			if (creditsbutton->IsHovered()) {
+				renderCredits = true;
+			}
+			if (quitbutton->IsHovered()) {
+				quitRequested = true;
+			}
+		}
 	}
 }
 
 void TitleState::LoadAssets() {
 	// carrega imagem de fundo
 	GameObject* go = new GameObject();
-	Component* bg = new Sprite(*go, "img/screens/mainmenu.png", 1, 0);
-	go->AddComponent(bg);
-	go->box.MoveThis(*new Vec2(0,0));
+	CreateAddSprite(go, "img/screens/mainmenu.png", 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(go);
+
+	// carrega imagem de tutorial
+	CreateAddSprite(tutorialOverlay, "img/screens/tutorial.png", 1, 0, *new Vec2(650, 300), -1, -1);
+
+	// carrega iamgem de créditos
+	CreateAddSprite(creditScreen, "img/screens/credits.png", 1, 0, *new Vec2(0, 0), -1, -1);
 
 	// carrega botoes
 	// START
@@ -53,19 +77,19 @@ void TitleState::LoadAssets() {
 	AddObject(startbutton);
 	button_list.push_back(startbutton);
 
-	// LOAD
-	GameObject* loadbutton = new GameObject;
-	CreateAddButton(loadbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
+	// CARDS
+	GameObject* cardsbutton = new GameObject;
+	CreateAddButton(cardsbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
 						*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + MENUBUTTON_H), "load");
-	AddObject(loadbutton);
-	button_list.push_back(loadbutton);
+	AddObject(cardsbutton);
+	button_list.push_back(cardsbutton);
 
-	// OPTIONS
-	GameObject* optionsbutton = new GameObject;
-	CreateAddButton(optionsbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
+	// TUTORIAL
+	GameObject* tutorialbutton = new GameObject;
+	CreateAddButton(tutorialbutton, "main menu", MENUBUTTON_W, MENUBUTTON_H,
 							*new Vec2(MENUBUTTON_CENTER_X, MENUBUTTON_CENTER_Y + 2 * MENUBUTTON_H), "options");
-	AddObject(optionsbutton);
-	button_list.push_back(optionsbutton);
+	AddObject(tutorialbutton);
+	button_list.push_back(tutorialbutton);
 
 	// CREDITS
 	GameObject* creditsbutton = new GameObject;
@@ -85,6 +109,8 @@ void TitleState::LoadAssets() {
 
 void TitleState::Render() {
 	this->RenderArray();
+	if (renderTutorial) tutorialOverlay->Render();
+	if (renderCredits) creditScreen->Render();
 }
 
 void TitleState::Start() {

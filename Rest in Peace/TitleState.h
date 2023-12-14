@@ -17,6 +17,11 @@
 class TitleState : public State {
 private:
 	vector<GameObject*> button_list;
+	GameObject* tutorialOverlay;
+	GameObject* creditScreen;
+	Rect creditsReturnButton;
+	bool renderTutorial;
+	bool renderCredits;
 public:
 	TitleState();
 	~TitleState();
