@@ -408,15 +408,15 @@ void CombatState::Update(float dt) {
 	player->Update(dt);
 
 	// comportamentos para teste do HUD dinâmico
-	// Espaco -> diminui atributos
-	if (input->KeyPress(SPACE_KEY)) {
+	// S -> diminui atributos
+	if (input->KeyPress(S_KEY)) {
 		player->TakeDamage(1);
 		player->SpendAP(1);
 		player->LoseSP(1);
 	}
 
-	// P -> aumenta atributos
-	if (input->KeyPress(P_KEY)) {
+	// A -> aumenta atributos
+	if (input->KeyPress(A_KEY)) {
 		player->Heal(1);
 		player->ResetAP();
 		player->GainSP(1);
@@ -430,8 +430,7 @@ void CombatState::Update(float dt) {
 			UseCard(i);
 		}
 	}
-
-	if (input->KeyPress(N5_KEY)) {
+	if (input->KeyPress(SPACE_KEY)) {
 		TurnPass();
 	}
 	UpdatePlayerData();

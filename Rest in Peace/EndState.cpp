@@ -175,6 +175,8 @@ void EndState::Update(float dt) {
 			LoadText("vitoria diabrete");
 			LoadButton("deal", "1 of 2");
 			LoadButton("exorcism", "2 of 2");
+			backgroundMusic.Open("audio/moonlight sonata reversed.mp3");
+			backgroundMusic.Play();
 			LoadPlayerProfile();
 			UpdateTime();
 			AddObject(timeText);

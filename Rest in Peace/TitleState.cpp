@@ -58,6 +58,9 @@ void TitleState::Update(float dt) {
 }
 
 void TitleState::LoadAssets() {
+	// carrega musica
+	backgroundMusic.Open("audio/moonlight sonata reversed.mp3");
+
 	// carrega imagem de fundo
 	GameObject* go = new GameObject();
 	CreateAddSprite(go, "img/screens/mainmenu.png", 1, 0, *new Vec2(0,0), -1, -1);
@@ -115,12 +118,13 @@ void TitleState::Render() {
 
 void TitleState::Start() {
 	LoadAssets();
+	backgroundMusic.Play();
 }
 
 void TitleState::Pause() {
-
+	backgroundMusic.Stop();
 }
 
 void TitleState::Resume() {
-
+	backgroundMusic.Play();
 }

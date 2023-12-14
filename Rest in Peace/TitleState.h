@@ -2,6 +2,7 @@
 #define TITLESTATE_H
 
 #include "State.h"
+#include "Music.h"
 
 #define MENUBUTTON_W 505
 #define MENUBUTTON_H 121
@@ -16,6 +17,7 @@
 
 class TitleState : public State {
 private:
+	Music backgroundMusic;
 	vector<GameObject*> button_list;
 	GameObject* tutorialOverlay;
 	GameObject* creditScreen;
