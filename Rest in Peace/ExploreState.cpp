@@ -14,6 +14,7 @@ ExploreState::ExploreState(string type) {
 	if (type == "intro") intro = true;
 	else intro = false;
 	event = new Event(type, this);
+	timeText = new GameObject();
 }
 
 ExploreState::~ExploreState() {
@@ -37,6 +38,10 @@ void ExploreState::LoadAssets() {
 
 	// carrega dados do evento
 	event->LoadAssets();
+
+	// carrega relógio
+	UpdateTime();
+	AddObject(timeText);
 }
 
 void ExploreState::LoadExecIntro() {
@@ -179,6 +184,24 @@ void ExploreState::Update(float dt) {
 	popRequested = input->QuitRequested();
 
 	event->Update(dt);
+
+	if (event->passTime) {
+		Game& game = game.GetInstance();
+		game.gameData.timePassed++;
+		event->passTime = false;
+		UpdateTime();
+	}
+}
+
+void ExploreState::UpdateTime() {
+	Component* cpt = timeText->GetComponent("Text");
+	if (cpt != nullptr) timeText->RemoveComponent(cpt);
+
+	Game& game = game.GetInstance();
+	Colors color = Colors::GetInstance();
+	string hour = GetTimeFromTable(game.gameData.timePassed);
+	CreateAddText(timeText, NK57, 40, hour, -1, -1, color.white, 0);
+	timeText->box.SetCenterPosition(*new Vec2(1420, 850));
 }
 
 Button* ExploreState::GetButton(string id) {

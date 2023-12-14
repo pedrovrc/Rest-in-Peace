@@ -12,6 +12,7 @@ Event::Event(string type, ExploreState* state) {
 	choiceActive = false;
 	started = false;
 	ended = false;
+	passTime = false;
 }
 
 Event::~Event() {
@@ -204,6 +205,8 @@ void Event::Update(float dt) {
 			}
 
 			if (currentStage == 6) {
+				// passa tempo após escolha
+				passTime = true;
 				if (GetChoiceResult(0) == 1) {
 					// executa tutorial aqui
 

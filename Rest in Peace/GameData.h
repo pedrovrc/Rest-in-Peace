@@ -10,6 +10,7 @@
 class GameData {
 public:
 	static bool playerVictory;
+	static int timePassed;
 
 	GameData();
 };

@@ -27,5 +27,6 @@ Sprite* CreateAddSprite(GameObject* associated, string filename,
 Sprite* CreateAddCenteredSprite(GameObject* associated, string filename,
 						int frameCount, int frameTime, Vec2 centerpos,
 						int width, int height);
+string GetTimeFromTable(int offset);
 
 #endif

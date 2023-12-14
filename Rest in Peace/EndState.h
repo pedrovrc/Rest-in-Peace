@@ -28,6 +28,7 @@ class EndState : public State {
 	bool flagInitialScreen;
 	bool flagChoice;
 	bool end;
+	GameObject* timeText;
 
 	void LoadAmbient(string type);
 	void LoadTextAndMusic();
@@ -36,6 +37,8 @@ class EndState : public State {
 	void LoadButton(string id, string position);
 	void LoadText(string id);
 	void LoadPlayerProfile();
+
+	void UpdateTime();
 
 	void EraseAllObjects();
 	void DeleteButton(string id);

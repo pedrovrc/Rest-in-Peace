@@ -13,6 +13,8 @@ class Event {
 	bool ended;
 
 public:
+	bool passTime;
+
 	Event(string type, ExploreState* state);
 	~Event();
 

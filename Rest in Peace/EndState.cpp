@@ -14,6 +14,7 @@ EndState::EndState(string opponent, string ambient) {
 	flagInitialScreen = true;
 	flagChoice = false;
 	end = false;
+	timeText = new GameObject;
 }
 
 EndState::~EndState() {
@@ -140,6 +141,9 @@ void EndState::Update(float dt) {
 			LoadText("pacto diabrete");
 			end = true;
 			flagChoice = false;
+			Game& game = game.GetInstance();
+			game.gameData.timePassed++;
+			UpdateTime();
 		}
 
 		if (option2->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
@@ -151,6 +155,9 @@ void EndState::Update(float dt) {
 			LoadText("exorcizar diabrete");
 			end = true;
 			flagChoice = false;
+			Game& game = game.GetInstance();
+			game.gameData.timePassed++;
+			UpdateTime();
 		}
 	}
 
@@ -169,6 +176,8 @@ void EndState::Update(float dt) {
 			LoadButton("deal", "1 of 2");
 			LoadButton("exorcism", "2 of 2");
 			LoadPlayerProfile();
+			UpdateTime();
+			AddObject(timeText);
 		} else {
 			// recomeçar -> reiniciar jogo
 			popRequested = true;
@@ -179,6 +188,17 @@ void EndState::Update(float dt) {
 	if (input->QuitRequested() || input->KeyPress(ESCAPE_KEY)) {
 		quitRequested = true;
 	}
+}
+
+void EndState::UpdateTime() {
+	Component* cpt = timeText->GetComponent("Text");
+	if (cpt != nullptr) timeText->RemoveComponent(cpt);
+
+	Game& game = game.GetInstance();
+	Colors color = Colors::GetInstance();
+	string hour = GetTimeFromTable(game.gameData.timePassed);
+	CreateAddText(timeText, NK57, 40, hour, -1, -1, color.white, 0);
+	timeText->box.SetCenterPosition(*new Vec2(1420, 850));
 }
 
 void EndState::LoadPlayerProfile() {

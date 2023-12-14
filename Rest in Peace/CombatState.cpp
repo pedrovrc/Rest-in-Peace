@@ -405,10 +405,10 @@ void CombatState::Update(float dt) {
 	InputManager* input = &(InputManager::GetInstance());
 	popRequested = input->QuitRequested();
 
-	// comportamentos para teste do HUD dinâmico
-	// Espaco -> diminui atributos
 	player->Update(dt);
 
+	// comportamentos para teste do HUD dinâmico
+	// Espaco -> diminui atributos
 	if (input->KeyPress(SPACE_KEY)) {
 		player->TakeDamage(1);
 		player->SpendAP(1);
@@ -431,18 +431,6 @@ void CombatState::Update(float dt) {
 		}
 	}
 
-//	if (input->KeyPress(N1_KEY)) {
-//		UseCard(0);
-//	}
-//	if (input->KeyPress(N2_KEY)) {
-//		UseCard(2);
-//	}
-//	if (input->KeyPress(N3_KEY)) {
-//		UseCard(3);
-//	}
-//	if (input->KeyPress(N4_KEY)) {
-//			UseCard(4);
-//	}
 	if (input->KeyPress(N5_KEY)) {
 		TurnPass();
 	}

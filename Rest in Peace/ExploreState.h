@@ -28,11 +28,14 @@ class ExploreState : public State {
 	vector<GameObject*> playerData;
 	Event* event;
 	bool intro;
+	GameObject* timeText;
 
 	void LoadScreen();
 	void LoadAmbient(string type);
 	void LoadPlayerProfile();
 	void LoadExecIntro();
+
+	void UpdateTime();
 
 	void RenderPlayerData();
 

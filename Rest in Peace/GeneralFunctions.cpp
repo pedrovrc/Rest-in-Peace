@@ -123,3 +123,15 @@ Sprite* CreateAddCenteredSprite(GameObject* associated, string filename,
 	associated->box.SetCenterPosition(centerpos);
 	return (Sprite*)newSprite;
 }
+
+string GetTimeFromTable(int offset) {
+	if (offset > 24) return "";
+
+	ifstream timeTable;
+	timeTable.open("text/timeTable.txt", ifstream::in);
+	string line;
+	for (int i = 0; i <= offset; i++) {
+		getline(timeTable, line);
+	}
+	return line;
+}
