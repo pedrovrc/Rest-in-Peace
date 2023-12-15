@@ -32,6 +32,8 @@ class CombatState : public State {
 	vector<GameObject*> buttonList;
 	vector<GameObject*> playerData;
 	vector<GameObject*> enemyData;
+	vector<GameObject*> historyData;
+	vector<string> matchHistory;
 	GameObject* enemyHurt;
 	GameObject* playerHurt;
 	GameObject* playerHeal;
@@ -53,6 +55,8 @@ class CombatState : public State {
 	void RenderPlayerData();
 	void UpdateEnemyData();
 	void RenderEnemyData();
+	void UpdateHistoryData();
+	void RenderHistoryData();
 	bool UseCard(int val);
 	void TurnPass();
 
