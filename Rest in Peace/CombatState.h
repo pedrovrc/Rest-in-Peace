@@ -17,6 +17,9 @@
 #define ILLUST_CENTER_Y 450
 #define ILLUST_W 550
 #define ILLUST_H 900
+#define COMBATBUTTON_W 77
+#define COMBATBUTTON_H 77
+#define ANIM_THRESHOLD 400
 
 /*
  * Classe CombatState
@@ -26,10 +29,16 @@
 
 class CombatState : public State {
 	Music combatMusic;
+	vector<GameObject*> buttonList;
 	vector<GameObject*> playerData;
 	vector<GameObject*> enemyData;
 	vector<GameObject*> historyData;
 	vector<string> matchHistory;
+	GameObject* enemyHurt;
+	GameObject* playerHurt;
+	GameObject* playerHeal;
+	GameObject movingBox;
+	int animationFlag;
 	int turnCounter;
 	Enemy * enemy;
 	string ambient;
@@ -37,6 +46,7 @@ class CombatState : public State {
 	int espreitarCount;
 
 	void LoadScreen();
+	void LoadButtons();
 	void LoadAmbient(string type);
 	void LoadOpponent(string type);
 	void LoadPlayerProfile();

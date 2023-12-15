@@ -17,10 +17,24 @@ CombatState::CombatState(string ambient, string opponent) {
 	this->ambient = ambient;
 	this->opponent = opponent;
 	espreitarCount = -1;
+
 	matchHistory.push_back("  ");
 	matchHistory.push_back("  ");
 	matchHistory.push_back("  ");
 	matchHistory.push_back("  ");
+
+	animationFlag = 0;
+
+	enemyHurt = new GameObject;
+	CreateAddCenteredSprite(enemyHurt, "img/enemies/diabrete_hurt.png", 1, 0,
+							*new Vec2(ILLUST_CENTER_X, ILLUST_CENTER_Y), -1, -1);
+	playerHurt = new GameObject;
+	CreateAddSprite(playerHurt, "img/MC/avatar hurt.png", 1, 0,
+					*new Vec2(AVATAR_POS_X, AVATAR_POS_Y), -1, -1);
+	playerHeal = new GameObject;
+	CreateAddSprite(playerHeal, "img/MC/avatar heal.png", 1, 0,
+					*new Vec2(AVATAR_POS_X, AVATAR_POS_Y), -1, -1);
+
 }
 
 CombatState::~CombatState() {
@@ -33,6 +47,7 @@ CombatState::~CombatState() {
 void CombatState::LoadAssets() {
 	// carrega imagem do fundo da tela
 	LoadScreen();
+	LoadButtons();
 
 	// carrega ilustracao de ambiente
 	LoadAmbient(ambient);
@@ -54,12 +69,29 @@ void CombatState::LoadScreen() {
 	AddObject(screen);
 }
 
+void CombatState::LoadButtons() {
+	GameObject* buttonGO = new GameObject;
+	CreateAddButton(buttonGO, "action", COMBATBUTTON_W, COMBATBUTTON_H, *new Vec2(1320, 350), "view deck");
+	AddObject(buttonGO);
+	buttonList.push_back(buttonGO);
+
+	buttonGO = new GameObject;
+	CreateAddButton(buttonGO, "action", COMBATBUTTON_W, COMBATBUTTON_H, *new Vec2(1423, 350), "view inventory");
+	AddObject(buttonGO);
+	buttonList.push_back(buttonGO);
+
+	buttonGO = new GameObject;
+	CreateAddButton(buttonGO, "action", COMBATBUTTON_W, COMBATBUTTON_H, *new Vec2(1525, 350), "end turn");
+	AddObject(buttonGO);
+	buttonList.push_back(buttonGO);
+}
+
 void CombatState::LoadAmbient(string type) {
 	// Carrega ilustração do fundo da tela
 	GameObject* ambient = new GameObject;
 	string filename;
 	if (type == "living room") {
-		filename = "img/old_haunted_house_blur.png";
+		filename = "img/old_haunted_house_sketch_blur.png";
 	}
 	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);
@@ -83,6 +115,12 @@ void CombatState::LoadOpponent(string type) {
 	CreateAddText(go_name, "nk57-monospace-no-rg.otf", 30, "Diabrete", -1, -1, color.white, 0);
 	go_name->box.SetCenterPosition(*new Vec2(ILLUST_CENTER_X,40));
 	AddObject(go_name);
+
+	// carrega barra vermelha
+	GameObject* redbar = new GameObject;
+	CreateAddSprite(redbar, "img/resources/red bar.png", 1, 0,
+					*new Vec2((ILLUST_CENTER_X-100),66), 200, 30);
+	AddObject(redbar);
 
 	// carrega HP
 	GameObject* go_hpdata = new GameObject();
@@ -369,6 +407,7 @@ bool CombatState::UseCard(int val) {
 	            player->DeleteCardFromHand(val);
 	            matchHistory.pop_back();
 	            matchHistory.insert(matchHistory.begin(), "Sofia causou 4 pontos de dano");
+	            if (animationFlag == 0) animationFlag = 1;
 	            break;
 	        case HEALING:
 	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
@@ -377,6 +416,7 @@ bool CombatState::UseCard(int val) {
 	            player->DeleteCardFromHand(val);
 	            matchHistory.pop_back();
 	            matchHistory.insert(matchHistory.begin(), "Sofia curou 4 pontos de vida");
+	            if (animationFlag == 0) animationFlag = 3;
 	            break;
 	        case ARMOR:
 	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
@@ -430,6 +470,7 @@ bool CombatState::UseCard(int val) {
 				player->DeleteCardFromHand(val);
 	            matchHistory.pop_back();
 	            matchHistory.insert(matchHistory.begin(), "Sofia causou"+ temp1 +" pontos de dano");
+				if (animationFlag == 0) animationFlag = 1;
 				break;
 	        case RISADA:
 				player->SpendAP(player->GetCardFromHand(val)->GetCost());
@@ -454,8 +495,9 @@ bool CombatState::UseCard(int val) {
 				if(enemy->GetHP() <= 12) player->Heal(4);
 				enemy->TakeDamage(12);
 				player->DeleteCardFromHand(val);
-	            matchHistory.pop_back();
-	            matchHistory.insert(matchHistory.begin(), "Sofia causou 12 pontos de dano");
+        matchHistory.pop_back();
+        matchHistory.insert(matchHistory.begin(), "Sofia causou 12 pontos de dano");
+				if (animationFlag == 0) animationFlag = 1;
 				break;
 	        }
 	        return 1;
@@ -470,6 +512,10 @@ bool CombatState::UseCard(int val) {
 void CombatState::Update(float dt) {
 	UpdateArray(dt);
 	Player* player = Player::GetInstance();
+
+	Button* viewDeck = (Button*)buttonList[0]->GetComponent("Button");
+	Button* viewInventory = (Button*)buttonList[1]->GetComponent("Button");
+	Button* endTurn = (Button*)buttonList[2]->GetComponent("Button");
 
 	// condição de término de jogo
 	if(player->GetHP() <= 0 || enemy->GetHP() <= 0) {
@@ -486,6 +532,19 @@ void CombatState::Update(float dt) {
 
 		popRequested = true;
 		return;
+	}
+
+	// GAMBIARRA HORROROSA PARA PASSAR TEMPO
+	if (animationFlag != 0) {
+		movingBox.box.MoveThis(*new Vec2(10, 0));
+		if (movingBox.box.x > ANIM_THRESHOLD) {
+			animationFlag = 0;
+			movingBox.box.SetPosition(*new Vec2(0, 0));
+		}
+	}
+
+	if (player->TookDamage() && animationFlag == 0) {
+		animationFlag = 2;
 	}
 
 	InputManager* input = &(InputManager::GetInstance());
@@ -509,15 +568,22 @@ void CombatState::Update(float dt) {
 		player->GainArmor(1);
 	}
 
+	if (viewDeck->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		// visao de deck
+	}
+	if (viewInventory->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		// visao de inventario
+	}
+	if (input->KeyPress(SPACE_KEY) || (endTurn->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON))) {
+		TurnPass();
+	}
+
 	Button* cardButton;
 	for (int i = 0; i < player->GetHandSize(); i++) {
 		cardButton = player->GetButtonFromHand(i);
 		if(cardButton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 			UseCard(i);
 		}
-	}
-	if (input->KeyPress(SPACE_KEY)) {
-		TurnPass();
 	}
 	UpdatePlayerData();
 	UpdateEnemyData();
@@ -557,6 +623,15 @@ void CombatState::Render() {
 	this->RenderEnemyData();
 	this->RenderHistoryData();
 	Player::GetInstance()->RenderHand();
+	if (animationFlag != 0) {
+		if (animationFlag == 1) {
+			enemyHurt->Render();
+		} else if (animationFlag == 2) {
+			playerHurt->Render();
+		} else if (animationFlag == 3) {
+			playerHeal->Render();
+		}
+	}
 }
 
 void CombatState::RenderPlayerData() {

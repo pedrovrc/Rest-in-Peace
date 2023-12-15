@@ -63,7 +63,7 @@ void ExploreState::LoadAmbient(string type) {
 	GameObject* ambient = new GameObject;
 	string filename;
 	if (type == "living room") {
-		filename = "img/old_haunted_house.png";
+		filename = "img/old_haunted_house_sketch.png";
 	}
 	CreateAddSprite(ambient, filename, 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(ambient);

@@ -13,6 +13,8 @@ Player::Player() {
 	sp = PLAYER_MAX_SP;
 	armor = 0;
 
+	dmgTaken = false;
+
 	// carrega deck inicial
 	ifstream decklist;
 	decklist.open("card_info/deck.txt", ifstream::in);
@@ -66,6 +68,7 @@ void Player::TakeDamage(int dmg_amount) {
 		LoseArmor(dmg_amount);
 	}
 	hp -= dmg;
+	if (dmg > 0) dmgTaken = true;
 	if (hp < 0) hp = 0;
 	// CHECAR POR MORTE DO PLAYER
 }
@@ -201,6 +204,15 @@ void Player::DrawRequired() {
 			hand.push_back(deck.DrawThis(i));
 			return;
 		}
+	}
+}
+
+bool Player::TookDamage() {
+	if (dmgTaken) {
+		dmgTaken = false;
+		return true;
+	} else {
+		return false;
 	}
 }
 
