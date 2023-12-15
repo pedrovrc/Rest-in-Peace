@@ -390,15 +390,15 @@ void EndState::Render() {
 
 void EndState::Start() {
 	LoadAssets();
-	backgroundMusic.Play();
+	backgroundMusic.Play(1);
 	StartArray();
 	started = true;
 }
 
 void EndState::Pause() {
-
+	backgroundMusic.Stop();
 }
 
 void EndState::Resume() {
-
+	backgroundMusic.Play();
 }
