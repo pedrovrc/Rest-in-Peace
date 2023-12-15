@@ -29,6 +29,7 @@ CombatState::~CombatState() {
 void CombatState::LoadAssets() {
 	// carrega imagem do fundo da tela
 	LoadScreen();
+	LoadButtons();
 
 	// carrega ilustracao de ambiente
 	LoadAmbient(ambient);
@@ -48,6 +49,23 @@ void CombatState::LoadScreen() {
 	GameObject* screen = new GameObject;
 	CreateAddSprite(screen, "img/screens/combatscreen.png", 1, 0, *new Vec2(0,0), -1, -1);
 	AddObject(screen);
+}
+
+void CombatState::LoadButtons() {
+	GameObject* buttonGO = new GameObject;
+	CreateAddButton(buttonGO, "action", COMBATBUTTON_W, COMBATBUTTON_H, *new Vec2(1320, 350), "view deck");
+	AddObject(buttonGO);
+	buttonList.push_back(buttonGO);
+
+	buttonGO = new GameObject;
+	CreateAddButton(buttonGO, "action", COMBATBUTTON_W, COMBATBUTTON_H, *new Vec2(1423, 350), "view inventory");
+	AddObject(buttonGO);
+	buttonList.push_back(buttonGO);
+
+	buttonGO = new GameObject;
+	CreateAddButton(buttonGO, "action", COMBATBUTTON_W, COMBATBUTTON_H, *new Vec2(1525, 350), "end turn");
+	AddObject(buttonGO);
+	buttonList.push_back(buttonGO);
 }
 
 void CombatState::LoadAmbient(string type) {
@@ -415,6 +433,10 @@ void CombatState::Update(float dt) {
 	UpdateArray(dt);
 	Player* player = Player::GetInstance();
 
+	Button* viewDeck = (Button*)buttonList[0]->GetComponent("Button");
+	Button* viewInventory = (Button*)buttonList[1]->GetComponent("Button");
+	Button* endTurn = (Button*)buttonList[2]->GetComponent("Button");
+
 	// condição de término de jogo
 	if(player->GetHP() <= 0 || enemy->GetHP() <= 0) {
 		Game& game = game.GetInstance();
@@ -453,15 +475,22 @@ void CombatState::Update(float dt) {
 		player->GainArmor(1);
 	}
 
+	if (viewDeck->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		// visao de deck
+	}
+	if (viewInventory->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		// visao de inventario
+	}
+	if (input->KeyPress(SPACE_KEY) || (endTurn->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON))) {
+		TurnPass();
+	}
+
 	Button* cardButton;
 	for (int i = 0; i < player->GetHandSize(); i++) {
 		cardButton = player->GetButtonFromHand(i);
 		if(cardButton->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 			UseCard(i);
 		}
-	}
-	if (input->KeyPress(SPACE_KEY)) {
-		TurnPass();
 	}
 	UpdatePlayerData();
 	UpdateEnemyData();

@@ -17,6 +17,8 @@
 #define ILLUST_CENTER_Y 450
 #define ILLUST_W 550
 #define ILLUST_H 900
+#define COMBATBUTTON_W 77
+#define COMBATBUTTON_H 77
 
 /*
  * Classe CombatState
@@ -26,6 +28,7 @@
 
 class CombatState : public State {
 	Music combatMusic;
+	vector<GameObject*> buttonList;
 	vector<GameObject*> playerData;
 	vector<GameObject*> enemyData;
 	int turnCounter;
@@ -35,6 +38,7 @@ class CombatState : public State {
 	int espreitarCount;
 
 	void LoadScreen();
+	void LoadButtons();
 	void LoadAmbient(string type);
 	void LoadOpponent(string type);
 	void LoadPlayerProfile();

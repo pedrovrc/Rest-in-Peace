@@ -12,6 +12,9 @@ Button::Button(GameObject& associated, string type) : Component(associated){
 		// carregar overlay de selecao de carta
 		overlay = new Sprite(associated, "img/resources/selection overlay card.png", 1, 0);
 	}
+	if (type == "action") {
+		overlay = new Sprite(associated, "img/resources/selection overlay action.png", 1, 0);
+	}
 	overlaybox.SetDimensions(overlay->GetWidth(), overlay->GetHeight());
 
 	id = "No ID";
@@ -27,6 +30,9 @@ Button::Button(GameObject& associated, string type, string identifier) : Compone
 	if (type == "card") {
 		// carregar overlay de selecao de carta
 		overlay = new Sprite(associated, "img/resources/selection overlay card.png", 1, 0);
+	}
+	if (type == "action") {
+		overlay = new Sprite(associated, "img/resources/selection overlay action.png", 1, 0);
 	}
 	overlaybox.SetDimensions(overlay->GetWidth(), overlay->GetHeight());
 
