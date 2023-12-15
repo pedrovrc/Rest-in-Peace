@@ -144,9 +144,7 @@ void EndState::Update(float dt) {
 			Game& game = game.GetInstance();
 			game.gameData.timePassed++;
 			UpdateTime();
-		}
-
-		if (option2->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
+		} else if (option2->IsHovered() && input->MousePress(LEFT_MOUSE_BUTTON)) {
 			// exorcismo
 			DeleteText("vitoria diabrete");
 			DeleteButton("deal");

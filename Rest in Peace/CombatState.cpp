@@ -17,6 +17,17 @@ CombatState::CombatState(string ambient, string opponent) {
 	this->ambient = ambient;
 	this->opponent = opponent;
 	espreitarCount = -1;
+	animationFlag = 0;
+
+	enemyHurt = new GameObject;
+	CreateAddCenteredSprite(enemyHurt, "img/enemies/diabrete_hurt.png", 1, 0,
+							*new Vec2(ILLUST_CENTER_X, ILLUST_CENTER_Y), -1, -1);
+	playerHurt = new GameObject;
+	CreateAddSprite(playerHurt, "img/MC/avatar hurt.png", 1, 0,
+					*new Vec2(AVATAR_POS_X, AVATAR_POS_Y), -1, -1);
+	playerHeal = new GameObject;
+	CreateAddSprite(playerHeal, "img/MC/avatar heal.png", 1, 0,
+					*new Vec2(AVATAR_POS_X, AVATAR_POS_Y), -1, -1);
 }
 
 CombatState::~CombatState() {
@@ -351,12 +362,14 @@ bool CombatState::UseCard(int val) {
 	            enemy->TakeDamage(player->GetCardFromHand(val)->quantity);
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 	            player->DeleteCardFromHand(val);
+	            if (animationFlag == 0) animationFlag = 1;
 	            break;
 	        case HEALING:
 	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
 	            player->Heal(player->GetCardFromHand(val)->quantity);
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 	            player->DeleteCardFromHand(val);
+	            if (animationFlag == 0) animationFlag = 3;
 	            break;
 	        case ARMOR:
 	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
@@ -398,6 +411,7 @@ bool CombatState::UseCard(int val) {
 				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				enemy->TakeDamage(5+(player->GetHP()/4));
 				player->DeleteCardFromHand(val);
+				if (animationFlag == 0) animationFlag = 1;
 				break;
 	        case RISADA:
 				player->SpendAP(player->GetCardFromHand(val)->GetCost());
@@ -418,6 +432,7 @@ bool CombatState::UseCard(int val) {
 				if(enemy->GetHP() <= 12) player->Heal(4);
 				enemy->TakeDamage(12);
 				player->DeleteCardFromHand(val);
+				if (animationFlag == 0) animationFlag = 1;
 				break;
 	        }
 	        return 1;
@@ -452,6 +467,19 @@ void CombatState::Update(float dt) {
 
 		popRequested = true;
 		return;
+	}
+
+	// GAMBIARRA HORROROSA PARA PASSAR TEMPO
+	if (animationFlag != 0) {
+		movingBox.box.MoveThis(*new Vec2(10, 0));
+		if (movingBox.box.x > ANIM_THRESHOLD) {
+			animationFlag = 0;
+			movingBox.box.SetPosition(*new Vec2(0, 0));
+		}
+	}
+
+	if (player->TookDamage() && animationFlag == 0) {
+		animationFlag = 2;
 	}
 
 	InputManager* input = &(InputManager::GetInstance());
@@ -522,6 +550,15 @@ void CombatState::Render() {
 	this->RenderPlayerData();
 	this->RenderEnemyData();
 	Player::GetInstance()->RenderHand();
+	if (animationFlag != 0) {
+		if (animationFlag == 1) {
+			enemyHurt->Render();
+		} else if (animationFlag == 2) {
+			playerHurt->Render();
+		} else if (animationFlag == 3) {
+			playerHeal->Render();
+		}
+	}
 }
 
 void CombatState::RenderPlayerData() {

@@ -30,6 +30,7 @@ class Player {
 	vector<GameObject*> hand;
 	vector<Item> itemList;
 	vector<Buff> buffList;
+	bool dmgTaken;
 
 	static Player* instance;
 
@@ -38,6 +39,7 @@ public:
 	~Player();
 	static Player* GetInstance();
 
+	bool TookDamage();
 	int GetDeckSize();
 
 	Card * GetCardFromHand(int val);

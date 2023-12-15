@@ -19,6 +19,7 @@
 #define ILLUST_H 900
 #define COMBATBUTTON_W 77
 #define COMBATBUTTON_H 77
+#define ANIM_THRESHOLD 400
 
 /*
  * Classe CombatState
@@ -31,6 +32,11 @@ class CombatState : public State {
 	vector<GameObject*> buttonList;
 	vector<GameObject*> playerData;
 	vector<GameObject*> enemyData;
+	GameObject* enemyHurt;
+	GameObject* playerHurt;
+	GameObject* playerHeal;
+	GameObject movingBox;
+	int animationFlag;
 	int turnCounter;
 	Enemy * enemy;
 	string ambient;
