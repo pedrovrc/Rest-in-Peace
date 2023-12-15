@@ -17,6 +17,10 @@ CombatState::CombatState(string ambient, string opponent) {
 	this->ambient = ambient;
 	this->opponent = opponent;
 	espreitarCount = -1;
+	matchHistory.push_back("  ");
+	matchHistory.push_back("  ");
+	matchHistory.push_back("  ");
+	matchHistory.push_back("  ");
 }
 
 CombatState::~CombatState() {
@@ -309,6 +313,42 @@ void CombatState::UpdateEnemyData() {
 	}
 }
 
+void CombatState::UpdateHistoryData() {
+	Colors& color = Colors::GetInstance();
+
+	historyData.clear();
+
+	string hist1 = matchHistory[0];
+	GameObject* go_hist1 = new GameObject();
+	CreateAddText(go_hist1, NK57, 30, hist1, -1, -1, color.white, 0);
+	go_hist1->box.SetCenterPosition(*new Vec2(895,685));
+	historyData.push_back(go_hist1);
+
+	string hist2 = matchHistory[1];
+	GameObject* go_hist2 = new GameObject();
+	CreateAddText(go_hist2, NK57, 30, hist2, -1, -1, color.white, 0);
+	go_hist2->box.SetCenterPosition(*new Vec2(895,738));
+	historyData.push_back(go_hist2);
+
+	string hist3 = matchHistory[2];
+	GameObject* go_hist3 = new GameObject();
+	CreateAddText(go_hist3, NK57, 30, hist3, -1, -1, color.white, 0);
+	go_hist3->box.SetCenterPosition(*new Vec2(895,791));
+	historyData.push_back(go_hist3);
+
+	string hist4 = matchHistory[3];
+	GameObject* go_hist4 = new GameObject();
+	CreateAddText(go_hist4, NK57, 30, hist4, -1, -1, color.white, 0);
+	go_hist4->box.SetCenterPosition(*new Vec2(895,844));
+	historyData.push_back(go_hist4);
+}
+
+void CombatState::RenderHistoryData() {
+	for (int i = 0; i < (int)historyData.size(); i++) {
+		historyData[i]->Render();
+	}
+}
+
 bool CombatState::UseCard(int val) {
 	Player* player = Player::GetInstance();
 	if((player->GetAP() >= player->GetCardFromHand(val)->GetCost()) &&
@@ -316,7 +356,7 @@ bool CombatState::UseCard(int val) {
 	    {
 
 			player->SoundCardFromHand(val);
-
+            string temp1 = "Sofia causou"+ to_string(5+(player->GetHP()/4)) +" pontos de dano";
 			srand((int)time(NULL));
 			int temp = rand();
 
@@ -327,36 +367,48 @@ bool CombatState::UseCard(int val) {
 	            enemy->TakeDamage(player->GetCardFromHand(val)->quantity);
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 	            player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia causou 4 pontos de dano");
 	            break;
 	        case HEALING:
 	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
 	            player->Heal(player->GetCardFromHand(val)->quantity);
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 	            player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia curou 4 pontos de vida");
 	            break;
 	        case ARMOR:
 	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
 	            player->GainArmor(player->GetCardFromHand(val)->quantity);
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 	            player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia ganhou 2 pontos de armadura");
 	            break;
 	        case SANITY:
 	            player->SpendAP(player->GetCardFromHand(val)->GetCost());
 	            player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				player->DiscardHand();
 				player->DrawHand(PLAYER_HAND_SIZE);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia comprou uma mão nova");
 	        	break;
 	        case CONGELADO:
 				player->SpendAP(player->GetCardFromHand(val)->GetCost());
 				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				enemy->ApplyFreeze(player->GetCardFromHand(val)->quantity);
 				player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia Congelou o inimigo");
 				break;
 	        case LAGRIMAS:
 				player->SpendAP(player->GetCardFromHand(val)->GetCost());
 				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				enemy->ApplyWeakness(player->GetCardFromHand(val)->quantity);
 				player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia Lacrimejou");
 				break;
 	        case TRUQUE:
 	        	player->SpendAP(player->GetCardFromHand(val)->GetCost());
@@ -368,12 +420,16 @@ bool CombatState::UseCard(int val) {
 					else player->GetCardFromHand(i)->ModifyCost(-1);
 					temp++;
 				}
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia comprou uma mão nova");
 				break;
 	        case DIABRURA:
 				player->SpendAP(player->GetCardFromHand(val)->GetCost());
 				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				enemy->TakeDamage(5+(player->GetHP()/4));
 				player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia causou"+ temp1 +" pontos de dano");
 				break;
 	        case RISADA:
 				player->SpendAP(player->GetCardFromHand(val)->GetCost());
@@ -381,12 +437,16 @@ bool CombatState::UseCard(int val) {
 				enemy->ApplPermayWeakness(2);
 				player->GainSP(3);
 				player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia causou 2 de Fraqueza Permanente");
 				break;
 	        case ESPREITAR:
 				player->SpendAP(player->GetCardFromHand(val)->GetCost());
 				player->LoseSP(player->GetCardFromHand(val)->sanityCost);
 				espreitarCount = 0;
 				player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia causará 30 de dano em 2 turnos");
 				break;
 	        case DEVORAR:
 				player->SpendAP(player->GetCardFromHand(val)->GetCost());
@@ -394,6 +454,8 @@ bool CombatState::UseCard(int val) {
 				if(enemy->GetHP() <= 12) player->Heal(4);
 				enemy->TakeDamage(12);
 				player->DeleteCardFromHand(val);
+	            matchHistory.pop_back();
+	            matchHistory.insert(matchHistory.begin(), "Sofia causou 12 pontos de dano");
 				break;
 	        }
 	        return 1;
@@ -459,6 +521,7 @@ void CombatState::Update(float dt) {
 	}
 	UpdatePlayerData();
 	UpdateEnemyData();
+	UpdateHistoryData();
 	for(int i = 0; i < player->GetHandSize(); i++) {
 		GameObject * go = player->GetDeadCard(i);
 		if(go != nullptr) {
@@ -476,7 +539,13 @@ void CombatState::TurnPass() {
 	turnCounter++;
 	if(espreitarCount != -1) {
 		espreitarCount++;
-		if(espreitarCount >= 2) {
+		if(espreitarCount == 1) {
+			matchHistory.pop_back();
+			matchHistory.insert(matchHistory.begin(), "Sofia causará 30 pontos de dano em 1 turno");
+		}
+		else if(espreitarCount >= 2) {
+            matchHistory.pop_back();
+            matchHistory.insert(matchHistory.begin(), "Sofia causou 30 pontos de dano");
 			enemy->TakeDamage(30);
 		}
 	}
@@ -486,6 +555,7 @@ void CombatState::Render() {
 	this->RenderArray();
 	this->RenderPlayerData();
 	this->RenderEnemyData();
+	this->RenderHistoryData();
 	Player::GetInstance()->RenderHand();
 }
 

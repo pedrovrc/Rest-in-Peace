@@ -28,6 +28,8 @@ class CombatState : public State {
 	Music combatMusic;
 	vector<GameObject*> playerData;
 	vector<GameObject*> enemyData;
+	vector<GameObject*> historyData;
+	vector<string> matchHistory;
 	int turnCounter;
 	Enemy * enemy;
 	string ambient;
@@ -43,6 +45,8 @@ class CombatState : public State {
 	void RenderPlayerData();
 	void UpdateEnemyData();
 	void RenderEnemyData();
+	void UpdateHistoryData();
+	void RenderHistoryData();
 	bool UseCard(int val);
 	void TurnPass();
 
