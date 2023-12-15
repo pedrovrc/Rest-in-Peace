@@ -394,7 +394,6 @@ bool CombatState::UseCard(int val) {
 	    {
 
 			player->SoundCardFromHand(val);
-            string temp1 = "Sofia causou"+ to_string(5+(player->GetHP()/4)) +" pontos de dano";
 			srand((int)time(NULL));
 			int temp = rand();
 
@@ -469,7 +468,7 @@ bool CombatState::UseCard(int val) {
 				enemy->TakeDamage(5+(player->GetHP()/4));
 				player->DeleteCardFromHand(val);
 	            matchHistory.pop_back();
-	            matchHistory.insert(matchHistory.begin(), "Sofia causou"+ temp1 +" pontos de dano");
+	            matchHistory.insert(matchHistory.begin(), "Sofia causou "+ to_string(5+(player->GetHP()/4)) +" pontos de dano");
 				if (animationFlag == 0) animationFlag = 1;
 				break;
 	        case RISADA:
